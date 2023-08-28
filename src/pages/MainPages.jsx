@@ -5,8 +5,8 @@ import MainList from "../components/MainList";
 export default function MainPages(props) {
   return (
     <>
-      <div className="h-screen">
-        <section className="flex flex-col mt-4 text-center">
+      <div className="flex flex-col mt-4 text-center">
+        <section>
           <img
             className="w-60 m-auto"
             src="https://www.gstatic.com/pagespeed/insights/ui/img/graphic-home-hero.svg"
