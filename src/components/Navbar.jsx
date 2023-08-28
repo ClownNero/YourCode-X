@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { BsSearch, BsYoutube } from 'react-icons/bs';
 import security from '../components/sdfsfsdfdsfdsfsfsfsf.PNG'
 
-export default function SearchHeader(props) {
+export default function Navbar(props) {
   
   return (
     <header className='w-full flex p-4 text-2xl border-b border-zinc-600 mb-4'>
