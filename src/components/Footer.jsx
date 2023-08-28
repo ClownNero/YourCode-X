@@ -1,16 +1,23 @@
-import React from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { BsSearch, BsYoutube } from 'react-icons/bs';
+import React from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { BsSearch, BsYoutube } from "react-icons/bs";
 
 export default function Footer(props) {
   return (
     <>
-      <footer className='w-full flex p-4 text-2xl border-t border-zinc-600 mt-4'>
-        <div className='m-auto'> 
-          <h1 className='font-bold ml-2 text-3xl'> Footer </h1>
-        </div>
-    </footer>
+      <footer className="p-4 text-2xl border-t border-zinc-600 mt-4">
+        <ul className="w-full flex-col text-center text-sm">
+          <li className="mr-2">
+            Copyright © {new Date().getFullYear()} YourCode-X
+          </li>
+          <li className="mr-2">
+            (49315) 부산 사하구 낙동대로 550번길 37 (하단동)
+          </li>
+          <li className="mr-2">
+            Email: YourCode-X@donga.ac.kr | Phone: 010-3351-5426
+          </li>
+        </ul>
+      </footer>
     </>
   );
 }
-
