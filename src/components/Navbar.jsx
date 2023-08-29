@@ -1,8 +1,9 @@
 import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BsSearch, BsYoutube } from "react-icons/bs";
-import { FaGithub } from "react-icons/fa";
+
 import security from "../components/sdfsfsdfdsfdsfsfsfsf.PNG";
+import GitHub from "./GitHub";
 
 export default function Navbar(props) {
 
@@ -16,14 +17,7 @@ export default function Navbar(props) {
           YourCode-X
         </h1>
       </Link>
-      <a
-        className="flex"
-        href="https://github.com/ClownNero/YourCode-X"
-        target="_blank"
-      >
-        Github
-        <FaGithub className="text-2xl ml-2" />
-      </a>
+      <GitHub/>
     </header>
   );
 }
