@@ -12,7 +12,9 @@ export default function App(props) {
       <div className="flex flex-col justify-between h-screen">
         <Navbar />
         <QueryClientProvider client={queryClient}>
-          <Outlet />
+          <div>
+            <Outlet />
+          </div>
         </QueryClientProvider>
         <Footer />
       </div>

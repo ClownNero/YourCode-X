@@ -5,7 +5,7 @@ export default GitHub;function GitHub(props) {
   return (
     <div>
       <a
-        className="flex"
+        className="flex text-xl items-center"
         href="https://github.com/ClownNero/YourCode-X"
         target="_blank"
       >

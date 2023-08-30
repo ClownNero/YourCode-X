@@ -8,8 +8,20 @@ export default function MainPages(props) {
   };
   return (
     <>
-      <div className="flex flex-col text-center">
-        <section>
+      <div className="flex flex-col text-center h-full">
+        <section className="mb-32 mx-2">
+        <form className="w-full flex justify-center" onSubmit={handleSubmit}>
+            <input
+              className="w-7/12 p-2 outline-none bg-black text-gray-50 rounded-l-lg"
+              type="text"
+              placeholder="웹페이지 URL 입력"
+              required
+              name="url"
+            />
+            <button className="bg-zinc-600 px-4 rounded-r-lg">
+              <BsSearch />
+            </button>
+          </form>
           <img
             className="w-60 m-auto"
             src="https://www.gstatic.com/pagespeed/insights/ui/img/graphic-home-hero.svg"
@@ -18,22 +30,10 @@ export default function MainPages(props) {
           <h2 className="text-3xl font-bold">
             모든 기기에서 웹페이지 보안을 개선해 보세요.
           </h2>
-          <form className="w-full flex justify-center mt-5 mb-32" onSubmit={handleSubmit}>
-            <input
-              className="w-7/12 p-2 outline-none bg-black text-gray-50"
-              type="text"
-              placeholder="웹페이지 URL 입력"
-              required
-              name="url"
-            />
-            <button className="bg-zinc-600 px-4">
-              <BsSearch />
-            </button>
-          </form>
+          </section>
           <ul>
-            <MainList />
+            <MainList/>
           </ul>
-        </section>
       </div>
     </>
   );

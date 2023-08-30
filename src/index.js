@@ -6,6 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import NotFound from './pages/NotFound';
 import MainPages from './pages/MainPages';
+import Menu1 from './pages/Menu1';
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
     children: [
       {index: true, element: <MainPages/>},
       {path: 'mains', element: <MainPages/>},
+      {path:'mains/menu1',element:<Menu1/>},
     ]
   }
 ])
