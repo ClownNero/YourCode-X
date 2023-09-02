@@ -10,7 +10,7 @@ import Button from "./ui/Button";
 export default function Navbar(props) {
  const navigate = useNavigate();
   return (
-    <nav className="w-full flex justify-between p-4 text-1xl border-b border-zinc-600 mb-4">
+    <nav className="w-full flex justify-between p-4 text-1xl border-b border-zinc-600 mb-4 fixed top-0 left-0 bg-zinc-900">
       <Link to="/" className="flex items-center">
         {/* 대충 로고 */}
         <BsYoutube className="text-3xl text-brand" />
