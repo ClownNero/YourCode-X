@@ -5,7 +5,7 @@ import { BsSearch, BsYoutube } from "react-icons/bs";
 export default function Footer(props) {
   return (
     <>
-      <footer className="p-4 text-2xl border-t border-zinc-600 mt-4">
+      <footer className="p-4 text-2xl shadow-up">
         <ul className="w-full flex-col text-center text-sm">
           <li className="mr-2">
             Copyright © {new Date().getFullYear()} YourCode-X
