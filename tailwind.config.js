@@ -4,9 +4,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand:'#F96162',
+        brand: "#F96162",
+        serch: "#2D5FFF",
       },
     },
   },
   plugins: [],
-}
+};

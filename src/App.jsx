@@ -10,7 +10,7 @@ export default function App(props) {
   return (
     <>
       <div className="flex flex-col justify-between h-screen">
-        <Navbar />
+        <Navbar className="fixed" />
         <QueryClientProvider client={queryClient}>
           <div>
             <Outlet />
