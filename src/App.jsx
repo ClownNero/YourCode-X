@@ -9,8 +9,8 @@ const queryClient = new QueryClient();
 export default function App(props) {
   return (
     <>
-      <div className="flex flex-col justify-between h-screen">
-        <Navbar className="fixed" />
+      <div className="flex flex-col justify-between">
+        <Navbar />
         <QueryClientProvider client={queryClient}>
           <div>
             <Outlet />

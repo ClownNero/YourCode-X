@@ -29,10 +29,10 @@ export default function MainPages(props) {
         <ul>
           <li className="mb-32" id="Home Page" name="Home Page">
             <article className="mb-10">
-              <p className="font-bold text-3xl whitespace-pre-wrap">
+              <p className="font-bold text-3xl whitespace-pre-wrap drop-shadow-text">
                 웹 애플리케이션의 보안 취약점을 식별하고
               </p>
-              <p className="font-bold text-3xl whitespace-pre-wrap">
+              <p className="font-bold text-3xl whitespace-pre-wrap drop-shadow-text">
                 이를 간단히 해결해보세요.
               </p>
             </article>
@@ -48,12 +48,14 @@ export default function MainPages(props) {
             name="Why"
           >
             <img
-              className="w-[330px] h-[220px]"
+              className="w-[330px] h-[220px] drop-shadow-text"
               src="/images/none.png"
               alt="security chart"
             />
-            <article className="text-left ml-32  whitespace-nowrap">
-              <p className="font-bold text-3xl ">왜 YourCode-X인가?</p>
+            <article className="text-left ml-32 whitespace-pre-line text-gray-600">
+              <p className="font-bold text-3xl drop-shadow-text text-black">
+                왜 YourCode-X인가?
+              </p>
               &nbsp;
               <p>
                 웹 애플리케이션은 더이상 없어서는 안 될 중요한 도구가 된 반면,
@@ -71,33 +73,57 @@ export default function MainPages(props) {
               <p>YourCode-X는 개발자들을 위한 보안 서비스를 제공합니다.</p>
             </article>
           </li>
-          <li>
-            <h2>We provide the following services</h2>
+          <li
+            className="p-10 bg-yourcodex bg-cover"
+            id="provide"
+            name="provide"
+          >
+            <p className="text-4xl text-white drop-shadow-text my-8">
+              We provide the following services
+            </p>
             <div>
-              <ul>
-                <li>
-                  <img src="" alt="first logo" />
-                  <p>신뢰성 있는 데이터 활용</p>
-                  <p>
-                    정확하고 신뢰성 있는 취약점 정보를 제공하여 실제 위험에
-                    대비할 수 있도록 도움
+              <ul className="flex mt-28 mb-20 justify-around text-gray-600">
+                <li className="bg-white rounded-3xl p-10">
+                  <img
+                    src="/images/trust.png"
+                    alt="trust logo"
+                    className="w-[88px] h-[88px] m-auto mb-6"
+                  />
+                  <p className="font-bold text-lg text-black">
+                    신뢰성 있는 데이터 활용
                   </p>
+                  &nbsp;
+                  <p>정확하고 신뢰성 있는</p>
+                  <p>취약점 정보를 제공하여</p>
+                  <p>실제 위험에 대비할 수 있도록 도움</p>
                 </li>
-                <li>
-                  <img src="" alt="second logo" />
-                  <p>디렉토리 스캔 알고리즘 개선</p>
-                  <p>
-                    누락된 점검 부분을 식별하고 취약점을 검사하여 웹
-                    애플리케이션의 보안을 강화
+                <li className="bg-white rounded-3xl p-10">
+                  <img
+                    src="/images/algorithm.png"
+                    alt="algorithm logo"
+                    className="w-[88px] h-[88px] m-auto mb-6"
+                  />
+                  <p className="font-bold text-lg text-black">
+                    디렉토리 스캔 알고리즘 개선
                   </p>
+                  &nbsp;
+                  <p>누락된 점검 부분을 식별하고</p>
+                  <p>취약점을 검사하여</p>
+                  <p>웹 애플리케이션의 보안을 강화</p>
                 </li>
-                <li>
-                  <img src="" alt="third logo" />
-                  <p>도식화된 결과 도출</p>
-                  <p>
-                    웹 서비스 점검 결과를 명확하고 구체적인 정보를 포함한 리포트
-                    형식의 결과를 제공
+                <li className="bg-white rounded-3xl p-10">
+                  <img
+                    src="/images/schematic.png"
+                    alt="third logo"
+                    className="w-[88px] h-[88px] m-auto mb-6"
+                  />
+                  <p className="font-bold text-lg text-black">
+                    도식화된 결과 도출
                   </p>
+                  &nbsp;
+                  <p>웹 서비스 점검 결과를</p>
+                  <p>명확하고 구체적인 정보를 포함한</p>
+                  <p>리포트 형식의 결과를 제공</p>
                 </li>
               </ul>
             </div>
