@@ -27,7 +27,7 @@ export default function MainPages(props) {
           </form>
         </section>
         <ul>
-          <li className="mb-32" id="Home Page" name="Home Page">
+          <li className="mb-32" id="Home_Page" name="Home_Page">
             <article className="mb-10">
               <p className="font-bold text-3xl whitespace-pre-wrap drop-shadow-text">
                 웹 애플리케이션의 보안 취약점을 식별하고

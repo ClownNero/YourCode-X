@@ -23,9 +23,9 @@ export default function Navbar(props) {
         </h1>
       </Link>
       <div className="flex space-x-10 items-center">
-        <Button text="First" />
-        <Button text="Second" />
-        <Button text="Third" />
+        <Button text="First" clickId="Home_Page" />
+        <Button text="Second" clickId="Why" />
+        <Button text="Third" clickId="provide" />
         <GitHub />
       </div>
     </nav>
