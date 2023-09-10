@@ -9,7 +9,7 @@ export default function MainPages(props) {
   return (
     <>
       <div className="flex flex-col text-center h-full">
-        <section className="mb-32 mt-44 mx-2">
+        <section className="mt-44 mx-2">
           <form
             className="w-full flex justify-center fiexd"
             onSubmit={handleSubmit}
@@ -27,12 +27,12 @@ export default function MainPages(props) {
           </form>
         </section>
         <ul>
-          <li className="mb-32" id="Home_Page" name="Home_Page">
+          <li className="p-36" id="Home_Page" name="Home_Page">
             <article className="mb-10">
-              <p className="font-bold text-3xl whitespace-pre-wrap drop-shadow-text">
+              <p className="font-bold text-3xl whitespace-pre-wrap">
                 웹 애플리케이션의 보안 취약점을 식별하고
               </p>
-              <p className="font-bold text-3xl whitespace-pre-wrap drop-shadow-text">
+              <p className="font-bold text-3xl whitespace-pre-wrap">
                 이를 간단히 해결해보세요.
               </p>
             </article>
@@ -43,7 +43,7 @@ export default function MainPages(props) {
             </article>
           </li>
           <li
-            className="bg-gray-100 flex justify-center px-6 py-24 "
+            className="bg-gray-100 flex justify-center px-6 py-32 "
             id="Why"
             name="Why"
           >
@@ -74,7 +74,7 @@ export default function MainPages(props) {
             </article>
           </li>
           <li
-            className="p-10 bg-yourcodex bg-cover"
+            className="p-10 bg-yourcodex bg-cover mb-10"
             id="provide"
             name="provide"
           >
