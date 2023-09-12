@@ -1,10 +1,19 @@
 import React from "react";
 import { BsSearch, BsYoutube } from "react-icons/bs";
 import MainList from "../components/MainList";
+import { RxDoubleArrowUp } from "react-icons/rx";
+import { animateScroll as scroll } from "react-scroll";
 
 export default function MainPages(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
+  };
+  const scrollToTop = () => {
+    scroll.scrollToTop({
+      duration: 800,
+      delay:0,
+      smooth: 'easeInOutQuart'
+    });
   };
   return (
     <>
@@ -74,7 +83,7 @@ export default function MainPages(props) {
             </article>
           </li>
           <li
-            className="p-10 bg-yourcodex bg-cover mb-10"
+            className="p-10 bg-yourcodex bg-cover"
             id="provide"
             name="provide"
           >
@@ -127,6 +136,9 @@ export default function MainPages(props) {
                 </li>
               </ul>
             </div>
+          </li>
+          <li className="p-14">
+            <button onClick={scrollToTop}><RxDoubleArrowUp className='text-5xl text-gray-500'/></button>
           </li>
         </ul>
       </div>
