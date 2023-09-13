@@ -7,26 +7,27 @@ import GitHub from "./GitHub";
 import Button from "./ui/Button";
 
 export default function Navbar(props) {
+
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav
-      className={`w-full  md:flex justify-between px-6 py-2 text-1xl bg-white shadow-md fixed top-0 left-0 z-10`}
+      className={`w-full flex flex-col lg:flex-row justify-between px-6 py-2 text-1xl bg-white shadow-md fixed top-0 left-0 z-10`}
     >
-      <Link to="/" className="flex items-center -ml-4">
+      <Link to="/" className="flex items-center">
         {/* 대충 로고 */}
         {/*<MdOutlineSecurity className="text-3xl text-brand" />*/}
         <img
-          className="w-14 mt-1 drop-shadow-md"
+          className="w-14 mt-1 drop-shadow-md inline"
           src="/images/logo.png"
           alt="security logo"
         ></img>
-        <h1 className="font-bold text-2xl drop-shadow-md whitespace-nowrap">
+        <span className="font-bold text-2xl drop-shadow-md whitespace-nowrap">
           YourCode-X
-        </h1>
+        </span>
       </Link>
-      <div className={`flex space-x-10 items-center`}>
+      <div className={`flex lg:flex-row lg:space-x-10 flex-col items-center ${isOpen ? "block" : "hidden"} lg:flex mr-2`}>
         <Button text="First" clickId="Home_Page" />
         <Button text="Second" clickId="Why" />
         <Button text="Third" clickId="provide" />
@@ -34,7 +35,7 @@ export default function Navbar(props) {
         {/* Social media links or icons */}
         <GitHub />
       </div>
-      <button className="md:block">
+      <button className={`lg:hidden block text-3xl absolute top-[30px] right-[15px]`} onClick={()=> setIsOpen(!isOpen)}>
         <GiHamburgerMenu />
       </button>
     </nav>

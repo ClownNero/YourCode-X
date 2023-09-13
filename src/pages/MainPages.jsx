@@ -24,7 +24,7 @@ export default function MainPages(props) {
             onSubmit={handleSubmit}
           >
             <input
-              className="w-8/12 p-2 outline-non border-2 text-gray-50 rounded-l"
+              className="w-7/12 p-2 outline-non border-2 text-gray-50 rounded-l text-xl"
               type="text"
               placeholder="웹페이지 URL 입력"
               required
@@ -138,7 +138,7 @@ export default function MainPages(props) {
             </div>
           </li>
           <li className="p-14">
-            <button onClick={scrollToTop}><RxDoubleArrowUp className='text-5xl text-gray-500'/></button>
+            <button onClick={scrollToTop}><RxDoubleArrowUp className='text-5xl text-gray-400'/></button>
           </li>
         </ul>
       </div>
