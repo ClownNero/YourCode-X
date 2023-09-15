@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { BsYoutube } from "react-icons/bs";
+import { Link } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 import GitHub from "./GitHub";
 import Button from "./ui/Button";
 
 export default function Navbar(props) {
-
-  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -27,15 +24,22 @@ export default function Navbar(props) {
           YourCode-X
         </span>
       </Link>
-      <div className={`flex lg:flex-row lg:space-x-10 flex-col items-center ${isOpen ? "block" : "hidden"} lg:flex mr-2`}>
-        <Button text="First" clickId="Home_Page" />
-        <Button text="Second" clickId="Why" />
-        <Button text="Third" clickId="provide" />
+      <div
+        className={`flex lg:flex-row lg:space-x-10 flex-col items-center ${
+          isOpen ? "block" : "hidden"
+        } lg:flex mr-2`}
+      >
+        <Button text="Introduce" clickId="Home_Page" />
+        <Button text="Why" clickId="Why" />
+        <Button text="Provide" clickId="provide" />
 
         {/* Social media links or icons */}
         <GitHub />
       </div>
-      <button className={`lg:hidden block text-3xl absolute top-[30px] right-[15px]`} onClick={()=> setIsOpen(!isOpen)}>
+      <button
+        className={`lg:hidden block text-3xl absolute top-[27px] right-[15px]`}
+        onClick={() => setIsOpen(!isOpen)}
+      >
         <GiHamburgerMenu />
       </button>
     </nav>

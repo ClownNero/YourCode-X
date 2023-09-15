@@ -1,6 +1,5 @@
 import React from "react";
-import { BsSearch, BsYoutube } from "react-icons/bs";
-import MainList from "../components/MainList";
+import { BsSearch } from "react-icons/bs";
 import { RxDoubleArrowUp } from "react-icons/rx";
 import { animateScroll as scroll } from "react-scroll";
 
@@ -11,8 +10,8 @@ export default function MainPages(props) {
   const scrollToTop = () => {
     scroll.scrollToTop({
       duration: 800,
-      delay:0,
-      smooth: 'easeInOutQuart'
+      delay: 0,
+      smooth: "easeInOutQuart",
     });
   };
   return (
@@ -138,7 +137,9 @@ export default function MainPages(props) {
             </div>
           </li>
           <li className="p-14">
-            <button onClick={scrollToTop}><RxDoubleArrowUp className='text-5xl text-gray-400'/></button>
+            <button onClick={scrollToTop}>
+              <RxDoubleArrowUp className="text-5xl text-gray-400" />
+            </button>
           </li>
         </ul>
       </div>
