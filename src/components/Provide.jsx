@@ -3,7 +3,11 @@ import React from "react";
 export default function Provide(props) {
   return (
     <>
-      <li className="p-10 bg-yourcodex bg-cover" id="Provide" name="Provide">
+      <li
+        className="min-w-[1160px] p-10 bg-yourcodex bg-cover"
+        id="Provide"
+        name="Provide"
+      >
         <p className="text-4xl text-white drop-shadow-text my-8">
           We provide the following services
         </p>
@@ -13,9 +17,9 @@ export default function Provide(props) {
               <img
                 src="/images/trust.png"
                 alt="trust logo"
-                className="w-[88px] h-[88px] m-auto mb-6"
+                className="w-[88px] h-[88px] mx-auto mb-6"
               />
-              <p className="font-bold text-lg text-black">
+              <p className="font-bold xl:text-lg text-base text-black">
                 신뢰성 있는 데이터 활용
               </p>
               &nbsp;
@@ -27,9 +31,9 @@ export default function Provide(props) {
               <img
                 src="/images/algorithm.png"
                 alt="algorithm logo"
-                className="w-[88px] h-[88px] m-auto mb-6"
+                className="w-[88px] h-[88px] mx-auto mb-6"
               />
-              <p className="font-bold text-lg text-black">
+              <p className="font-bold xl:text-lg text-base text-black">
                 디렉토리 스캔 알고리즘 개선
               </p>
               &nbsp;
@@ -41,9 +45,11 @@ export default function Provide(props) {
               <img
                 src="/images/schematic.png"
                 alt="third logo"
-                className="w-[88px] h-[88px] m-auto mb-6"
+                className="w-[88px] h-[88px] mx-auto mb-6"
               />
-              <p className="font-bold text-lg text-black">도식화된 결과 도출</p>
+              <p className="font-bold xl:text-lg text-base text-black">
+                도식화된 결과 도출
+              </p>
               &nbsp;
               <p>웹 서비스 점검 결과를</p>
               <p>명확하고 구체적인 정보를 포함한</p>

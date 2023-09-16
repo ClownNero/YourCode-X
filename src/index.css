@@ -10,6 +10,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
   @apply flex flex-col items-center;
+  @apply min-w-[1024px];
 }
 
 #root {

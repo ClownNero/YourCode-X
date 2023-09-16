@@ -8,7 +8,7 @@ export default function Input(handleSubmit) {
       <section className="w-full mt-44">
         <form className="flex justify-center fiexd" onSubmit={handleSubmit}>
           <input
-            className="w-7/12 p-2 outline-non border-2 text-gray-50 rounded-l text-xl"
+            className="w-7/12 p-2  border-2 text-gray-50 rounded-l text-xl"
             type="text"
             placeholder="웹페이지 URL 입력"
             required
