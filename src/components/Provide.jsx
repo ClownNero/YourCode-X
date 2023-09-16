@@ -3,11 +3,7 @@ import React from "react";
 export default function Provide(props) {
   return (
     <>
-      <li
-        className="min-w-[1160px] p-10 bg-yourcodex bg-cover"
-        id="Provide"
-        name="Provide"
-      >
+      <li className="p-10 bg-yourcodex bg-cover" id="Provide" name="Provide">
         <p className="text-4xl text-white drop-shadow-text my-8">
           We provide the following services
         </p>

@@ -19,7 +19,7 @@ export default function MainPages(props) {
   };
   return (
     <>
-      <div className="block xl:flex  flex-col text-center h-full">
+      <div className="flex  flex-col text-center h-full ">
         <Input handleSubmit={handleSubmit} />
         <ul>
           <Introduce />

@@ -6,6 +6,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import NotFound from "./pages/NotFound";
 import MainPages from "./pages/MainPages";
+import ResultPage from "./pages/ResultPage";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,8 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, element: <MainPages /> },
-      { path: "mains", element: <MainPages /> },
+      { path: "/analysis", element: <MainPages /> },
+      { path: "/analysis/result", element: <ResultPage /> },
     ],
   },
 ]);

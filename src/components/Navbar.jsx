@@ -37,7 +37,7 @@ export default function Navbar(props) {
         <GitHub />
       </div>
       <button
-        className={`lg:hidden block text-3xl absolute top-[27px] right-[15px] hover:ring-2 hover:ring-search`}
+        className={`lg:hidden block text-3xl absolute top-[27px] right-[15px] hover:`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <RiMenu3Fill />
