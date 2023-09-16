@@ -25,9 +25,9 @@ export default function Navbar(props) {
         </span>
       </Link>
       <div
-        className={`w-full flex lg:flex-row lg:space-x-10 flex-col items-center ${
+        className={`flex lg:flex-row lg:space-x-10 flex-col items-center ${
           isOpen ? "block" : "hidden"
-        } lg:flex`}
+        } lg:flex w-full lg:w-auto`}
       >
         <Button text="Introduce" clickId="Introduce" />
         <Button text="Why" clickId="Why" />
