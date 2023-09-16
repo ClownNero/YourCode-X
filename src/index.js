@@ -6,8 +6,6 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import NotFound from "./pages/NotFound";
 import MainPages from "./pages/MainPages";
-import Menu1 from "./pages/Menu1";
-import Menu2 from "./pages/Mene2";
 
 const router = createBrowserRouter([
   {
