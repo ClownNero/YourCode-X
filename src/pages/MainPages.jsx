@@ -17,11 +17,9 @@ export default function MainPages(props) {
   return (
     <>
       <div className="flex flex-col text-center h-full">
-        <section className="mt-44 mx-2">
-          <form
-            className="w-full flex justify-center fiexd"
-            onSubmit={handleSubmit}
-          >
+        {/* 입력창 고정 <section className="w-full mt-44 mx-2 fixed z-10"> */}
+        <section className="w-full mt-44 mx-2">
+          <form className="flex justify-center fiexd" onSubmit={handleSubmit}>
             <input
               className="w-7/12 p-2 outline-non border-2 text-gray-50 rounded-l text-xl"
               type="text"
@@ -34,6 +32,7 @@ export default function MainPages(props) {
             </button>
           </form>
         </section>
+        {/* 입력창 고정 <ul className="mt-44">*/}
         <ul>
           <li className="p-36" id="Home_Page" name="Home_Page">
             <article className="mb-10">
