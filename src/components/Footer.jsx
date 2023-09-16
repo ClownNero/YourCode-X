@@ -8,7 +8,7 @@ export default function Footer(props) {
       <footer className="p-8 text-2xl shadow-up">
         <ul className="w-full flex flex-row justify-between text-center text-sm">
           <div className="flex">
-            <li className="font-bold mr-6">
+            <li className="font-bold mx-3">
               <p>YourCode-X</p>
             </li>
             <li>
@@ -18,7 +18,9 @@ export default function Footer(props) {
               <p>FE programmer 김채현</p>
             </li>
           </div>
-          <li>Copyright © {new Date().getFullYear()} YourCode-X cope.</li>
+          <li className="mx-2">
+            Copyright © {new Date().getFullYear()} YourCode-X cope.
+          </li>
         </ul>
       </footer>
     </>

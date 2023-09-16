@@ -1,7 +1,8 @@
-import React from 'react';
+import React from "react";
 import { FaGithub } from "react-icons/fa";
 
-export default GitHub;function GitHub(props) {
+export default GitHub;
+function GitHub(props) {
   return (
     <div className="py-4">
       <a
@@ -10,9 +11,8 @@ export default GitHub;function GitHub(props) {
         target="_blank"
       >
         Github
-        <FaGithub className="text-2xl ml-2" />
+        <FaGithub className="text-xl ml-2" />
       </a>
     </div>
   );
 }
-

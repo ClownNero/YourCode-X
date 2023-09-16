@@ -12,7 +12,7 @@ export default function MainPages(props) {
   };
   const scrollToTop = () => {
     scroll.scrollToTop({
-      duration: 800,
+      duration: 1000,
       delay: 0,
       smooth: "easeInOutQuart",
     });

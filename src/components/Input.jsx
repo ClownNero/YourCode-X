@@ -14,7 +14,7 @@ export default function Input(handleSubmit) {
             required
             name="url"
           />
-          <button className="bg-serch px-4 w-16 rounded-r">
+          <button className="bg-search px-4 w-16 rounded-r">
             <BsSearch className="text-white m-auto" />
           </button>
         </form>
