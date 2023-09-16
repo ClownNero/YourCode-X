@@ -29,9 +29,9 @@ export default function Navbar(props) {
           isOpen ? "block" : "hidden"
         } lg:flex mr-2`}
       >
-        <Button text="Introduce" clickId="Home_Page" />
+        <Button text="Introduce" clickId="Introduce" />
         <Button text="Why" clickId="Why" />
-        <Button text="Provide" clickId="provide" />
+        <Button text="Provide" clickId="Provide" />
 
         {/* Social media links or icons */}
         <GitHub />
