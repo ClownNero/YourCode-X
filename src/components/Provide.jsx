@@ -8,14 +8,14 @@ export default function Provide(props) {
           We provide the following services
         </p>
         <div>
-          <ul className="flex mt-28 mb-20 justify-around text-gray-600">
-            <li className="bg-white rounded-3xl p-10">
+          <ul className="flex mt-28 mb-20 justify-center text-gray-600">
+            <li className="bg-white rounded-3xl p-10 mr-7">
               <img
                 src="/images/trust.png"
                 alt="trust logo"
                 className="w-[88px] h-[88px] mx-auto mb-6"
               />
-              <p className="font-bold xl:text-lg text-base text-black">
+              <p className="font-bold text-lg  text-black">
                 신뢰성 있는 데이터 활용
               </p>
               &nbsp;
@@ -23,13 +23,13 @@ export default function Provide(props) {
               <p>취약점 정보를 제공하여</p>
               <p>실제 위험에 대비할 수 있도록 도움</p>
             </li>
-            <li className="bg-white rounded-3xl p-10">
+            <li className="bg-white rounded-3xl p-10 mx-7">
               <img
                 src="/images/algorithm.png"
                 alt="algorithm logo"
                 className="w-[88px] h-[88px] mx-auto mb-6"
               />
-              <p className="font-bold xl:text-lg text-base text-black">
+              <p className="font-bold text-lg text-black">
                 디렉토리 스캔 알고리즘 개선
               </p>
               &nbsp;
@@ -37,13 +37,13 @@ export default function Provide(props) {
               <p>취약점을 검사하여</p>
               <p>웹 애플리케이션의 보안을 강화</p>
             </li>
-            <li className="bg-white rounded-3xl p-10">
+            <li className="bg-white rounded-3xl p-10 ml-7">
               <img
                 src="/images/schematic.png"
                 alt="third logo"
                 className="w-[88px] h-[88px] mx-auto mb-6"
               />
-              <p className="font-bold xl:text-lg text-base text-black">
+              <p className="font-bold text-lg  text-black">
                 도식화된 결과 도출
               </p>
               &nbsp;
