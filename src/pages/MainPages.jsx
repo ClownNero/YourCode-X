@@ -39,7 +39,7 @@ export default function MainPages(props) {
         <section className="w-full mt-44">
           <form className="flex justify-center fiexd" onSubmit={handleSubmit}>
             <input
-              className="w-7/12 p-2 border-2 text-gray-50 rounded-l text-xl"
+              className="w-8/12 p-4 border-4 hover:border-search text-gray-50 rounded text-xl mr-4"
               type="url"
               value={url}
               placeholder="웹페이지 URL 입력"
@@ -47,8 +47,8 @@ export default function MainPages(props) {
               name="url"
               onChange={(e) => setUrl(e.target.value)}
             />
-            <button className="bg-search px-4 w-16 rounded-r">
-              <BsSearch className="text-white m-auto" />
+            <button className="bg-search px-4 w-24 rounded">
+              <BsSearch className="text-white m-auto text-xl" />
             </button>
           </form>
         </section>
