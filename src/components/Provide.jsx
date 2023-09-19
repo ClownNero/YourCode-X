@@ -13,7 +13,7 @@ export default function Provide(props) {
               <img
                 src="/images/trust.png"
                 alt="trust logo"
-                className="w-[88px] h-[88px] mx-auto mb-6"
+                className="w-[88px] h-[88px] mx-auto mb-6 drop-shadow-text"
               />
               <p className="font-bold text-lg  text-black">
                 신뢰성 있는 데이터 활용
@@ -27,7 +27,7 @@ export default function Provide(props) {
               <img
                 src="/images/algorithm.png"
                 alt="algorithm logo"
-                className="w-[88px] h-[88px] mx-auto mb-6"
+                className="w-[88px] h-[88px] mx-auto mb-6 drop-shadow-text"
               />
               <p className="font-bold text-lg text-black">
                 디렉토리 스캔 알고리즘 개선
@@ -41,7 +41,7 @@ export default function Provide(props) {
               <img
                 src="/images/schematic.png"
                 alt="third logo"
-                className="w-[88px] h-[88px] mx-auto mb-6"
+                className="w-[88px] h-[88px] mx-auto mb-6 drop-shadow-text"
               />
               <p className="font-bold text-lg  text-black">
                 도식화된 결과 도출

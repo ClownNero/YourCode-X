@@ -1,6 +1,8 @@
 import React from "react";
 
-export default function ResultPage(props) {
+export default function ResultPage({ location }) {
+  // 이전 페이지에서 전달 받은 결과 데이터 == 분석데이터
+  const resultData = location.state.result;
   return (
     <>
       <div className="mt-44">
