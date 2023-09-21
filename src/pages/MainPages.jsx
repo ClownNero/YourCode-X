@@ -39,7 +39,7 @@ export default function MainPages(props) {
         <section className="w-full mt-44">
           <form className="flex justify-center fiexd" onSubmit={handleSubmit}>
             <input
-              className="w-8/12 p-4 border-4 hover:border-search text-gray-50 rounded text-xl mr-4"
+              className="w-8/12 p-4 border-4 border-gray-300 outline-none hover:border-search text-gray-50 rounded text-xl mr-4"
               type="url"
               value={url}
               placeholder="웹페이지 URL 입력"
