@@ -40,6 +40,7 @@ export default function Piechart({ data }) {
       },
     ],
   });
+  console.log(options.series)
   return (
     <>
       <ReactEcharts option={options} />

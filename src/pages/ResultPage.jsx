@@ -31,9 +31,6 @@ export default function ResultPage({ location }) {
   return (
     <>
       <div className="mt-44">
-        <div className="w-full flex items-center h-[400px] justify-center">
-          <p className="font-bold">상단부에 summary 제공 ????</p>
-        </div>
         <div className="m-4">
           <h2 className="font-bold text-xl text-search">Problem Chart</h2>
           <ul className="flex justify-around m-3">
