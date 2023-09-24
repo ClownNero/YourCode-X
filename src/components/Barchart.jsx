@@ -4,11 +4,9 @@ import ReactEcharts from "echarts-for-react";
 export default function Barchart({ data }) {
   const [options, setOptions] = useState({
     tooltip: {
-      trigger: "axis",
-      axisPointer: {
-        type: "shadow",
-      },
+      trigger: "item",
     },
+
     grid: {
       left: "3%",
       right: "4%",
@@ -17,12 +15,7 @@ export default function Barchart({ data }) {
     },
     xAxis: {
       type: "category",
-      axisLabel: { show: false },
-      axisTick: {
-        alignWithLabel: true,
-      },
-
-      data: data.map((item) => item.category),
+      show: false, // x축 숨기기
     },
     yAxis: {
       type: "value",
@@ -32,6 +25,7 @@ export default function Barchart({ data }) {
     series: [
       {
         data: data.map((item, index) => ({
+          name: item.category,
           value: item.risk,
           itemStyle: {
             color:
