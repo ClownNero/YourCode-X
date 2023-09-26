@@ -8,7 +8,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "exploitList")  //대문자 인식안됨!!!!!!!!!대문자하려면 의존성 추가해야됨
+@Table(name = "list")  //대문자 인식안됨!!!!!!!!!대문자하려면 의존성 추가해야됨
 
 public class MemberEntity {
 
@@ -22,10 +22,10 @@ public class MemberEntity {
     private String category;
 //
 //    @Column(unique = true)
-    private Long risk;
+    private Integer num;
 //
 //    @Column
-    private String payload;
+    private String risk;
 
 
 //    public static MemberEntity toMemberEntity(MemberDTO memberDTO){

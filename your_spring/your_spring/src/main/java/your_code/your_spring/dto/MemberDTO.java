@@ -1,4 +1,4 @@
-package your_code.your_spring.dto;//package your_code.your_spring.dto;
+//package your_code.your_spring.dto;
 //
 //import lombok.*;
 //import your_code.your_spring.entity.MemberEntity;
