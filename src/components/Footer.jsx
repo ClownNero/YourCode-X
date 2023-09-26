@@ -4,20 +4,33 @@ import { BsSearch, BsYoutube } from "react-icons/bs";
 
 export default function Footer(props) {
   return (
-    <>
-      <footer className="p-4 text-2xl border-t border-zinc-600 mt-4">
-        <ul className="w-full flex-col text-center text-sm">
-          <li className="mr-2">
-            Copyright © {new Date().getFullYear()} YourCode-X
-          </li>
-          <li className="mr-2">
-            (49315) 부산 사하구 낙동대로 550번길 37 (하단동)
-          </li>
-          <li className="mr-2">
-            Email: YourCode-X@donga.ac.kr | Phone: 010-3351-5426
+    <>{/*
+      <footer className="p-8 text-2xl shadow-up">
+        <ul className="w-full flex flex-row justify-between text-center text-sm">
+          <div className="flex">
+            <li className="font-bold mx-3">
+              <p>YourCode-X</p>
+            </li>
+            <li>
+              <p>BE programmer 이태윤</p>
+              <p>BE programmer 김가민</p>
+              <p>FE programmer 황지홍</p>
+              <p>FE programmer 김채현</p>
+            </li>
+          </div>
+          <li className="mx-2">
+            Copyright © {new Date().getFullYear()} YourCode-X cope.
           </li>
         </ul>
       </footer>
+  */}
+      <footer className="p-8 text-2xl shadow-up ">
+              <ul className="w-full h-[100px] flex flex-row justify-center items-center text-center text-sm">
+              <li className="mx-2 text-lg">
+                Copyright © {new Date().getFullYear()} YourCode-X cope.
+              </li>
+            </ul>
+          </footer>
     </>
   );
 }

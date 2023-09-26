@@ -1,0 +1,17 @@
+[
+  {
+    "category": "Backup file",
+    "count": "Teststreet 5, Testcity",
+    "risk": 50
+  },
+  {
+    "category": "Blind SQL Injection",
+    "count": "Teststreet 10, Testcity 2",
+    "risk": 90
+  },
+  {
+    "category": "Weak credentials",
+    "count": "Awesomestreet 5, Mycity",
+    "risk": 10
+  }
+]
