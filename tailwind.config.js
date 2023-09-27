@@ -6,6 +6,7 @@ module.exports = {
       colors: {
         brand: "#F96162",
         search: "#2D5FFF",
+        Result:"#585858",
       },
       boxShadow: {
         up: "0 -4px 6px -1px rgba(0,0,0,0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06)",
