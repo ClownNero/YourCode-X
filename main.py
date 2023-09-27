@@ -18,7 +18,6 @@ print_white = lambda x : cprint(x, "white")
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*":{"origins": "http://localhost:3000"}})
-processed_data = "hi";
 
 @app.route('/gomain', methods=['POST'])
 def process_request():
@@ -40,8 +39,8 @@ def process_request():
     print_red(" - 허가된 사이트에서 진단 도구를 사용하지 않을 경우 법적인 책임은 사용자에게 있습니다.")
     print_red(" - 스캔 과정에서 데이터 손실이 발생할 수도 있으므로 점검을 시작하기 전에 중요 데이터는 반드시 백업해주세요.")
 
-    print(processed_data);
-    return processed_data;
+    print(processed_data)
+    return processed_data
 
 if __name__ == '__main__':
     app.run()

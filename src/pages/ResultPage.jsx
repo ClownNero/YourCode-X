@@ -1,8 +1,4 @@
 import React,{ useEffect, useState } from "react";
-<<<<<<< HEAD
-import { Link } from "react-router-dom";
-=======
->>>>>>> 703954472cd1aaa917d9cb5181ffa3cf483cf3ca
 import axios from"axios";
 import Barchart from "../components/Barchart";
 import Piechart from "../components/Piechart";
