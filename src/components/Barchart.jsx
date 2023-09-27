@@ -10,6 +10,11 @@ export default function Barchart({ data }) {
       left: "center",
       top:'bottom', // 범례의 위쪽 여백을 자동으로 계산하도록 함.
       width: "100%",
+      textStyle: { fontSize: '14' }, // 글씨 크기 조절
+      padding: [10, 0], // 위쪽과 아래쪽 여백 추가
+      itemGap: 20, // 아이템 간 간격 증가
+      itemWidth: 25, // 심볼 너비 증가
+      itemHeight: 15, // 심볼 높이 증가
       data:data.map(item => item.category)
     },
     grid: {
@@ -33,6 +38,9 @@ export default function Barchart({ data }) {
       stack: 'stack', // 모든 막대가 같은 위치에 쌓이도록 설정 
       data: Array(data.length).fill(null).map((_, i) => i === index ? item.risk : null),
       itemStyle: {
+        borderRadius: 10,
+        borderColor: "#fff",
+        borderWidth: 2,
         color:
           index % 3 === 0
             ? "#2D5FFF"
@@ -46,7 +54,7 @@ export default function Barchart({ data }) {
   console.log(options.series)
   return (
     <>
-      <ReactEcharts option={options} />
+      <ReactEcharts style={{ width: '500px',height: '400px',backgroundColor:"#F1F1F1", padding:"10px" }}option={options} />
     </>
   );
 }

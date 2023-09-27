@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { RxDoubleArrowUp } from "react-icons/rx";
+
 import { BsSearch } from "react-icons/bs";
-import { animateScroll as scroll } from "react-scroll";
+
 import { useNavigate } from "react-router-dom";
 import Introduce from "../components/Introduce";
 import Why from "../components/Why";
 import Provide from "../components/Provide";
+import Upbutton from "../components/ui/Upbutton";
 
 export default function MainPages(props) {
   const [url, setUrl] = useState("");
@@ -25,13 +26,7 @@ export default function MainPages(props) {
     }
     setUrl("");
   };
-  const scrollToTop = () => {
-    scroll.scrollToTop({
-      duration: 1000,
-      delay: 0,
-      smooth: "easeInOutQuart",
-    });
-  };
+
   return (
     <>
       <div className="flex  flex-col text-center h-full ">
@@ -58,9 +53,7 @@ export default function MainPages(props) {
           <Why />
           <Provide />
           <li className="p-14">
-            <button onClick={scrollToTop}>
-              <RxDoubleArrowUp className="text-5xl text-gray-400" />
-            </button>
+            <Upbutton/>
           </li>
         </ul>
       </div>

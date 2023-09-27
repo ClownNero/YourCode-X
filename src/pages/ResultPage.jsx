@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 import React,{ useEffect, useState } from "react";
 import axios from"axios";
+=======
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+>>>>>>> bbaa46a6be2c7bdbecd9525051aabf307a115556
 import Barchart from "../components/Barchart";
 import Piechart from "../components/Piechart";
+import Upbutton from "../components/ui/Upbutton";
+import Modal from "./Modal";
 
 export default function ResultPage({ location }) {
   // 이전 페이지에서 전달 받은 결과 데이터 == 분석데이터
@@ -39,6 +47,7 @@ export default function ResultPage({ location }) {
         setLoading(false); // 데이터 요청 완료(성공 또는 실패) 후 로딩 상태를 false로 설정
       }
   };
+<<<<<<< HEAD
 
   return (
     <>
@@ -46,31 +55,33 @@ export default function ResultPage({ location }) {
         <div className="w-full flex items-center h-[400px] justify-center">
           <p className="font-bold">상단부에 summary 제공 ????</p>
         </div>
+=======
+  return (
+    <>
+      <div className="mx-6 mt-36">
+>>>>>>> bbaa46a6be2c7bdbecd9525051aabf307a115556
         <div className="m-4">
-          <h2 className="font-bold text-xl text-search">Problem Chart</h2>
-          <ul className="flex justify-around m-3">
-            <li className="bg-gray text-center p-6 rounded-3xl">
-              <h2 className="font-bold text-lg">위험도 차트</h2>
-              <p>해당 차트에 대한 설명이 두줄 가량</p>
-              <p>들어 갈 예정입니다.</p>
+          <h2 className="font-bold text-4xl text-Result">Problem Chart</h2>
+          <ul className="flex justify-center">
+            <li className="bg-gray py-6 rounded-3xl ml-10">
+              <h2 className="text-Result text-2xl text-left mb-3">위험도 차트 risk chart</h2>
               {/* 막대 차트 부분 */}
               {loading ? 'Loading...' : <Barchart data={data}/>}
             </li>
-            <li className="bg-gray text-center p-6 rounded-3xl">
-              <h2 className="font-bold text-lg">취약점 차트</h2>
-              <p>해당 차트에 대한 설명이 두줄 가량</p>
-              <p>들어 갈 예정입니다.</p>
+            <li className="bg-gray text-center py-6 rounded-3xl ml-32">
+              <h2 className="text-Result text-2xl text-left mb-3">취약점 차트 weakness chart</h2>
               {/* 파이 차트 부분 */}
               {loading ? `` : <Piechart data={data}/>}
             </li>
           </ul>
         </div>
         <div className="m-4">
-          <h2 className="font-bold text-xl text-search">Solution</h2>
+          <h2 className="font-bold text-4xl text-Result">Solution</h2>
           <div className="bg-gray text-center p-6 rounded-3xl m-3">
-            <table>
-              <thead>
+          <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
                 <tr>
+<<<<<<< HEAD
                   <th><h1>Category</h1></th>
                   <th><h1>Number of Found</h1></th>
                   <th><h1>Risk</h1></th>
@@ -86,9 +97,41 @@ export default function ResultPage({ location }) {
                     </tr>
                 )) : ''}
 
+=======
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Number of Found</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Risk</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {data ? data.map((datas)=>(
+                    <tr key={datas.category}>
+                        <td className="px-6 py-4 whitespace-normal"> {datas.category}</td>
+                        <td className="px-6 py-4 whitespace-normal"> {datas.payload}</td>
+                        <td className="px-6 py-4 whitespace-normal"> {datas.risk}</td>
+                    </tr>
+                )) : ''}
+>>>>>>> bbaa46a6be2c7bdbecd9525051aabf307a115556
               </tbody>
             </table>
           </div>
+        </div>
+        <div className="m-4">
+          <h2 className="font-bold text-4xl text-Result">Diagnosis</h2>
+          <div className="py-6">
+            <h2 className="text-Result text-2xl text-left mb-3">진단 세부 사항</h2>
+            <Modal data={data}/>
+          </div>
+        </div>
+        <div className="p-14 text-center ">
+            <Upbutton/>
+        </div>
+        <div className="bg-yourcodex bg-cover rounded-xl text-center p-10">
+          <h2 className="text-3xl text-white drop-shadow-text font-bold ">YourCode-X를 이용해주셔서 감사합니다.</h2>
+          <p className="text-white my-8">다른 웹 페에지에서도 취약점을 찾아보고 싶다면</p>
+          <button className="px-16 py-4 bg-blue-600 rounded-xl my-4">
+            <Link to="/" className="text-white text-xl drop-shadow-text"> 첫페이지로 돌아가기</Link>
+          </button>
         </div>
       </div>
     </>
