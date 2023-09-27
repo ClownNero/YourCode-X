@@ -49,15 +49,15 @@ export default function ResultPage({ location }) {
       <div className="mx-6 mt-36">
         <div className="m-4">
           <h2 className="font-bold text-4xl text-Result">Problem Chart</h2>
-          <ul className="flex justify-center">
-            <li className="bg-gray py-6 rounded-3xl ml-10">
+          <ul className="flex justify-center w-full">
+            <li className="bg-gray py-6 mr-52 min-w-0">
               <h2 className="text-Result text-2xl text-left mb-3">
                 위험도 차트 risk chart
               </h2>
               {/* 막대 차트 부분 */}
               {loading ? "Loading..." : <Barchart data={data} />}
             </li>
-            <li className="bg-gray text-center py-6 rounded-3xl ml-32">
+            <li className="bg-gray text-center py-6 ml-52 min-w-0">
               <h2 className="text-Result text-2xl text-left mb-3">
                 취약점 차트 weakness chart
               </h2>
