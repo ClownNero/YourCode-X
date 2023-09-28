@@ -107,10 +107,10 @@ Runs the app in the development mode http://localhost:8081
 
 <br><br>
 
-<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=black"> 
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=black">
 
-#### 
-
+#### <strong> +Refer to...:</strong>
+yourspring->src->main->resource->application.yml 파일 참고
 
 
 
