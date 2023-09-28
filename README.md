@@ -83,13 +83,13 @@ This module is a library for simple HTTP requests.
 
 <img src="https://img.shields.io/badge/Intellij-ED1C24?style=flat&logo=intellijidea&logoColor=black">
 
-#### <strong>+Installation Reference:</strong>
+#### <strong> +Installation Reference:</strong>
 [Intellij For Students](https://cheershennah.tistory.com/160)
 
-#### <strong>+Intellij execution path:</strong>
+#### <strong> +Intellij execution path:</strong>
 C:/(your path..)/YourCode-X/your_spring/your_spring
 
-#### <strong>+Java 17 Version Settings:</strong>
+#### <strong> +Java 17 Version Settings:</strong>
 
 Main Menu(Alt+\\) -> Settings(Ctrl+Alt+s) -> Search: Gradle -> \
 Gradle Projects(build and run using: Intellij IDEA, Run tests using: Intellij IDEA, Gradle JVM: version 17)\
