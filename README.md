@@ -79,17 +79,17 @@ Can't resolve 'axios' in ...
 
 This module is a library for simple HTTP requests.
 
-<br>
+<br><br>
 
 <img src="https://img.shields.io/badge/Intellij-ED1C24?style=flat&logo=intellijidea&logoColor=black">
 
-#### <strong>Installation Reference:</strong>
+#### <strong>+Installation Reference:</strong>
 [Intellij For Students](https://cheershennah.tistory.com/160)
 
-#### <strong>Intellij execution path:</strong>
+#### <strong>+Intellij execution path:</strong>
 C:/(your path..)/YourCode-X/your_spring/your_spring
 
-#### <strong>Java 17 Version Settings:</strong>
+#### <strong>+Java 17 Version Settings:</strong>
 
 Main Menu(Alt+\\) -> Settings(Ctrl+Alt+s) -> Search: Gradle -> \
 Gradle Projects(build and run using: Intellij IDEA, Run tests using: Intellij IDEA, Gradle JVM: version 17)\
@@ -105,7 +105,7 @@ Gradle Projects(build and run using: Intellij IDEA, Run tests using: Intellij ID
 
 Runs the app in the development mode http://localhost:8081
 
-<br>
+<br><br>
 
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=black"> 
 
