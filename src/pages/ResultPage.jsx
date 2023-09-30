@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Barchart from "../components/Barchart";
 import Piechart from "../components/Piechart";
 import Upbutton from "../components/ui/Upbutton";
+import { RxCaretSort, RxCaretUp, RxCaretDown } from "react-icons/rx";
 import Modal from "./Modal";
 
 export default function ResultPage({ location }) {
@@ -12,12 +13,24 @@ export default function ResultPage({ location }) {
   // 예시 코드
   // Mock 데이터 가져오기
   const [data, setData] = useState([]);
+  const [sortedData, setSortedData] = useState([]);
+  const [sortOrder, setSortOrder] = useState(null);
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
 
   useEffect(() => {
     putSpringData();
     fetchData();
   }, []);
+
+  useEffect(()=> {
+    if(sortOrder === 'asc'){
+      setSortedData([...data].sort((a,b)=>a.risk - b.risk));
+    } else if( sortOrder === 'desc') {
+      setSortedData([...data].sort((a,b)=> b.risk - a.risk));
+    } else {
+      setSortedData(data);
+    }
+  }, [data, sortOrder]);
 
   async function putSpringData() {
     await axios
@@ -46,8 +59,8 @@ export default function ResultPage({ location }) {
   };
   return (
     <>
-      <div className="mx-6 mt-36">
-        <div className="m-4">
+      <div className="mx-6 mt-40">
+        <div className="mx-4 my-14">
           <h2 className="font-bold text-4xl text-Result">Problem Chart</h2>
           <ul className="flex justify-center w-full">
             <li className="bg-gray py-6 mr-52 min-w-0">
@@ -66,47 +79,56 @@ export default function ResultPage({ location }) {
             </li>
           </ul>
         </div>
-        <div className="m-4">
-          <h2 className="font-bold text-4xl text-Result">Solution</h2>
-          <div className="bg-gray text-center p-6 rounded-3xl m-3">
+        <div className="mx-4 my-14">
+          <h2 className="font-bold text-4xl text-Result">Problem List</h2>
+          <p className="text-Result text-2xl py-6 text-left mb-3">
+            취약점 세부 목록
+          </p>
+          <div className="bg-gray text-center rounded-3xl ">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <thead className="bg-[#1360FF]">
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
                   >
                     Category
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
                   >
                     Number of Found
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
+                    onClick={ () =>
+                      sortOrder !== 'asc' ? setSortOrder('asc') : setSortOrder('desc')
+                    }
                   >
-                    Risk
+                    Risk {sortOrder === 'desc' ? <RxCaretUp className="inline"/>: sortOrder === 'asc' ? <RxCaretDown className="inline"/> : <RxCaretSort className="inline"/>}
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-gray-200 text-Result text-lg">
                 {data
-                  ? data.map((datas) => (
-                      <tr key={datas.category}>
-                        <td className="px-6 py-4 whitespace-normal">
-                          {" "}
+                  ? sortedData.map((datas,index) => (
+                      <tr key={datas.category} className={index % 2 === 1 ? 'bg-[#E3EBFF]' : ''}>
+                        <td className="px-6 py-4 whitespace-normal min-w-[1160px]:text-center">
                           {datas.category}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
-                          {" "}
                           {datas.payload}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
-                          {" "}
-                          {datas.risk}
+                          {datas.risk >= 80 ? (
+                            <span className="inline-block h-3 w-3 rounded-full bg-red-500"></span>
+                          ) : datas.risk >= 40 ? (
+                            <span className="inline-block h-3 w-3 rounded-full bg-yellow-300"></span>
+                          ) : (
+                            <span className="inline-block h-3 w-3 rounded-full bg-green-500"></span>
+                          )}
                         </td>
                       </tr>
                     ))
