@@ -106,7 +106,7 @@ export default function ResultPage({ location }) {
                       sortOrder !== 'asc' ? setSortOrder('asc') : setSortOrder('desc')
                     }
                   >
-                    Risk {sortOrder === 'desc' ? <RxCaretUp className="inline"/>: sortOrder === 'asc' ? <RxCaretDown className="inline"/> : <RxCaretSort className="inline"/>}
+                    Risk {sortOrder === 'desc' ? <RxCaretUp className="inline text-2xl"/>: sortOrder === 'asc' ? <RxCaretDown className="inline text-2xl"/> : <RxCaretSort className="inline text-2xl"/>}
                   </th>
                 </tr>
               </thead>
