@@ -46,9 +46,11 @@ export default function Piechart({ data }) {
     ],
   });
   console.log(options.series)
+  const chartWidth = 500 + (data.length * 20);
+  const chartHeight = 400 + (data.length * 30); // Base height of 300px plus 30px per legend
   return (
     <>
-      <ReactEcharts style={{ width: '500px',height: '400px', backgroundColor:"#F1F1F1", padding:"10px"}}option={options} />
+      <ReactEcharts style={{ width: `${chartWidth}px`,height:`${chartHeight}px`, backgroundColor:"#F1F1F1", padding:"10px", borderRadius:"30px"}}option={options} />
     </>
   );
 }

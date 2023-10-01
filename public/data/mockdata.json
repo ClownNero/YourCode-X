@@ -13,5 +13,15 @@
     "category": "Weak credentials",
     "payload": 0,
     "risk": 30
+  },
+  {
+    "category": "Weak credentials1",
+    "payload": 3,
+    "risk": 60
+  },
+  {
+    "category": "Weak credentials2",
+    "payload": 4,
+    "risk": 20
   }
 ]

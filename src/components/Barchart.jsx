@@ -18,9 +18,10 @@ export default function Barchart({ data }) {
       data:data.map(item => item.category)
     },
     grid: {
-      left: "3%",
-      right: "4%",
+      left: "10%",
+      right: "10%",
       bottom: "15%",
+      top: '10%',
       containLabel: true,
     },
     xAxis: {
@@ -33,10 +34,12 @@ export default function Barchart({ data }) {
       splitLine: { show: false },
     },
     series: data.map((item, index) => ({
-      name: item.category,
+      name: '',
       type: 'bar',
       stack: 'stack', // 모든 막대가 같은 위치에 쌓이도록 설정 
-      data: Array(data.length).fill(null).map((_, i) => i === index ? item.risk : null),
+      barGap: 0,  // Same category bar gap
+      barCategoryGap: 20,  // Different category bar gap
+      data: Array(data.length).fill(null).map((_, i) => i === index ? {value:item.risk ,name:item.category} : null),
       itemStyle: {
         borderRadius: 10,
         borderColor: "#fff",
@@ -52,9 +55,11 @@ export default function Barchart({ data }) {
     }))
   });
   console.log(options.series)
+  const chartWidth = 500 + (data.length * 20);
+  const chartHeight = 400 + (data.length * 30); // Base height of 300px plus 30px per legend
   return (
     <>
-      <ReactEcharts style={{ width: '500px',height: '400px',backgroundColor:"#F1F1F1", padding:"10px" }}option={options} />
+      <ReactEcharts style={{ width: `${chartWidth}px`,height:`${chartHeight}px`,backgroundColor:"#F1F1F1", padding:"10px", borderRadius:"30px" }}option={options} />
     </>
   );
 }

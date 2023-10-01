@@ -16,6 +16,7 @@ print_white = lambda x : cprint(x, "white")
 
 def dirScan(url):
     # Windows에서 동작
+    print_blue("\n[*] 디렉토리 스캔 점검")
     output = subprocess.run(['python', './Inter_YourCode-X/Scan/directory_scan.py', url], capture_output=True, text=True)
     extracted_info = output.stdout
     directory_names = []
@@ -35,15 +36,39 @@ def dirScan(url):
         if line.startswith("FILE: "):
             file_names.append(line[6:])
             print(line[6:])
-    
-    print_blue("\n[*] 디렉토리 스캔 동작 점검\n")
+
     return directory_names, file_names
 
 def sqlI(url, check_url):
     urls_json = json.dumps(check_url)
-    
-    subprocess.call(['python', './Inter_YourCode-X/VulnerabilityList/SQLI/sql_injection.py' ,url ,urls_json])
+    print_blue("\n[*] SQL Injection 점검")
+    #subprocess.call(['python', './Inter_YourCode-X/VulnerabilityList/SQLI/sql_injection.py' ,url ,urls_json])
+    output = subprocess.run(['python', './Inter_YourCode-X/VulnerabilityList/SQLI/sql_injection.py' ,url ,urls_json], capture_output=True, text=True)
+    extracted_info = output.stdout
+    # payload = []
+    category = "SQL 인젝션"
+    num = None
+    risk = None
 
+    # for line in extracted_info.split('\n'):
+    #     if line.startswith("Attack Detected: "):
+    #         payload.append(line[17:])
+    for line in extracted_info.split('\n'):
+        if line.startswith("num: "):
+            num = int(line[5:])
+            break
+    for line in extracted_info.split('\n'):
+        if line.startswith("risk: "):
+            risk = str(line[6:])
+            break
+
+    # print(f"payload: {payload}")
+    # print(f"category: {category}")
+    # print(f"num: {num}")
+    # print(f"risk: {risk}")
+
+    # return payload, category, num, risk
+    return category, num, risk
 
 
 
@@ -80,9 +105,18 @@ def process_request():
 
     ### 점검 시작 ###
     #점검항목1: SQL 인젝션(SQL Injection)
-    sqlI(url, check_url)
+    # num, payload, category, risk = sqlI(url, check_url)
+    category, num, risk = sqlI(url, check_url)
+    #################
 
-
+    ### 점검 결과 ###
+    # url, payload, category, num, risk 
+    print_blue("\n[*] 점검 결과")
+    print(f"url: {url}")
+    # print(f"payload: {payload}")
+    print(f"category: {category}")
+    print(f"num: {num}")
+    print(f"risk: {risk}")
     #################
 
     # Flask 애플리케이션에서 클라이언트로 응답을 보낼 수 있음

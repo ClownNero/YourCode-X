@@ -27,6 +27,11 @@ public class MemberEntity {
 //    @Column
     private String risk;
 
+    private String payload;
+    private String targeturl;
+
+
+
 
 //    public static MemberEntity toMemberEntity(MemberDTO memberDTO){
 //        MemberEntity memberEntity = new MemberEntity();
