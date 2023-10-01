@@ -16,7 +16,6 @@ export default function ResultPage({ location }) {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrder, setSortOrder] = useState(null);
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
-
   useEffect(() => {
     putSpringData();
     fetchData();
@@ -115,7 +114,7 @@ export default function ResultPage({ location }) {
                 {data
                   ? sortedData.map((datas,index) => (
                       <tr key={datas.category} className={index % 2 === 1 ? 'bg-[#E3EBFF]' : ''}>
-                        <td className="px-6 py-4 whitespace-normal min-w-[1160px]:text-center">
+                        <td className="px-6 py-4 whitespace-normal text-left">
                           {datas.category}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
@@ -137,26 +136,46 @@ export default function ResultPage({ location }) {
             </table>
           </div>
         </div>
-        <div className="m-4">
+        <div className="m-4 my-14">
           <h2 className="font-bold text-4xl text-Result">Diagnosis</h2>
           <div className="py-6">
             <h2 className="text-Result text-2xl text-left mb-3">
               진단 세부 사항
             </h2>
-            <Modal data={data} />
+            <ul>
+              {data ? data.filter(datas => datas.risk >= 40).sort((a, b) => b.risk - a.risk).map((datas, index)=>(
+              <>
+              <li key={index} className="flex justify-between p-3 border-b-4 text-Result text-xl items-center">
+                <div>
+                  {datas.risk >= 80 ? (
+                    <span className="inline-block h-4 w-4 rounded-full bg-red-500"></span>
+                  ) : (
+                    <span className="inline-block h-4 w-4 rounded-full bg-yellow-300"></span>
+                  )
+                  }
+                  <span className="ml-4">{datas.category}</span>
+                </div>
+                <RxCaretDown className="text-2xl"/>
+              </li>
+              <p>{datas.category}의 상세 설명</p>  
+              <Modal data={data}/>
+              </>
+              ))
+              :""}
+            </ul>
           </div>
         </div>
         <div className="p-14 text-center ">
           <Upbutton />
         </div>
         <div className="bg-yourcodex bg-cover rounded-xl text-center p-10">
-          <h2 className="text-3xl text-white drop-shadow-text font-bold ">
+          <h2 className="text-3xl text-white drop-shadow-text font-bold mt-4 ">
             YourCode-X를 이용해주셔서 감사합니다.
           </h2>
           <p className="text-white my-8">
             다른 웹 페에지에서도 취약점을 찾아보고 싶다면
           </p>
-          <button className="px-16 py-4 bg-blue-600 rounded-xl my-4">
+          <button className="px-16 py-4 bg-[#1360FF] rounded-xl my-4">
             <Link to="/" className="text-white text-xl drop-shadow-text">
               {" "}
               첫페이지로 돌아가기
