@@ -43,6 +43,7 @@ Web Vulnerability Check Tool for Developers
 
 ### 🛠️Available Scripts & Error Solutions
 ---
+<img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black">
 ① In the project directory, you can run:
 
     yarn start
@@ -77,5 +78,42 @@ Can't resolve 'axios' in ...
     npm install axios
 
 This module is a library for simple HTTP requests.
+
+<br><br>
+
+<img src="https://img.shields.io/badge/Intellij-ED1C24?style=flat&logo=intellijidea&logoColor=black">
+
+#### <strong> +Installation Reference:</strong>
+[Intellij For Students](https://cheershennah.tistory.com/160)
+
+#### <strong> +Intellij execution path:</strong>
+C:/(your path..)/YourCode-X/your_spring/your_spring
+
+#### <strong> +Java 17 Version Settings:</strong>
+
+Main Menu(Alt+\\) -> Settings(Ctrl+Alt+s) -> Search: Gradle -> \
+Gradle Projects(build and run using: Intellij IDEA, Run tests using: Intellij IDEA, Gradle JVM: version 17)\
+⚠️If you don't have version 17, add +Add SDK to Gradle JVM inside Intellij
+
+![image](https://github.com/ClownNero/YourCode-X/assets/123449464/8eaa85d1-1aa3-4d8e-9604-567d77615859)
+
+
+
+① In the project directory, you can run:
+
+    Ctrl + F10
+
+Runs the app in the development mode http://localhost:8081
+
+<br><br>
+
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=black">
+
+#### <strong> +Refer to...:</strong>
+yourspring->src->main->resource->application.yml 파일 참고
+
+
+
+
 
 
