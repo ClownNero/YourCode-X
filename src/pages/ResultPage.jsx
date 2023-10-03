@@ -14,6 +14,7 @@ export default function ResultPage({ location }) {
   // Mock 데이터 가져오기
   const [data, setData] = useState([]);
   const [sortedData, setSortedData] = useState([]);
+  const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState(null);
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
   useEffect(() => {
@@ -23,13 +24,13 @@ export default function ResultPage({ location }) {
 
   useEffect(()=> {
     if(sortOrder === 'asc'){
-      setSortedData([...data].sort((a,b)=>a.risk - b.risk));
+      setSortedData([...data].sort((a,b)=> a[sortKey] < b[sortKey] ? -1 : 1));
     } else if( sortOrder === 'desc') {
-      setSortedData([...data].sort((a,b)=> b.risk - a.risk));
+      setSortedData([...data].sort((a,b)=> a[sortKey] > b[sortKey] ? -1 : 1));
     } else {
       setSortedData(data);
     }
-  }, [data, sortOrder]);
+  }, [data, sortOrder, sortKey]);
 
   async function putSpringData() {
     await axios
@@ -90,23 +91,50 @@ export default function ResultPage({ location }) {
                   <th
                     scope="col"
                     className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
-                  >
-                    Category
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
-                  >
-                    Number of Found
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
-                    onClick={ () =>
+                    onClick={ () => {
+                      setSortKey('category');
                       sortOrder !== 'asc' ? setSortOrder('asc') : setSortOrder('desc')
-                    }
+                     }}
                   >
-                    Risk {sortOrder === 'desc' ? <RxCaretUp className="inline text-2xl"/>: sortOrder === 'asc' ? <RxCaretDown className="inline text-2xl"/> : <RxCaretSort className="inline text-2xl"/>}
+                    Category { 
+                    sortKey === 'category'
+                    ? sortOrder === 'desc'
+                    ? <RxCaretUp className="inline text-2xl"/>
+                    : <RxCaretDown className="inline text-2xl"/>
+                    : <RxCaretSort className="inline text-2xl"/>
+                    }
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
+                    onClick={ () => {
+                      setSortKey('payload');
+                      sortOrder !== 'asc' ? setSortOrder('asc') : setSortOrder('desc')
+                    }}
+                  >
+                    Number of Found { 
+                      sortKey === 'payload'
+                      ? sortOrder === 'desc'
+                      ? <RxCaretUp className="inline text-2xl"/>
+                      : <RxCaretDown className="inline text-2xl"/>
+                      : <RxCaretSort className="inline text-2xl"/>
+                    }
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
+                    onClick={ () =>{
+                      setSortKey('risk');
+                      sortOrder !== 'asc' ? setSortOrder('asc') : setSortOrder('desc')
+                    }}
+                  >
+                    Risk  { 
+                      sortKey === 'risk'
+                      ? sortOrder === 'desc'
+                      ? <RxCaretUp className="inline text-2xl"/>
+                      : <RxCaretDown className="inline text-2xl"/>
+                      : <RxCaretSort className="inline text-2xl"/>
+                    }
                   </th>
                 </tr>
               </thead>
