@@ -16,6 +16,7 @@ export default function ResultPage({ location }) {
   const [sortedData, setSortedData] = useState([]);
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState(null);
+  const [expandedIndex, setExpandedIndex] = useState(null);
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
   useEffect(() => {
     putSpringData();
@@ -81,7 +82,7 @@ export default function ResultPage({ location }) {
         </div>
         <div className="mx-4 my-14">
           <h2 className="font-bold text-4xl text-Result">Problem List</h2>
-          <p className="text-Result text-2xl py-6 text-left mb-3">
+          <p className="text-Result text-2xl py-6 text-left mb-2">
             취약점 세부 목록
           </p>
           <div className="bg-gray text-center rounded-3xl ">
@@ -172,22 +173,30 @@ export default function ResultPage({ location }) {
             </h2>
             <ul>
               {data ? data.filter(datas => datas.risk >= 40).sort((a, b) => b.risk - a.risk).map((datas, index)=>(
-              <>
-              <li key={index} className="flex justify-between p-3 border-b-4 text-Result text-xl items-center">
-                <div>
-                  {datas.risk >= 80 ? (
-                    <span className="inline-block h-4 w-4 rounded-full bg-red-500"></span>
-                  ) : (
-                    <span className="inline-block h-4 w-4 rounded-full bg-yellow-300"></span>
-                  )
-                  }
-                  <span className="ml-4">{datas.category}</span>
-                </div>
-                <RxCaretDown className="text-2xl"/>
-              </li>
-              <p>{datas.category}의 상세 설명</p>  
-              <Modal data={data}/>
-              </>
+                <>
+                  <li key={index} className={`flex justify-between px-3 py-5 text-Result text-xl items-center ${expandedIndex === index ? '' : 'border-b-4'}`}>
+                    <div>
+                      {datas.risk >= 80 ? (
+                        <span className="inline-block h-4 w-4 rounded-full bg-red-500"></span>
+                      ) : (
+                        <span className="inline-block h-4 w-4 rounded-full bg-yellow-300"></span>
+                      )
+                      }
+                      <span className="ml-4">{datas.category}</span>
+                    </div>
+                    {expandedIndex === index 
+                      ? <RxCaretUp onClick={() => setExpandedIndex(null)} className="text-2xl"/>
+                      : <RxCaretDown onClick={() => setExpandedIndex(index)} className="text-2xl"/>
+                    }
+                  </li>
+                  {/* If this item is expanded, show the detailed description and modal */}
+                  {expandedIndex === index && (
+                    <div className="mx-8">
+                      <p>{datas.category}의 상세 설명</p>  
+                      <Modal data={data}/>
+                    </div>
+                  )}
+                </>
               ))
               :""}
             </ul>
