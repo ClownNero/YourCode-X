@@ -214,7 +214,6 @@ export default function ResultPage({ location }) {
           </p>
           <button className="px-16 py-4 bg-[#1360FF] rounded-xl my-4">
             <Link to="/" className="text-white text-xl drop-shadow-text">
-              {" "}
               첫페이지로 돌아가기
             </Link>
           </button>
