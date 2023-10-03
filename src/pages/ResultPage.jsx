@@ -46,7 +46,7 @@ export default function ResultPage({ location }) {
   };
   return (
     <>
-      <div className="mx-6 mt-36">
+      <div className="mx-6 mt-40">
         <div className="m-4">
           <h2 className="font-bold text-4xl text-Result">Problem Chart</h2>
           <ul className="flex justify-center w-full">
@@ -55,14 +55,14 @@ export default function ResultPage({ location }) {
                 위험도 차트 risk chart
               </h2>
               {/* 막대 차트 부분 */}
-              {loading ? "Loading..." : <Barchart data={data} />}
+              {loading ? `Loading...` : <Barchart data={data} />}
             </li>
             <li className="bg-gray text-center py-6 ml-52 min-w-0">
               <h2 className="text-Result text-2xl text-left mb-3">
                 취약점 차트 weakness chart
               </h2>
               {/* 파이 차트 부분 */}
-              {loading ? `` : <Piechart data={data} />}
+              {loading ? `Loading...` : <Piechart data={data} />}
             </li>
           </ul>
         </div>
