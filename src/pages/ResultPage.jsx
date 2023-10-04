@@ -193,15 +193,15 @@ export default function ResultPage({ location }) {
                   {expandedIndex === index && (
                     <>
                       <div className="flex items-center mx-8">
-                        <span className="rounded-full w-10 h-9 flex items-center text-white font-bold justify-center mr-2 bg-[#1360FF]">1</span>
+                        <span className="rounded-full w-9 h-9 flex items-center text-white font-bold justify-center mr-2 bg-[#1360FF]">1</span>
                         <span className="text-lg ml-3">{datas.category}의 상세 설명</span>  
                       </div>
-                      <p className="ml-20 rounded-md bg-[#F4F4F4] p-6 mt-2 mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam natus consequuntur rerum repudiandae veniam quia consectetur impedit quaerat ea incidunt, maiores aliquid soluta, nostrum dicta illo quidem eveniet, temporibus magnam!</p>
+                      <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam natus consequuntur rerum repudiandae veniam quia consectetur impedit quaerat ea incidunt, maiores aliquid soluta, nostrum dicta illo quidem eveniet, temporibus magnam!</p>
                       <div className="flex items-center mx-8">
-                        <span className="border border-[#1360FF] rounded-full w-10 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">2</span>
+                        <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">2</span>
                         <span className="text-lg ml-3">{datas.category}의 상세 설명</span>  
                       </div>
-                      <p className="ml-20 rounded-md bg-[#F4F4F4] p-6 mt-2 mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam natus consequuntur rerum repudiandae veniam quia consectetur impedit quaerat ea incidunt, maiores aliquid soluta, nostrum dicta illo quidem eveniet, temporibus magnam! Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione possimus aperiam voluptatum temporibus harum molestias nam est rem mollitia ad maxime soluta, eligendi deleniti hic quisquam tempora. Minus, blanditiis ea.</p>
+                      <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam natus consequuntur rerum repudiandae veniam quia consectetur impedit quaerat ea incidunt, maiores aliquid soluta, nostrum dicta illo quidem eveniet, temporibus magnam! Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione possimus aperiam voluptatum temporibus harum molestias nam est rem mollitia ad maxime soluta, eligendi deleniti hic quisquam tempora. Minus, blanditiis ea.</p>
                       <Modal data={data} className=""/>
                     </>
                   )}
