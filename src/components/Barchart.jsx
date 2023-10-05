@@ -34,7 +34,7 @@ export default function Barchart({ data }) {
       splitLine: { show: false },
     },
     series: data.map((item, index) => ({
-      name: '',
+      name: item.category,
       type: 'bar',
       stack: 'stack', // 모든 막대가 같은 위치에 쌓이도록 설정 
       barGap: 0,  // Same category bar gap

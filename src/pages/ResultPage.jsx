@@ -14,7 +14,9 @@ export default function ResultPage({ location }) {
   // Mock 데이터 가져오기
   const [data, setData] = useState([]);
   const [sortedData, setSortedData] = useState([]);
+  const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState(null);
+  const [expandedIndex, setExpandedIndex] = useState(null);
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
   useEffect(() => {
     putSpringData();
@@ -23,13 +25,17 @@ export default function ResultPage({ location }) {
 
   useEffect(() => {
     if (sortOrder === "asc") {
-      setSortedData([...data].sort((a, b) => a.risk - b.risk));
+      setSortedData(
+        [...data].sort((a, b) => (a[sortKey] < b[sortKey] ? -1 : 1))
+      );
     } else if (sortOrder === "desc") {
-      setSortedData([...data].sort((a, b) => b.risk - a.risk));
+      setSortedData(
+        [...data].sort((a, b) => (a[sortKey] > b[sortKey] ? -1 : 1))
+      );
     } else {
       setSortedData(data);
     }
-  }, [data, sortOrder]);
+  }, [data, sortOrder, sortKey]);
 
   async function putSpringData() {
     await axios
@@ -80,7 +86,7 @@ export default function ResultPage({ location }) {
         </div>
         <div className="mx-4 my-14">
           <h2 className="font-bold text-4xl text-Result">Problem List</h2>
-          <p className="text-Result text-2xl py-6 text-left mb-3">
+          <p className="text-Result text-2xl py-6 text-left mb-2">
             취약점 세부 목록
           </p>
           <div className="bg-gray text-center rounded-3xl ">
@@ -90,29 +96,62 @@ export default function ResultPage({ location }) {
                   <th
                     scope="col"
                     className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
-                  >
-                    Category
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
-                  >
-                    Number of Found
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
-                    onClick={() =>
+                    onClick={() => {
+                      setSortKey("category");
                       sortOrder !== "asc"
                         ? setSortOrder("asc")
-                        : setSortOrder("desc")
-                    }
+                        : setSortOrder("desc");
+                    }}
+                  >
+                    Category{" "}
+                    {sortKey === "category" ? (
+                      sortOrder === "desc" ? (
+                        <RxCaretUp className="inline text-2xl" />
+                      ) : (
+                        <RxCaretDown className="inline text-2xl" />
+                      )
+                    ) : (
+                      <RxCaretSort className="inline text-2xl" />
+                    )}
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
+                    onClick={() => {
+                      setSortKey("payload");
+                      sortOrder !== "asc"
+                        ? setSortOrder("asc")
+                        : setSortOrder("desc");
+                    }}
+                  >
+                    Number of Found{" "}
+                    {sortKey === "payload" ? (
+                      sortOrder === "desc" ? (
+                        <RxCaretUp className="inline text-2xl" />
+                      ) : (
+                        <RxCaretDown className="inline text-2xl" />
+                      )
+                    ) : (
+                      <RxCaretSort className="inline text-2xl" />
+                    )}
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
+                    onClick={() => {
+                      setSortKey("risk");
+                      sortOrder !== "asc"
+                        ? setSortOrder("asc")
+                        : setSortOrder("desc");
+                    }}
                   >
                     Risk{" "}
-                    {sortOrder === "desc" ? (
-                      <RxCaretUp className="inline text-2xl" />
-                    ) : sortOrder === "asc" ? (
-                      <RxCaretDown className="inline text-2xl" />
+                    {sortKey === "risk" ? (
+                      sortOrder === "desc" ? (
+                        <RxCaretUp className="inline text-2xl" />
+                      ) : (
+                        <RxCaretDown className="inline text-2xl" />
+                      )
                     ) : (
                       <RxCaretSort className="inline text-2xl" />
                     )}
@@ -163,7 +202,9 @@ export default function ResultPage({ location }) {
                       <>
                         <li
                           key={index}
-                          className="flex justify-between p-3 border-b-4 text-Result text-xl items-center"
+                          className={`flex justify-between px-3 py-5 text-Result text-xl items-center ${
+                            expandedIndex === index ? "" : "border-b-4"
+                          }`}
                         >
                           <div>
                             {datas.risk >= 80 ? (
@@ -173,10 +214,59 @@ export default function ResultPage({ location }) {
                             )}
                             <span className="ml-4">{datas.category}</span>
                           </div>
-                          <RxCaretDown className="text-2xl" />
+                          {expandedIndex === index ? (
+                            <RxCaretUp
+                              onClick={() => setExpandedIndex(null)}
+                              className="text-2xl"
+                            />
+                          ) : (
+                            <RxCaretDown
+                              onClick={() => setExpandedIndex(index)}
+                              className="text-2xl"
+                            />
+                          )}
                         </li>
-                        <p>{datas.category}의 상세 설명</p>
-                        <Modal data={data} />
+                        {/* If this item is expanded, show the detailed description and modal */}
+                        {expandedIndex === index && (
+                          <>
+                            <div className="flex items-center mx-8">
+                              <span className="rounded-full w-9 h-9 flex items-center text-white font-bold justify-center mr-2 bg-[#1360FF]">
+                                1
+                              </span>
+                              <span className="text-lg ml-3">
+                                {datas.category}의 상세 설명
+                              </span>
+                            </div>
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
+                              Lorem ipsum dolor sit amet consectetur adipisicing
+                              elit. Numquam natus consequuntur rerum repudiandae
+                              veniam quia consectetur impedit quaerat ea
+                              incidunt, maiores aliquid soluta, nostrum dicta
+                              illo quidem eveniet, temporibus magnam!
+                            </p>
+                            <div className="flex items-center mx-8">
+                              <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
+                                2
+                              </span>
+                              <span className="text-lg ml-3">
+                                {datas.category}의 상세 설명
+                              </span>
+                            </div>
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
+                              Lorem ipsum dolor sit amet consectetur adipisicing
+                              elit. Numquam natus consequuntur rerum repudiandae
+                              veniam quia consectetur impedit quaerat ea
+                              incidunt, maiores aliquid soluta, nostrum dicta
+                              illo quidem eveniet, temporibus magnam! Lorem
+                              ipsum dolor sit amet consectetur adipisicing elit.
+                              Ratione possimus aperiam voluptatum temporibus
+                              harum molestias nam est rem mollitia ad maxime
+                              soluta, eligendi deleniti hic quisquam tempora.
+                              Minus, blanditiis ea.
+                            </p>
+                            <Modal data={data} className="" />
+                          </>
+                        )}
                       </>
                     ))
                 : ""}
@@ -195,7 +285,6 @@ export default function ResultPage({ location }) {
           </p>
           <button className="px-16 py-4 bg-[#1360FF] rounded-xl my-4">
             <Link to="/" className="text-white text-xl drop-shadow-text">
-              {" "}
               첫페이지로 돌아가기
             </Link>
           </button>
