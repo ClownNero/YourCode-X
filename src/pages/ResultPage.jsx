@@ -238,6 +238,7 @@ export default function ResultPage({ location }) {
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
+                              {/* 취약점 발견 URL 데이터*/}
                               Lorem ipsum dolor sit amet consectetur adipisicing
                               elit. Numquam natus consequuntur rerum repudiandae
                               veniam quia consectetur impedit quaerat ea
@@ -253,6 +254,28 @@ export default function ResultPage({ location }) {
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
+                              {/* 공격 성공 CASE 데이터*/}
+                              Lorem ipsum dolor sit amet consectetur adipisicing
+                              elit. Numquam natus consequuntur rerum repudiandae
+                              veniam quia consectetur impedit quaerat ea
+                              incidunt, maiores aliquid soluta, nostrum dicta
+                              illo quidem eveniet, temporibus magnam! Lorem
+                              ipsum dolor sit amet consectetur adipisicing elit.
+                              Ratione possimus aperiam voluptatum temporibus
+                              harum molestias nam est rem mollitia ad maxime
+                              soluta, eligendi deleniti hic quisquam tempora.
+                              Minus, blanditiis ea.
+                            </p>
+                            <div className="flex items-center mx-8">
+                              <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
+                                3
+                              </span>
+                              <span className="text-lg ml-3">
+                                {datas.category}의 상세 설명
+                              </span>
+                            </div>
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
+                              {/* 공격 성공 CASE 데이터*/}
                               Lorem ipsum dolor sit amet consectetur adipisicing
                               elit. Numquam natus consequuntur rerum repudiandae
                               veniam quia consectetur impedit quaerat ea
