@@ -5,7 +5,9 @@ import Barchart from "../components/Barchart";
 import Piechart from "../components/Piechart";
 import Upbutton from "../components/ui/Upbutton";
 import { RxCaretSort, RxCaretUp, RxCaretDown } from "react-icons/rx";
+
 import Modal from "./Modal";
+import ListStar from "../components/ListStar";
 
 export default function ResultPage({ location }) {
   // 이전 페이지에서 전달 받은 결과 데이터 == 분석데이터
@@ -234,9 +236,10 @@ export default function ResultPage({ location }) {
                                 1
                               </span>
                               <span className="text-lg ml-3">
-                                {datas.category}의 상세 설명
+                                취약점 발견 URL
                               </span>
                             </div>
+
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
                               {/* 취약점 발견 URL 데이터*/}
                               Lorem ipsum dolor sit amet consectetur adipisicing
@@ -245,12 +248,13 @@ export default function ResultPage({ location }) {
                               incidunt, maiores aliquid soluta, nostrum dicta
                               illo quidem eveniet, temporibus magnam!
                             </p>
+
                             <div className="flex items-center mx-8">
                               <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
                                 2
                               </span>
                               <span className="text-lg ml-3">
-                                {datas.category}의 상세 설명
+                                공격 성공 CASE
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
@@ -270,9 +274,7 @@ export default function ResultPage({ location }) {
                               <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
                                 3
                               </span>
-                              <span className="text-lg ml-3">
-                                {datas.category}의 상세 설명
-                              </span>
+                              <span className="text-lg ml-3">Feedback</span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
                               {/* 공격 성공 CASE 데이터*/}
@@ -311,6 +313,11 @@ export default function ResultPage({ location }) {
               첫페이지로 돌아가기
             </Link>
           </button>
+        </div>
+        <div className="text-center m-20 font-bold">
+          <h2>YourCode-X의 서비스는 만족스러우셨나요?</h2>
+          {/*별점 리스트 만들기*/}
+          <ListStar />
         </div>
       </div>
     </>
