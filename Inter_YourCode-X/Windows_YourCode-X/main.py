@@ -4,6 +4,7 @@ import os;
 import json;
 from flask import Flask, request, jsonify;
 from flask_cors import CORS
+from module import dbModule;
 
 print_red = lambda x: cprint(x, 'red')
 print_yellow = lambda x: cprint(x, 'yellow')
@@ -23,15 +24,15 @@ def dirScan(url):
     file_names = []
 
     # 출력 디렉토리 이름
-    print("Directory Names:")
-    print("===========")
+    print_green("Directory Names:")
+    print_green("===========")
     for line in extracted_info.split('\n'):
         if line.startswith("DIR: "):
             directory_names.append(line[5:])
             print(line[5:])
     # 출력 파일 이름
-    print("\nFile Names:")
-    print("===========")
+    print_green("\nFile Names:")
+    print_green("===========")
     for line in extracted_info.split('\n'):
         if line.startswith("FILE: "):
             file_names.append(line[6:])
@@ -45,30 +46,47 @@ def sqlI(url, check_url):
     #subprocess.call(['python', './Inter_YourCode-X/VulnerabilityList/SQLI/sql_injection.py' ,url ,urls_json])
     output = subprocess.run(['python', './Inter_YourCode-X/VulnerabilityList/SQLI/sql_injection.py' ,url ,urls_json], capture_output=True, text=True)
     extracted_info = output.stdout
-    # payload = []
+    payload = []
     category = "SQL 인젝션"
-    num = None
+    num = 0
     risk = None
+    targeturl_s = set()
 
-    # for line in extracted_info.split('\n'):
-    #     if line.startswith("Attack Detected: "):
-    #         payload.append(line[17:])
     for line in extracted_info.split('\n'):
-        if line.startswith("num: "):
-            num = int(line[5:])
-            break
+        if line.startswith("Attack Detected: "):
+            payload.append(line[17:])
+    #위험과 주의가 섞여있을 때 판별해야함.
     for line in extracted_info.split('\n'):
         if line.startswith("risk: "):
             risk = str(line[6:])
             break
+    for line in extracted_info.split('\n'):
+        if line.startswith("Target url: "):
+            targeturl_s.add(line[12:])
+    targeturl = list(targeturl_s)
 
-    # print(f"payload: {payload}")
-    # print(f"category: {category}")
-    # print(f"num: {num}")
-    # print(f"risk: {risk}")
+    print_green("\nPayload Code(payload):")
+    print_green("===========")
+    for code in payload:
+        print(code)
+    print_green("\nCategory(category):")
+    print_green("===========")
+    print(category)
+    print_green("\nVulnerable file path(targeturl):")
+    print_green("===========")
+    for target in targeturl:
+        print(target)
+        num += 1 #취약한 파일 경로 수 파악
+    print_green("\nNumber of vulnerable file paths(num):")
+    print_green("===========")
+    print(num)
+    print_green("\nRisk(risk):")
+    print_green("===========")
+    for line in extracted_info.split('\n'):
+        if line.startswith("risk: "):
+            print(line[6:])
 
-    # return payload, category, num, risk
-    return category, num, risk
+    return payload, category, num, risk, targeturl
 
 
 
@@ -105,18 +123,31 @@ def process_request():
 
     ### 점검 시작 ###
     #점검항목1: SQL 인젝션(SQL Injection)
-    # num, payload, category, risk = sqlI(url, check_url)
-    category, num, risk = sqlI(url, check_url)
+    payload, category, num, risk, targeturl = sqlI(url, check_url)
     #################
 
     ### 점검 결과 ###
     # url, payload, category, num, risk 
     print_blue("\n[*] 점검 결과")
-    print(f"url: {url}")
-    # print(f"payload: {payload}")
-    print(f"category: {category}")
-    print(f"num: {num}")
-    print(f"risk: {risk}")
+    print_green("url:\n===========")
+    print(url)
+    print_green("\npayload:\n===========")
+    print(payload)
+    print_green("\ncategory:\n===========")
+    print(category)
+    print_green("\nnum:\n===========")
+    print(num)
+    print_green("\nrisk:\n===========")
+    print(risk)
+    print_green("\ntargeturl:\n===========")
+    print(targeturl)
+
+    ## DB Insert Test(Table: user)
+    # print_blue("\n[*] DB Connection")
+    # db_class = dbModule.Database()
+    # db_class.insert_url(url)
+    # print(f"DB Insert Success: {url}")
+
     #################
 
     # Flask 애플리케이션에서 클라이언트로 응답을 보낼 수 있음
