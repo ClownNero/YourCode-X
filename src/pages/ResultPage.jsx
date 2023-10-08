@@ -14,6 +14,7 @@ export default function ResultPage({ location }) {
   //const resultData = location.state.result;
   // 예시 코드
   // Mock 데이터 가져오기
+{/* risk 데이터 sort 하기 위한 Values */}
   const riskValues = {
     '위험': 3,
     '주의': 2,
