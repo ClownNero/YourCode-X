@@ -4,8 +4,10 @@ import Barchart from "../components/Barchart";
 import Piechart from "../components/Piechart";
 import Upbutton from "../components/ui/Upbutton";
 import { RxCaretSort, RxCaretUp, RxCaretDown } from "react-icons/rx";
+
 import Modal from "./Modal";
 import { Link } from "react-router-dom";
+import ListStar from "../components/ListStar";
 
 export default function ResultPage({ location }) {
   // 이전 페이지에서 전달 받은 결과 데이터 == 분석데이터
@@ -14,22 +16,28 @@ export default function ResultPage({ location }) {
   // Mock 데이터 가져오기
   const [data, setData] = useState([]);
   const [sortedData, setSortedData] = useState([]);
+  const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState(null);
+  const [expandedIndex, setExpandedIndex] = useState(null);
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
   useEffect(() => {
     putSpringData();
     fetchData();
   }, []);
 
-  useEffect(()=> {
-    if(sortOrder === 'asc'){
-      setSortedData([...data].sort((a,b)=>a.risk - b.risk));
-    } else if( sortOrder === 'desc') {
-      setSortedData([...data].sort((a,b)=> b.risk - a.risk));
+  useEffect(() => {
+    if (sortOrder === "asc") {
+      setSortedData(
+        [...data].sort((a, b) => (a[sortKey] < b[sortKey] ? -1 : 1))
+      );
+    } else if (sortOrder === "desc") {
+      setSortedData(
+        [...data].sort((a, b) => (a[sortKey] > b[sortKey] ? -1 : 1))
+      );
     } else {
       setSortedData(data);
     }
-  }, [data, sortOrder]);
+  }, [data, sortOrder, sortKey]);
 
   async function putSpringData() {
     await axios
@@ -68,20 +76,20 @@ export default function ResultPage({ location }) {
                 위험도 차트 risk chart
               </h2>
               {/* 막대 차트 부분 */}
-              {loading ? 'Loading...' : <Barchart data={data}/>}
+              {loading ? `Loading...` : <Barchart data={data} />}
             </li>
             <li className="bg-gray text-center py-6 ml-52 min-w-0">
               <h2 className="text-Result text-2xl text-left mb-3">
                 취약점 차트 weakness chart
               </h2>
               {/* 파이 차트 부분 */}
-              {loading ? `` : <Piechart data={data}/>}
+              {loading ? `Loading...` : <Piechart data={data} />}
             </li>
           </ul>
         </div>
         <div className="mx-4 my-14">
           <h2 className="font-bold text-4xl text-Result">Problem List</h2>
-          <p className="text-Result text-2xl py-6 text-left mb-3">
+          <p className="text-Result text-2xl py-6 text-left mb-2">
             취약점 세부 목록
           </p>
           <div className="bg-gray text-center rounded-3xl ">
@@ -91,30 +99,75 @@ export default function ResultPage({ location }) {
                   <th
                     scope="col"
                     className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
+                    onClick={() => {
+                      setSortKey("category");
+                      sortOrder !== "asc"
+                        ? setSortOrder("asc")
+                        : setSortOrder("desc");
+                    }}
                   >
-                    Category
+                    Category{" "}
+                    {sortKey === "category" ? (
+                      sortOrder === "desc" ? (
+                        <RxCaretUp className="inline text-2xl" />
+                      ) : (
+                        <RxCaretDown className="inline text-2xl" />
+                      )
+                    ) : (
+                      <RxCaretSort className="inline text-2xl" />
+                    )}
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
+                    onClick={() => {
+                      setSortKey("payload");
+                      sortOrder !== "asc"
+                        ? setSortOrder("asc")
+                        : setSortOrder("desc");
+                    }}
                   >
-                    Number of Found
+                    Number of Found{" "}
+                    {sortKey === "payload" ? (
+                      sortOrder === "desc" ? (
+                        <RxCaretUp className="inline text-2xl" />
+                      ) : (
+                        <RxCaretDown className="inline text-2xl" />
+                      )
+                    ) : (
+                      <RxCaretSort className="inline text-2xl" />
+                    )}
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
-                    onClick={ () =>
-                      sortOrder !== 'asc' ? setSortOrder('asc') : setSortOrder('desc')
-                    }
+                    onClick={() => {
+                      setSortKey("risk");
+                      sortOrder !== "asc"
+                        ? setSortOrder("asc")
+                        : setSortOrder("desc");
+                    }}
                   >
-                    Risk {sortOrder === 'desc' ? <RxCaretUp className="inline text-2xl"/>: sortOrder === 'asc' ? <RxCaretDown className="inline text-2xl"/> : <RxCaretSort className="inline text-2xl"/>}
+                    Risk{" "}
+                    {sortKey === "risk" ? (
+                      sortOrder === "desc" ? (
+                        <RxCaretUp className="inline text-2xl" />
+                      ) : (
+                        <RxCaretDown className="inline text-2xl" />
+                      )
+                    ) : (
+                      <RxCaretSort className="inline text-2xl" />
+                    )}
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200 text-Result text-lg">
                 {data
-                  ? sortedData.map((datas,index) => (
-                      <tr key={datas.category} className={index % 2 === 1 ? 'bg-[#E3EBFF]' : ''}>
+                  ? sortedData.map((datas, index) => (
+                      <tr
+                        key={datas.category}
+                        className={index % 2 === 1 ? "bg-[#E3EBFF]" : ""}
+                      >
                         <td className="px-6 py-4 whitespace-normal text-left">
                           {datas.category}
                         </td>
@@ -144,25 +197,105 @@ export default function ResultPage({ location }) {
               진단 세부 사항
             </h2>
             <ul>
-              {data ? data.filter(datas => datas.risk >= 40).sort((a, b) => b.risk - a.risk).map((datas, index)=>(
-              <>
-              <li key={index} className="flex justify-between p-3 border-b-4 text-Result text-xl items-center">
-                <div>
-                  {datas.risk >= 80 ? (
-                    <span className="inline-block h-4 w-4 rounded-full bg-red-500"></span>
-                  ) : (
-                    <span className="inline-block h-4 w-4 rounded-full bg-yellow-300"></span>
-                  )
-                  }
-                  <span className="ml-4">{datas.category}</span>
-                </div>
-                <RxCaretDown className="text-2xl"/>
-              </li>
-              <p>{datas.category}의 상세 설명</p>  
-              <Modal data={data}/>
-              </>
-              ))
-              :""}
+              {data
+                ? data
+                    .filter((datas) => datas.risk == '위험' || datas.risk == '주의')
+                    .sort((a, b) => b.risk - a.risk)
+                    .map((datas, index) => (
+                      <>
+                        <li
+                          key={index}
+                          className={`flex justify-between px-3 py-5 text-Result text-xl items-center ${
+                            expandedIndex === index ? "" : "border-b-4"
+                          }`}
+                        >
+                          <div>
+                            {datas.risk == '위험' ? (
+                              <span className="inline-block h-4 w-4 rounded-full bg-red-500"></span>
+                            ) : (
+                              <span className="inline-block h-4 w-4 rounded-full bg-yellow-300"></span>
+                            )}
+                            <span className="ml-4">{datas.category}</span>
+                          </div>
+                          {expandedIndex === index ? (
+                            <RxCaretUp
+                              onClick={() => setExpandedIndex(null)}
+                              className="text-2xl"
+                            />
+                          ) : (
+                            <RxCaretDown
+                              onClick={() => setExpandedIndex(index)}
+                              className="text-2xl"
+                            />
+                          )}
+                        </li>
+                        {/* If this item is expanded, show the detailed description and modal */}
+                        {expandedIndex === index && (
+                          <>
+                            <div className="flex items-center mx-8">
+                              <span className="rounded-full w-9 h-9 flex items-center text-white font-bold justify-center mr-2 bg-[#1360FF]">
+                                1
+                              </span>
+                              <span className="text-lg ml-3">
+                                취약점 발견 URL
+                              </span>
+                            </div>
+
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
+                              {/* 취약점 발견 URL 데이터*/}
+                              Lorem ipsum dolor sit amet consectetur adipisicing
+                              elit. Numquam natus consequuntur rerum repudiandae
+                              veniam quia consectetur impedit quaerat ea
+                              incidunt, maiores aliquid soluta, nostrum dicta
+                              illo quidem eveniet, temporibus magnam!
+                            </p>
+
+                            <div className="flex items-center mx-8">
+                              <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
+                                2
+                              </span>
+                              <span className="text-lg ml-3">
+                                공격 성공 CASE
+                              </span>
+                            </div>
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
+                              {/* 공격 성공 CASE 데이터*/}
+                              Lorem ipsum dolor sit amet consectetur adipisicing
+                              elit. Numquam natus consequuntur rerum repudiandae
+                              veniam quia consectetur impedit quaerat ea
+                              incidunt, maiores aliquid soluta, nostrum dicta
+                              illo quidem eveniet, temporibus magnam! Lorem
+                              ipsum dolor sit amet consectetur adipisicing elit.
+                              Ratione possimus aperiam voluptatum temporibus
+                              harum molestias nam est rem mollitia ad maxime
+                              soluta, eligendi deleniti hic quisquam tempora.
+                              Minus, blanditiis ea.
+                            </p>
+                            <div className="flex items-center mx-8">
+                              <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
+                                3
+                              </span>
+                              <span className="text-lg ml-3">Feedback</span>
+                            </div>
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
+                              {/* 공격 성공 CASE 데이터*/}
+                              Lorem ipsum dolor sit amet consectetur adipisicing
+                              elit. Numquam natus consequuntur rerum repudiandae
+                              veniam quia consectetur impedit quaerat ea
+                              incidunt, maiores aliquid soluta, nostrum dicta
+                              illo quidem eveniet, temporibus magnam! Lorem
+                              ipsum dolor sit amet consectetur adipisicing elit.
+                              Ratione possimus aperiam voluptatum temporibus
+                              harum molestias nam est rem mollitia ad maxime
+                              soluta, eligendi deleniti hic quisquam tempora.
+                              Minus, blanditiis ea.
+                            </p>
+                            <Modal data={data} className="" />
+                          </>
+                        )}
+                      </>
+                    ))
+                : ""}
             </ul>
           </div>
         </div>
@@ -178,10 +311,14 @@ export default function ResultPage({ location }) {
           </p>
           <button className="px-16 py-4 bg-[#1360FF] rounded-xl my-4">
             <Link to="/" className="text-white text-xl drop-shadow-text">
-              {" "}
               첫페이지로 돌아가기
             </Link>
           </button>
+        </div>
+        <div className="text-center m-20 font-bold">
+          <h2>YourCode-X의 서비스는 만족스러우셨나요?</h2>
+          {/*별점 리스트 만들기*/}
+          <ListStar />
         </div>
       </div>
     </>
