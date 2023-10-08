@@ -41,7 +41,7 @@ export default function Piechart({ data }) {
         labelLine: {
           show: false,
         },
-        data: data.map((item) => ({ value: item.risk, name: item.category })),
+        data: data.map((item) => ({ value: item.num, name: item.category })),
       },
     ],
   });

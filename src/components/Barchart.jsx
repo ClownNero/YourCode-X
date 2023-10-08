@@ -42,7 +42,7 @@ export default function Barchart({ data }) {
       data: Array(data.length)
         .fill(null)
         .map((_, i) =>
-          i === index ? { value: item.risk, name: item.category } : null
+          i === index ? { value: item.num, name: item.category } : null
         ),
       itemStyle: {
         borderRadius: 10,

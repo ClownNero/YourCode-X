@@ -14,6 +14,11 @@ export default function ResultPage({ location }) {
   //const resultData = location.state.result;
   // 예시 코드
   // Mock 데이터 가져오기
+  const riskValues = {
+    '위험': 3,
+    '주의': 2,
+    '양호': 1
+  };
   const [data, setData] = useState([]);
   const [sortedData, setSortedData] = useState([]);
   const [sortKey, setSortKey] = useState(null);
@@ -27,13 +32,17 @@ export default function ResultPage({ location }) {
 
   useEffect(() => {
     if (sortOrder === "asc") {
-      setSortedData(
-        [...data].sort((a, b) => (a[sortKey] < b[sortKey] ? -1 : 1))
-      );
+      setSortedData([...data].sort((a, b) => 
+        sortKey === 'risk' ? 
+          (riskValues[a[sortKey]] < riskValues[b[sortKey]] ? -1 : 1) :
+          (a[sortKey] < b[sortKey] ? -1 : 1)
+      ));
     } else if (sortOrder === "desc") {
-      setSortedData(
-        [...data].sort((a, b) => (a[sortKey] > b[sortKey] ? -1 : 1))
-      );
+      setSortedData([...data].sort((a, b) => 
+        sortKey === 'risk' ?
+          (riskValues[a[sortKey]] > riskValues[b[sortKey]] ? -1 : 1) :
+          (a[sortKey] > b[sortKey] ? -1 : 1)
+      ));
     } else {
       setSortedData(data);
     }
@@ -120,7 +129,7 @@ export default function ResultPage({ location }) {
                     scope="col"
                     className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
                     onClick={() => {
-                      setSortKey("payload");
+                      setSortKey("num");
                       sortOrder !== "asc"
                         ? setSortOrder("asc")
                         : setSortOrder("desc");
@@ -171,12 +180,12 @@ export default function ResultPage({ location }) {
                           {datas.category}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
-                          {datas.payload}
+                          {datas.num}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
-                          {datas.risk >= 80 ? (
+                          {datas.risk ==="위험" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-red-500"></span>
-                          ) : datas.risk >= 40 ? (
+                          ) : datas.risk === "주의" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-yellow-300"></span>
                           ) : (
                             <span className="inline-block h-3 w-3 rounded-full bg-green-500"></span>
@@ -198,8 +207,8 @@ export default function ResultPage({ location }) {
             <ul>
               {data
                 ? data
-                    .filter((datas) => datas.risk >= 40)
-                    .sort((a, b) => b.risk - a.risk)
+                    .filter((datas) => datas.risk ==="위험" || datas.risk ==="주의")
+                    .sort((a, b) => riskValues[b.risk] - riskValues[a.risk])
                     .map((datas, index) => (
                       <>
                         <li
@@ -209,7 +218,7 @@ export default function ResultPage({ location }) {
                           }`}
                         >
                           <div>
-                            {datas.risk >= 80 ? (
+                            {datas.risk === "위험" ? (
                               <span className="inline-block h-4 w-4 rounded-full bg-red-500"></span>
                             ) : (
                               <span className="inline-block h-4 w-4 rounded-full bg-yellow-300"></span>

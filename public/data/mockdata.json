@@ -1,27 +1,27 @@
 [
   {
     "category": "Backup file",
-    "payload": 3,
-    "risk": 50
+    "num": 3,
+    "risk": "주의"
   },
   {
     "category": "Blind SQL Injection",
-    "payload": 5,
-    "risk": 90
+    "num": 5,
+    "risk": "위험"
   },
   {
     "category": "Weak credentials",
-    "payload": 0,
-    "risk": 30
+    "num": 1,
+    "risk": "양호"
   },
   {
     "category": "Weak credentials1",
-    "payload": 3,
-    "risk": 60
+    "num": 3,
+    "risk": "주의"
   },
   {
     "category": "Weak credentials2",
-    "payload": 4,
-    "risk": 20
+    "num": 4,
+    "risk": "양호"
   }
 ]
