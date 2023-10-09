@@ -30,7 +30,7 @@ export default function ListStar(props) {
         </div>
       ))}
       {/* Display the score */}
-      <p>Score: {score}</p>
+      <p>Score: {score} </p>
     </div>
   );
 }
