@@ -22,6 +22,7 @@ export default function MainPages(props) {
       // 결과 페이지로 이동하면서 결과 데이터 전달
       navigate("/analysis/result", { state: { result: response.data } });
     } catch (error) {
+      navigate("/analysis/result")
       console.error("Error during analysis: ", error);
     }
     setUrl("");

@@ -23,14 +23,18 @@ export default function ListStar(props) {
   // Calculate score based on the number of selected stars
   const score = selectedStars.reduce((acc, curr) => acc + (curr ? 1 : 0), 0);
   return (
-    <div className="flex space-x-2 justify-center text-red-500 my-3">
-      {selectedStars.map((isSelected, index) => (
-        <div onClick={() => handleClick(index)}>
-          {isSelected ? <AiFillStar /> : <AiOutlineStar />}
-        </div>
-      ))}
-      {/* Display the score */}
-      <p>Score: {score} </p>
-    </div>
+    <>
+      <h2 className="text-Result text-2xl font-bold">YourCode-X의 서비스는 만족스러우셨나요?</h2>
+      <div className="flex space-x-2 justify-center text-2xl text-red-500 mt-4 mb-12">
+        {selectedStars.map((isSelected, index) => (
+          <div onClick={() => handleClick(index)}>
+            {isSelected ? <AiFillStar /> : <AiOutlineStar />}
+          </div>
+        ))}
+      </div>
+      <div className="bg-[#F1F1F1] w-full h-[175px] rounded-2xl">
+
+      </div>
+    </>
   );
 }
