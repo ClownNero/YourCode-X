@@ -1,12 +1,12 @@
-import React,{ useEffect, useState } from "react";
-import axios from"axios";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import Barchart from "../components/Barchart";
 import Piechart from "../components/Piechart";
 import Upbutton from "../components/ui/Upbutton";
 import { RxCaretSort, RxCaretUp, RxCaretDown } from "react-icons/rx";
 
 import Modal from "./Modal";
-import { Link } from "react-router-dom";
 import ListStar from "../components/ListStar";
 
 export default function ResultPage({ location }) {
@@ -14,6 +14,11 @@ export default function ResultPage({ location }) {
   //const resultData = location.state.result;
   // 예시 코드
   // Mock 데이터 가져오기
+  const riskValues = {
+    '위험': 3,
+    '주의': 2,
+    '양호': 1
+  };
   const [data, setData] = useState([]);
   const [sortedData, setSortedData] = useState([]);
   const [sortKey, setSortKey] = useState(null);
@@ -27,13 +32,17 @@ export default function ResultPage({ location }) {
 
   useEffect(() => {
     if (sortOrder === "asc") {
-      setSortedData(
-        [...data].sort((a, b) => (a[sortKey] < b[sortKey] ? -1 : 1))
-      );
+      setSortedData([...data].sort((a, b) => 
+        sortKey === 'risk' ? 
+          (riskValues[a[sortKey]] < riskValues[b[sortKey]] ? -1 : 1) :
+          (a[sortKey] < b[sortKey] ? -1 : 1)
+      ));
     } else if (sortOrder === "desc") {
-      setSortedData(
-        [...data].sort((a, b) => (a[sortKey] > b[sortKey] ? -1 : 1))
-      );
+      setSortedData([...data].sort((a, b) => 
+        sortKey === 'risk' ?
+          (riskValues[a[sortKey]] > riskValues[b[sortKey]] ? -1 : 1) :
+          (a[sortKey] > b[sortKey] ? -1 : 1)
+      ));
     } else {
       setSortedData(data);
     }
@@ -64,7 +73,6 @@ export default function ResultPage({ location }) {
       setLoading(false); // 데이터 요청 완료(성공 또는 실패) 후 로딩 상태를 false로 설정
     }
   };
-
   return (
     <>
       <div className="mx-6 mt-40">
@@ -121,7 +129,7 @@ export default function ResultPage({ location }) {
                     scope="col"
                     className="px-6 py-4 text-center font-medium text-white uppercase tracking-wider"
                     onClick={() => {
-                      setSortKey("payload");
+                      setSortKey("num");
                       sortOrder !== "asc"
                         ? setSortOrder("asc")
                         : setSortOrder("desc");
@@ -175,9 +183,9 @@ export default function ResultPage({ location }) {
                           {datas.num}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
-                          {datas.risk == '위험' ? (
+                          {datas.risk ==="위험" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-red-500"></span>
-                          ) : datas.risk == '주의' ? (
+                          ) : datas.risk === "주의" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-yellow-300"></span>
                           ) : (
                             <span className="inline-block h-3 w-3 rounded-full bg-green-500"></span>
@@ -199,8 +207,8 @@ export default function ResultPage({ location }) {
             <ul>
               {data
                 ? data
-                    .filter((datas) => datas.risk == '위험' || datas.risk == '주의')
-                    .sort((a, b) => b.risk - a.risk)
+                    .filter((datas) => datas.risk ==="위험" || datas.risk ==="주의")
+                    .sort((a, b) => riskValues[b.risk] - riskValues[a.risk])
                     .map((datas, index) => (
                       <>
                         <li
@@ -210,7 +218,7 @@ export default function ResultPage({ location }) {
                           }`}
                         >
                           <div>
-                            {datas.risk == '위험' ? (
+                            {datas.risk === "위험" ? (
                               <span className="inline-block h-4 w-4 rounded-full bg-red-500"></span>
                             ) : (
                               <span className="inline-block h-4 w-4 rounded-full bg-yellow-300"></span>

@@ -43,48 +43,59 @@ def dirScan(url):
 def sqlI(url, check_url):
     urls_json = json.dumps(check_url)
     print_blue("\n[*] SQL Injection 점검")
-    #subprocess.call(['python', './Inter_YourCode-X/VulnerabilityList/SQLI/sql_injection.py' ,url ,urls_json])
+    # Windows에서 동작
     output = subprocess.run(['python', './Inter_YourCode-X/VulnerabilityList/SQLI/sql_injection.py' ,url ,urls_json], capture_output=True, text=True)
     extracted_info = output.stdout
-    payload = []
-    category = "SQL 인젝션"
-    num = 0
-    risk = None
-    targeturl_s = set()
 
+    # payload 추출
+    cnt = 0
+    payload_s = set()
     for line in extracted_info.split('\n'):
         if line.startswith("Attack Detected: "):
-            payload.append(line[17:])
-    #위험과 주의가 섞여있을 때 판별해야함.
-    for line in extracted_info.split('\n'):
-        if line.startswith("risk: "):
-            risk = str(line[6:])
-            break
+            payload_s.add(line[17:])
+    payload = list(payload_s)
+    print_green("\npayload(Payload Code):")
+    print_green("===========")
+    for code in payload:
+        print(code)
+        cnt += 1
+    print_grey(f"payload cnt: {cnt}")
+
+    # category 추출
+    category = "SQL 인젝션"
+    print_green("\ncategory:")
+    print_green("===========")
+    print(category)
+
+    # targeturl 추출
+    targeturl_s = set()
+    num = 0
     for line in extracted_info.split('\n'):
         if line.startswith("Target url: "):
             targeturl_s.add(line[12:])
     targeturl = list(targeturl_s)
-
-    print_green("\nPayload Code(payload):")
-    print_green("===========")
-    for code in payload:
-        print(code)
-    print_green("\nCategory(category):")
-    print_green("===========")
-    print(category)
-    print_green("\nVulnerable file path(targeturl):")
+    print_green("\ntargeturl(Vulnerable file path):")
     print_green("===========")
     for target in targeturl:
         print(target)
         num += 1 #취약한 파일 경로 수 파악
-    print_green("\nNumber of vulnerable file paths(num):")
+
+    # num 추출
+    print_green("\nnum(Number of vulnerable file paths):")
     print_green("===========")
     print(num)
-    print_green("\nRisk(risk):")
+
+    # risk 데이터 추출
+    risk = '양호'
+    risk_order = {'위험':0, '주의':1, '양호':2}
+    print_green("\nrisk:")
     print_green("===========")
     for line in extracted_info.split('\n'):
         if line.startswith("risk: "):
             print(line[6:])
+            extracted_risk = line[6:].strip()
+            if risk_order[extracted_risk] < risk_order[risk]:
+                risk = extracted_risk
 
     return payload, category, num, risk, targeturl
 
@@ -115,6 +126,7 @@ def process_request():
     
     # 디렉토리 스캔 함수
     directories, files = dirScan(url)
+
     # 프로토콜+점검IP+리소스 경로
     check_url = []
     for file in files:
@@ -146,14 +158,20 @@ def process_request():
     # print_blue("\n[*] DB Connection")
     # db_class = dbModule.Database()
     # db_class.insert_url(url)
-    # print(f"DB Insert Success: {url}")
+    # print_blue("[*] DB Close")
 
     #################
+
+    ## DB checkList (Table: list -> INSERT, UPDATE) ##
+    print_blue("\n[*] DB Connection")
+    db_class = dbModule.Database()
+    db_class.checkList(url, payload, category, num, risk, targeturl)
+    print_blue("[*] DB Close")
 
     # Flask 애플리케이션에서 클라이언트로 응답을 보낼 수 있음
     return url
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
 
     
