@@ -7,7 +7,7 @@ import Upbutton from "../components/ui/Upbutton";
 import { RxCaretSort, RxCaretUp, RxCaretDown } from "react-icons/rx";
 
 import Modal from "./Modal";
-import ListStar from "../components/ListStar";
+import Review from "../components/Review";
 
 const riskValues = {
   '위험': 3,
@@ -326,7 +326,7 @@ export default function ResultPage({ location }) {
         </div>
         <div className="text-center mx-28 my-24">
           {/*별점 리스트 만들기*/}
-          <ListStar />
+          <Review />
         </div>
       </div>
     </>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
-export default function ListStar(props) {
+export default function Review(props) {
   const [selectedStars, setSelectedStars] = useState([
     false,
     false,
