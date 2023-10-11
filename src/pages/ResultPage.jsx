@@ -299,7 +299,7 @@ export default function ResultPage({ location }) {
                               soluta, eligendi deleniti hic quisquam tempora.
                               Minus, blanditiis ea.
                             </p>
-                            <Modal data={data} className="" />
+                            <Modal data={data} />
                           </>
                         )}
                       </>
