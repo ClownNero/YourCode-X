@@ -60,7 +60,7 @@ export default function Review(props) {
           required 
           onChange={(e) => setReviewBody(e.target.value)}
         />
-        <button type="submit" className="self-end mt-4 px-4 py-2 bg-[#1360FF] hover:opacity-95 text-white rounded-xl">리뷰 작성</button>
+        <button type="submit" className="self-end mt-4 px-4 py-2 bg-[#1360FF] hover:opacity-95 text-white rounded-xl">submit</button>
       </form>
       {isOpen && (
          <div 
