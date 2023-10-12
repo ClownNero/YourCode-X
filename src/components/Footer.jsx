@@ -1,10 +1,11 @@
 import React from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { BsSearch, BsYoutube } from "react-icons/bs";
+// import { Link, useNavigate, useParams } from "react-router-dom";
+// import { BsSearch, BsYoutube } from "react-icons/bs";
 
 export default function Footer(props) {
   return (
-    <>{/*
+    <>
+      {/*
       <footer className="p-8 text-2xl shadow-up">
         <ul className="w-full flex flex-row justify-between text-center text-sm">
           <div className="flex">
@@ -24,13 +25,13 @@ export default function Footer(props) {
         </ul>
       </footer>
   */}
-      <footer className="p-8 text-2xl shadow-up ">
-              <ul className="w-full h-[80px] flex flex-row justify-center items-center text-center text-sm">
-              <li className="mx-2 text-lg">
-                Copyright © {new Date().getFullYear()} YourCode-X cope.
-              </li>
-            </ul>
-          </footer>
+      <footer className="flex w-full p-8 text-2xl shadow-up ">
+        <ul className="w-full h-[80px] flex flex-row justify-center items-center text-center text-sm">
+          <li className="mx-2 text-lg">
+            Copyright © {new Date().getFullYear()} YourCode-X cope.
+          </li>
+        </ul>
+      </footer>
     </>
   );
 }
