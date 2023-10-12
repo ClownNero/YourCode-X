@@ -25,12 +25,12 @@ class Database:
                 insert_user = "INSERT INTO user VALUES(%s)"
                 cursor.execute(insert_user,(url,))
 
-                print(type(url), url)
-                print(type(payload_str), payload_str)
-                print(type(category), category)
-                print(type(num), num)
-                print(type(risk), risk)
-                print(type(targeturl_str), targeturl_str)
+                # print(type(url), url)
+                # print(type(payload_str), payload_str)
+                # print(type(category), category)
+                # print(type(num), num)
+                # print(type(risk), risk)
+                # print(type(targeturl_str), targeturl_str)
 
                 insert_list = "INSERT INTO list (url, payload, category, num, risk, targeturl) VALUES (%s, %s, %s, %s, %s, %s)"
                 cursor.execute(insert_list, (url, payload_str, category, num, risk, targeturl_str))

@@ -162,7 +162,7 @@ def process_request():
 
     #################
 
-    ## DB checkList (Table: list -> INSERT, UPDATE) ##
+    # DB checkList (Table: list -> INSERT, UPDATE) ##
     print_blue("\n[*] DB Connection")
     db_class = dbModule.Database()
     db_class.checkList(url, payload, category, num, risk, targeturl)
