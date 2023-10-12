@@ -1,70 +1,119 @@
-# Getting Started with Create React App
+# YourCode-X
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### 🧑🏻‍💻Collaborators
+---
+- [22gamin](https://github.com/22gamin)
+- [ClownNero](https://github.com/ClownNero)
+- 
+<br>
 
-## Available Scripts
+### 💻How to Use It
+---
+1. Enter the service you want to check in the url input window and press the button to proceed with the inspection. (Dynamic Analysis)
+2. You can receive resources for web vulnerabilities.
+3. You can view the results for inspection items where vulnerabilities were found in detail.
+4. Enhanced code can be obtained through our rapid (static analysis)
+<br>
 
-In the project directory, you can run:
+### 📌Purpose
+---
+Web Vulnerability Check Tool for Developers
 
-### `yarn start`
+<br>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 📌What you want to achieve:
+---
+1. Provide more information and examples
+   - Dynamic and static checks are possible
+   - Provide specific guides and code examples that are easy developers to understand
 
-The page will reload when you make changes.\
+2. Provide Report Format
+   - Provides a variety of forms to ensure clear web vulnerability outcomes 
+   (Graphs, charts, tables,...)
+
+3. Provides a user-friendly interface
+   - Developers who are not security personnel can easily leverage Web vulnerability analysis and gain better understanding of vulnerability identification
+
+4. Apply Trusted Data
+   - OWASP TOP 10, KISA (major telecommunications infrastructure), CVE, ...You referenced data-driven items and vulnerability check tools.
+
+5. Improving directory search algorithms
+   - You get more effective results than the directory search functionality that other tools use.
+<br>
+
+### 🛠️Available Scripts & Error Solutions
+---
+<img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black">
+① In the project directory, you can run:
+
+    yarn start
+
+Runs the app in the development mode.
+Open http://localhost:3000 to view it in your browser.
+
+The page will reload when you make changes.
 You may also see any lint errors in the console.
 
-### `yarn test`
+<br>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+⚠️Module not found: Error:
+Can't resolve 'echarts-for-react in ...
 
-### `yarn build`
+    npm install echarts-for-react
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This module is intended to use a JavaScript chart library called ECharts in the React application.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+⚠️Module not found: Error:
+Can't resolve 'react-scroll in ...
 
-### `yarn eject`
+    npm install react-scroll
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+This module is used to address scroll events and actions in the React application.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+⚠️Module not found: Error:
+Can't resolve 'axios' in ...
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    npm install axios
 
-## Learn More
+This module is a library for simple HTTP requests.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<br><br>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<img src="https://img.shields.io/badge/Intellij-ED1C24?style=flat&logo=intellijidea&logoColor=black">
 
-### Code Splitting
+#### <strong> +Installation Reference:</strong>
+[Intellij For Students](https://cheershennah.tistory.com/160)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+#### <strong> +Intellij execution path:</strong>
+C:/(your path..)/YourCode-X/your_spring/your_spring
 
-### Analyzing the Bundle Size
+#### <strong> +Java 17 Version Settings:</strong>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Main Menu(Alt+\\) -> Settings(Ctrl+Alt+s) -> Search: Gradle -> \
+Gradle Projects(build and run using: Intellij IDEA, Run tests using: Intellij IDEA, Gradle JVM: version 17)\
+⚠️If you don't have version 17, add +Add SDK to Gradle JVM inside Intellij
 
-### Making a Progressive Web App
+![image](https://github.com/ClownNero/YourCode-X/assets/123449464/8eaa85d1-1aa3-4d8e-9604-567d77615859)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+① In the project directory, you can run:
 
-### Deployment
+    Ctrl + F10
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Runs the app in the development mode http://localhost:8081
 
-### `yarn build` fails to minify
+<br><br>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=black">
+
+#### <strong> +Refer to...:</strong>
+yourspring->src->main->resource->application.yml 파일 참고
+
+
+
+
+
+
