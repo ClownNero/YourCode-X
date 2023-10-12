@@ -7,18 +7,18 @@ import Upbutton from "../components/ui/Upbutton";
 import { RxCaretSort, RxCaretUp, RxCaretDown } from "react-icons/rx";
 
 import Modal from "./Modal";
-import ListStar from "../components/ListStar";
+import Review from "../components/Review";
 
+const riskValues = {
+  위험: 3,
+  주의: 2,
+  양호: 1,
+};
 export default function ResultPage({ location }) {
   // 이전 페이지에서 전달 받은 결과 데이터 == 분석데이터
   //const resultData = location.state.result;
   // 예시 코드
   // Mock 데이터 가져오기
-  const riskValues = {
-    '위험': 3,
-    '주의': 2,
-    '양호': 1
-  };
   const [data, setData] = useState([]);
   const [sortedData, setSortedData] = useState([]);
   const [sortKey, setSortKey] = useState(null);
@@ -32,17 +32,29 @@ export default function ResultPage({ location }) {
 
   useEffect(() => {
     if (sortOrder === "asc") {
-      setSortedData([...data].sort((a, b) => 
-        sortKey === 'risk' ? 
-          (riskValues[a[sortKey]] < riskValues[b[sortKey]] ? -1 : 1) :
-          (a[sortKey] < b[sortKey] ? -1 : 1)
-      ));
+      setSortedData(
+        [...data].sort((a, b) =>
+          sortKey === "risk"
+            ? riskValues[a[sortKey]] < riskValues[b[sortKey]]
+              ? -1
+              : 1
+            : a[sortKey] < b[sortKey]
+            ? -1
+            : 1
+        )
+      );
     } else if (sortOrder === "desc") {
-      setSortedData([...data].sort((a, b) => 
-        sortKey === 'risk' ?
-          (riskValues[a[sortKey]] > riskValues[b[sortKey]] ? -1 : 1) :
-          (a[sortKey] > b[sortKey] ? -1 : 1)
-      ));
+      setSortedData(
+        [...data].sort((a, b) =>
+          sortKey === "risk"
+            ? riskValues[a[sortKey]] > riskValues[b[sortKey]]
+              ? -1
+              : 1
+            : a[sortKey] > b[sortKey]
+            ? -1
+            : 1
+        )
+      );
     } else {
       setSortedData(data);
     }
@@ -183,7 +195,7 @@ export default function ResultPage({ location }) {
                           {datas.num}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
-                          {datas.risk ==="위험" ? (
+                          {datas.risk === "위험" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-red-500"></span>
                           ) : datas.risk === "주의" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-yellow-300"></span>
@@ -198,7 +210,7 @@ export default function ResultPage({ location }) {
             </table>
           </div>
         </div>
-        <div className="m-4 my-14">
+        <div className="mx-4 mt-14 mb-8">
           <h2 className="font-bold text-4xl text-Result">Diagnosis</h2>
           <div className="py-6">
             <h2 className="text-Result text-2xl text-left mb-3">
@@ -207,7 +219,9 @@ export default function ResultPage({ location }) {
             <ul>
               {data
                 ? data
-                    .filter((datas) => datas.risk ==="위험" || datas.risk ==="주의")
+                    .filter(
+                      (datas) => datas.risk === "위험" || datas.risk === "주의"
+                    )
                     .sort((a, b) => riskValues[b.risk] - riskValues[a.risk])
                     .map((datas, index) => (
                       <>
@@ -298,7 +312,7 @@ export default function ResultPage({ location }) {
                               soluta, eligendi deleniti hic quisquam tempora.
                               Minus, blanditiis ea.
                             </p>
-                            <Modal data={data} className="" />
+                            <Modal data={data} />
                           </>
                         )}
                       </>
@@ -323,10 +337,9 @@ export default function ResultPage({ location }) {
             </Link>
           </button>
         </div>
-        <div className="text-center m-20 font-bold">
-          <h2>YourCode-X의 서비스는 만족스러우셨나요?</h2>
+        <div className="text-center mx-28 my-24">
           {/*별점 리스트 만들기*/}
-          <ListStar />
+          <Review />
         </div>
       </div>
     </>
