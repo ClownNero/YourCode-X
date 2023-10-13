@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ChatUI from "../components/ChatUI";
 
 function Modal({ data }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,10 +31,8 @@ function Modal({ data }) {
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-2xl font-bold mb-2">코드로 자세히 알아보기</h2>
-            <p className="text-Result">Learn more with code</p>
-            <div className="bg-slate-100 h-4/5 border-[#2D5FFF] border rounded-xl">
-              sfafafafssf
-            </div>
+            <p className="text-Result mb-4">Learn more with code</p>
+            <ChatUI />
             <div className="flex-col text-center">{/* ChatGPT data */}</div>
           </div>
         </div>

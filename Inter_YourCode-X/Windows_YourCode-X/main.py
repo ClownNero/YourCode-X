@@ -163,10 +163,10 @@ def process_request():
     #################
 
     ## DB checkList (Table: list -> INSERT, UPDATE) ##
-    print_blue("\n[*] DB Connection")
-    db_class = dbModule.Database()
-    db_class.checkList(url, payload, category, num, risk, targeturl)
-    print_blue("[*] DB Close")
+    # print_blue("\n[*] DB Connection")
+    # db_class = dbModule.Database()
+    # db_class.checkList(url, payload, category, num, risk, targeturl)
+    # print_blue("[*] DB Close")
 
     # Flask 애플리케이션에서 클라이언트로 응답을 보낼 수 있음
     return url
