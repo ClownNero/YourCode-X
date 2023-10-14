@@ -321,7 +321,7 @@ export default function ResultPage({ location }) {
             </ul>
           </div>
         </div>
-        <div className="p-14 text-center ">
+        <div className="p-12 text-center ">
           <Upbutton />
         </div>
         <div className="bg-yourcodex bg-cover rounded-xl text-center p-10">

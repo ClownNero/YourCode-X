@@ -24,20 +24,23 @@ class Database:
                 # SQL 쿼리문 실행
                 insert_user = "INSERT INTO user VALUES(%s)"
                 cursor.execute(insert_user,(url,))
+                print("DB_user Insert Success")
 
-                print(type(url), url)
-                print(type(payload_str), payload_str)
-                print(type(category), category)
-                print(type(num), num)
-                print(type(risk), risk)
-                print(type(targeturl_str), targeturl_str)
+                # print(type(url), url)
+                # print(type(payload_str), payload_str)
+                # print(type(category), category)
+                # print(type(num), num)
+                # print(type(risk), risk)
+                # print(type(targeturl_str), targeturl_str)
 
                 insert_list = "INSERT INTO list (url, payload, category, num, risk, targeturl) VALUES (%s, %s, %s, %s, %s, %s)"
                 cursor.execute(insert_list, (url, payload_str, category, num, risk, targeturl_str))
+                print("DB_list Insert Success")
                 db.commit()
             else:
                 update_sql = "UPDATE list SET payload=%s, category=%s, num=%s, risk=%s, targeturl=%s  WHERE url=%s"
                 cursor.execute(update_sql, (payload_str, category, num, risk, targeturl_str, url))
+                print("DB_list Update Success")
                 db.commit()
         except Exception as e:
             db.rollback()

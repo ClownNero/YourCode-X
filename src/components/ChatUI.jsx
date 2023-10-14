@@ -27,7 +27,7 @@ export default function ChatUI(props) {
   };
   return (
     <div className="flex flex-col h-full p-4 bg-gray-200">
-      <div className="flex flex-col overflow-auto mb-4">
+      <div className="flex flex-col overflow-auto mb-4 scrollbar-hide">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -62,3 +62,4 @@ export default function ChatUI(props) {
     </div>
   );
 }
+  
