@@ -79,6 +79,13 @@ Can't resolve 'axios' in ...
 
 This module is a library for simple HTTP requests.
 
+
+⚠️Module not found: Error:
+Cannot find module 'tailwind-scrollbar-hide
+
+   yarn add tailwind-scrollbar-hide
+
+This module is a plugin that provides the ability to hide scrollbars in Tailwind CSS.
 <br><br>
 
 <img src="https://img.shields.io/badge/Intellij-ED1C24?style=flat&logo=intellijidea&logoColor=black">
