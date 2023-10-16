@@ -27,10 +27,10 @@ function Modal({ data }) {
           onClick={closeModal}
         >
           <div
-            className="bg-white rounded-lg p-12 w-4/5 h-5/6 overflow-auto text-center"
+            className="bg-white rounded-[36px] p-12 w-4/5 h-5/6 overflow-auto text-center scrollbar-hide"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="">
+            <div>
               <h2 className="text-2xl font-bold mb-2">코드로 자세히 알아보기</h2>
               <p className="text-Result mb-4">Learn more with code</p>
             </div>

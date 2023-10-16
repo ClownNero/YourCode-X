@@ -5,7 +5,7 @@ import Barchart from "../components/Barchart";
 import Piechart from "../components/Piechart";
 import Upbutton from "../components/ui/Upbutton";
 import { RxCaretSort, RxCaretUp, RxCaretDown } from "react-icons/rx";
-
+import { useLocation } from 'react-router-dom';
 import Modal from "./Modal";
 import Review from "../components/Review";
 
@@ -14,20 +14,29 @@ const riskValues = {
   주의: 2,
   양호: 1,
 };
-export default function ResultPage({ location }) {
+export default function ResultPage(props) {
   // 이전 페이지에서 전달 받은 결과 데이터 == 분석데이터
   //const resultData = location.state.result;
   // 예시 코드
   // Mock 데이터 가져오기
   const [data, setData] = useState([]);
+  const { state } = useLocation();
+  console.log(state);
   const [sortedData, setSortedData] = useState([]);
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState(null);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
   useEffect(() => {
+    // fetch('http://localhost:5000/gomain',{
+    //   method:'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({processedData: state}),
+    // })
     putSpringData();
-    fetchData();
+    // fetchData();
   }, []);
 
   useEffect(() => {
@@ -64,50 +73,51 @@ export default function ResultPage({ location }) {
     await axios
       .get("http://localhost:8081/analysis/result")
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
         setData(res.data);
+        setLoading(false); // 데이터 요청 완료(성공 또는 실패) 후 로딩 상태를 false로 설정
       })
       .catch((err) => {
         console.log(err);
       });
   }
-  const fetchData = async () => {
-    try {
-      // mock API로부터 데이터 가져오기
-      const response = await axios.get(
-        process.env.PUBLIC_URL + "/data/mockdata.json"
-      );
-      // 상태 업데이트
-      setData(response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false); // 데이터 요청 완료(성공 또는 실패) 후 로딩 상태를 false로 설정
-    }
-  };
+  // const fetchData = async () => {
+  //   try {
+  //     // mock API로부터 데이터 가져오기
+  //     const response = await axios.get(
+  //       process.env.PUBLIC_URL + "/data/mockdata.json"
+  //     );
+  //     // 상태 업데이트
+  //     setData(response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   } finally {
+  //     setLoading(false); // 데이터 요청 완료(성공 또는 실패) 후 로딩 상태를 false로 설정
+  //   }
+  // };
   return (
     <>
       <div className="mx-6 mt-40">
-        <div className="mx-4 my-14">
+        <div className="mx-4 my-14" id="Chart" name="Chart">
           <h2 className="font-bold text-4xl text-Result">Problem Chart</h2>
-          <ul className="flex justify-center w-full">
-            <li className="bg-gray py-6 mr-52 min-w-0">
+          <ul className="flex justify-around w-full">
+            <li className="bg-gray py-6 2xl:mr-30 mr-12 min-w-0">
               <h2 className="text-Result text-2xl text-left mb-3">
-                위험도 차트 risk chart
+                위험도 차트 Risk Chart
               </h2>
               {/* 막대 차트 부분 */}
               {loading ? `Loading...` : <Barchart data={data} />}
             </li>
-            <li className="bg-gray text-center py-6 ml-52 min-w-0">
+            <li className="bg-gray text-center py-6 2xl:ml-30 ml-12 min-w-0">
               <h2 className="text-Result text-2xl text-left mb-3">
-                취약점 차트 weakness chart
+                취약점 차트 Weakness Chart
               </h2>
               {/* 파이 차트 부분 */}
               {loading ? `Loading...` : <Piechart data={data} />}
             </li>
           </ul>
         </div>
-        <div className="mx-4 my-14">
+        <div className="mx-4 my-14" id="List" name="List">
           <h2 className="font-bold text-4xl text-Result">Problem List</h2>
           <p className="text-Result text-2xl py-6 text-left mb-2">
             취약점 세부 목록
@@ -210,7 +220,7 @@ export default function ResultPage({ location }) {
             </table>
           </div>
         </div>
-        <div className="mx-4 mt-14 mb-8">
+        <div className="mx-4 mt-14 mb-8" id="Diagnosis" name="Diagnosis">
           <h2 className="font-bold text-4xl text-Result">Diagnosis</h2>
           <div className="py-6">
             <h2 className="text-Result text-2xl text-left mb-3">
@@ -262,14 +272,9 @@ export default function ResultPage({ location }) {
                                 취약점 발견 URL
                               </span>
                             </div>
-
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
                               {/* 취약점 발견 URL 데이터*/}
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Numquam natus consequuntur rerum repudiandae
-                              veniam quia consectetur impedit quaerat ea
-                              incidunt, maiores aliquid soluta, nostrum dicta
-                              illo quidem eveniet, temporibus magnam!
+                              {datas.targeturl}
                             </p>
 
                             <div className="flex items-center mx-8">
@@ -282,16 +287,7 @@ export default function ResultPage({ location }) {
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
                               {/* 공격 성공 CASE 데이터*/}
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Numquam natus consequuntur rerum repudiandae
-                              veniam quia consectetur impedit quaerat ea
-                              incidunt, maiores aliquid soluta, nostrum dicta
-                              illo quidem eveniet, temporibus magnam! Lorem
-                              ipsum dolor sit amet consectetur adipisicing elit.
-                              Ratione possimus aperiam voluptatum temporibus
-                              harum molestias nam est rem mollitia ad maxime
-                              soluta, eligendi deleniti hic quisquam tempora.
-                              Minus, blanditiis ea.
+                              {datas.payload}
                             </p>
                             <div className="flex items-center mx-8">
                               <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
@@ -300,7 +296,7 @@ export default function ResultPage({ location }) {
                               <span className="text-lg ml-3">Feedback</span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
-                              {/* 공격 성공 CASE 데이터*/}
+                              {/* FeedBack 데이터*/}
                               Lorem ipsum dolor sit amet consectetur adipisicing
                               elit. Numquam natus consequuntur rerum repudiandae
                               veniam quia consectetur impedit quaerat ea

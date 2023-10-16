@@ -26,7 +26,7 @@ export default function ChatUI(props) {
     setInputValue("");
   };
   return (
-    <div className="flex flex-col h-full p-4 bg-gray-200">
+    <div className="flex flex-col h-5/6 px-4 py-8 bg-gray-200 rounded-[36px] border-2 border-search">
       <div className="flex flex-col overflow-auto mb-4 scrollbar-hide">
         {messages.map((message) => (
           <div

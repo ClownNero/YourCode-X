@@ -14,10 +14,20 @@ export default function MainPages(props) {
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(url);
-
+    
+    // try {
+    //   // URL이 있는지 확인 하기 위한 로직
+    //   const response = await axios.get(url);
+    //   if (!response.ok) {
+    //     throw new Error("URL does not exist");
+    //   }
+      
+    // } catch (error) {
+    //     navigate("/analysis/result",{state: url});
+    //     console.error("Error:", error);
+    // }
     try {
-      const response = await fetch("http://localhost:5000/gomain", {
+      const response =  await fetch("http://localhost:5000/gomain", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,15 +36,17 @@ export default function MainPages(props) {
       });
 
       if (!response.ok) {
+        console.log(response)
+        console.log("hoi");
         throw new Error("Network response was not ok");
       }
 
       // Optional - if you expect a JSON response, you can parse the response:
       const data = await response.json();
-
       console.log(data);
+      
     } catch (error) {
-      navigate("/analysis/result");
+      navigate(`/analysis/result`);
       console.error("Error during analysis:", error);
     }
 
@@ -48,7 +60,7 @@ export default function MainPages(props) {
         <section className="w-full mt-44">
           <form className="flex justify-center fiexd" onSubmit={handleSubmit}>
             <input
-              className="w-8/12 p-4 border-4 border-gray-300 outline-none hover:border-search rounded text-xl mr-4"
+              className="w-8/12 p-4 border-4 border-gray-300 outline-none focus:border-search hover:border-search rounded text-xl mr-4"
               type="url"
               value={url}
               placeholder="웹페이지 URL 입력"

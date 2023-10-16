@@ -2,6 +2,18 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 
 export default function Piechart({ data }) {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   const [options, setOptions] = useState({
     tooltip: {
       trigger: "item",
@@ -46,8 +58,8 @@ export default function Piechart({ data }) {
     ],
   });
   console.log(options.series);
-  const chartWidth = 500 + data.length * 20;
-  const chartHeight = 400 + data.length * 30; // Base height of 300px plus 30px per legend
+  const chartWidth = windowWidth >= 1560 ? (500 + data.length * 20) : (450 + data.length * 20);
+  const chartHeight = windowWidth >= 1560 ? (400 + data.length * 30) : (350 + data.length * 30); 
   return (
     <>
       <ReactEcharts

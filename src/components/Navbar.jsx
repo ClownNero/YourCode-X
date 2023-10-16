@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { RiMenu3Fill } from "react-icons/ri";
-
 import GitHub from "./GitHub";
 import Button from "./ui/Button";
 
 export default function Navbar(props) {
   const [isOpen, setIsOpen] = useState(false);
-
+  const location = useLocation();
   return (
     <nav
       className={`w-full flex flex-col lg:flex-row items-start lg:justify-between px-6 py-2 text-1xl bg-white shadow-md fixed top-0 left-0 z-10 `}
@@ -29,10 +28,9 @@ export default function Navbar(props) {
           isOpen ? "block" : "hidden"
         } lg:flex w-full lg:w-auto`}
       >
-        <Button text="Introduce" clickId="Introduce" />
-        <Button text="Why" clickId="Why" />
-        <Button text="Provide" clickId="Provide" />
-
+        {location.pathname === '/analysis/result' ? <Button text="Chart" clickId="Chart" />:<Button text="Introduce" clickId="Introduce" />}
+        {location.pathname === '/analysis/result' ? <Button text="List" clickId="List" />:<Button text="Why" clickId="Why" />}
+        {location.pathname === '/analysis/result' ? <Button text="Diagnosis" clickId="Diagnosis" />:<Button text="Provide" clickId="Provide" />}
         {/* Social media links or icons */}
         <GitHub />
       </div>

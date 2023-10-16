@@ -7,10 +7,12 @@ import Navbar from "./components/Navbar";
 const queryClient = new QueryClient();
 
 export default function App(props) {
+  
   return (
     <>
       <div className="flex flex-col justify-between">
-        <Navbar />
+        {/* {location.pathname === '/analysis/result' ? <ResultNavbar />:<Navbar />} */}
+        <Navbar/>
         <QueryClientProvider client={queryClient}>
           <div>
             <Outlet />
