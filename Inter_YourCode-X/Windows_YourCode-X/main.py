@@ -5,6 +5,7 @@ import json;
 from flask import Flask, request, jsonify;
 from flask_cors import CORS
 from module import dbModule;
+import openai
 
 print_red = lambda x: cprint(x, 'red')
 print_yellow = lambda x: cprint(x, 'yellow')
@@ -165,6 +166,28 @@ def process_request():
     print_blue("[*] DB Close")
 
     return url
+
+# openai 
+@app.route("/openai/api",methods=["POST"])
+def chatGPT():
+    try:
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+        
+        input_data = request.json
+        user_content = input_data.get('userContent')
+        print(f"user_content: {user_content}")
+
+        messages = [{"role": "system", "content": "You are a helpful assistant."}]
+        messages.append({"role":"user", "content":user_content})
+
+        completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
+
+        # OpenAI API의 응답에서 챗봇의 답변을 추출하는 역할
+        assistant_content = completion["choices"][0]["message"]["content"].encode("utf-8").decode()
+        messages.append({"role":"assistant", "content":assistant_content})
+        return jsonify({"result": assistant_content})
+    except Exception as e:
+        return jsonify({"error":str(e)})
 
 if __name__ == '__main__':
     app.run(debug=True)
