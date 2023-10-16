@@ -2,6 +2,13 @@
 module.exports = {
   content: ["./src/**/*.{jsx,js,ts,tsx}"],
   theme: {
+    screens: {
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1160px',
+      'xl': '1280px',
+      '2xl': '1560px',
+    },
     extend: {
       colors: {
         brand: "#F96162",
@@ -22,5 +29,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide')
+  ],
 };

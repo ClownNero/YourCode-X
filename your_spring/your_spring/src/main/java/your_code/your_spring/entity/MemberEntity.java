@@ -27,6 +27,7 @@ public class MemberEntity {
 //    @Column
     private String risk;
 
+    @Column(length = 3000)
     private String payload;
     private String targeturl;
 

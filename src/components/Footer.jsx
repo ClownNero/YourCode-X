@@ -1,6 +1,6 @@
 import React from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { BsSearch, BsYoutube } from "react-icons/bs";
+// import { Link, useNavigate, useParams } from "react-router-dom";
+// import { BsSearch, BsYoutube } from "react-icons/bs";
 
 export default function Footer(props) {
   return (
