@@ -23,11 +23,11 @@ function Modal({ data }) {
 
       {isOpen && (
         <div
-          className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-auto"
+          className="fixed inset-0 min-w-[1024px] flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-auto"
           onClick={closeModal}
         >
           <div
-            className="bg-white rounded-[36px] p-12 w-4/5 h-5/6 overflow-auto text-center scrollbar-hide"
+            className="bg-white rounded-[36px] p-12 w-[1024px] h-5/6 overflow-auto text-center scrollbar-hide"
             onClick={(e) => e.stopPropagation()}
           >
             <div>
