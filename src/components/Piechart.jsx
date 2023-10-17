@@ -35,6 +35,11 @@ export default function Piechart({ data }) {
         radius: ["40%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
+          color: function(params) {
+            // build a color map as your need.
+            const colorList = ["#2D5FFF", "#1E82E8", "#21CAFF"];
+            return colorList[params.dataIndex % colorList.length];
+          },
           borderRadius: 10,
           borderColor: "#fff",
           borderWidth: 2,
