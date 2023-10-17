@@ -36,9 +36,14 @@ export default function Piechart({ data }) {
         avoidLabelOverlap: false,
         itemStyle: {
           color: function(params) {
-            // build a color map as your need.
-            const colorList = ["#2D5FFF", "#1E82E8", "#21CAFF"];
-            return colorList[params.dataIndex % colorList.length];
+            const item = data[params.dataIndex];
+            if (item.risk === "위험") {
+              return "#F56565"; // bg-red-500
+            } else if (item.risk === "주의") {
+              return "#FCD34D"; // bg-yellow-300
+            } else {
+              return "#48BB78"; // bg-green-500
+            }
           },
           borderRadius: 10,
           borderColor: "#fff",

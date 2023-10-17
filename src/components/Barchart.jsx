@@ -65,19 +65,19 @@ export default function Barchart({ data }) {
       barCategoryGap: 20, // Different category bar gap
       
       data: Array(data.length)
-        .fill(null)
-        .map((_, i) =>
-          i === index ? { value: item.num, name: item.category } : null
-        ),
+      .fill(null)
+      .map((_, i) =>
+        i === index ? { value: item.num, name: item.category } : null
+      ),
       itemStyle: {
         borderColor: "#fff",
         borderWidth: 2,
         color:
-          index % 3 === 0 ? "#2D5FFF" : index % 3 === 1 ? "#1E82E8" : "#21CAFF",
+          item.risk === "위험" ? "#F56565" : item.risk === "주의" ? "#FCD34D" : "#48BB78",
         borderRadius: [50, 50, 0, 0], //막대 차트 윗부분 둥글게 만들기
         
       },
-    })),
+      })),
   });
   console.log(options.series);
   const chartWidth = windowWidth >= 1560 ? (500 + data.length * 20) : (450 + data.length * 20);
