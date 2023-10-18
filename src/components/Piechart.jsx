@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 
 export default function Piechart({ data }) {
+  const mockData = [{num:1600 , category:"Sql Injection"},{num:3925 , category:"XSS"}, {num:630, category:"Directory Traversal"}]
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
     const handleResize = () => {
@@ -63,7 +64,7 @@ export default function Piechart({ data }) {
         labelLine: {
           show: false,
         },
-        data: data.map((item) => ({ value: item.num, name: item.category })),
+        data: mockData.map((item) => ({ value: item.num, name: item.category })),
       },
     ],
   });
