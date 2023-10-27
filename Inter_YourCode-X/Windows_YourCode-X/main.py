@@ -117,7 +117,18 @@ def sqlI(url, check_url):
     for inspection in inspectionurl:
         print(inspection)
 
-    return payload, category, num, risk, targeturl, inspectionurl
+    # detailpayload 추출
+    detailpayload_s = set()
+    for line in extracted_info.split('\n'):
+        if line.startswith("Detail payload: "):
+            detailpayload_s.add(line[16:])
+    detailpayload = list(detailpayload_s)
+    print_green("\ndetailpayload(Performance Indicators by Inspection Item):")
+    print_green("===========")
+    for detail in detailpayload:
+        print(detail)
+
+    return payload, category, num, risk, targeturl, inspectionurl, detailpayload
     
 
 
@@ -153,7 +164,7 @@ def process_request():
 
     ### 점검 시작 ###
     #점검항목1: SQL 인젝션(SQL Injection)
-    payload, category, num, risk, targeturl, inspectionurl = sqlI(url, check_url)
+    payload, category, num, risk, targeturl, inspectionurl, detailpayload = sqlI(url, check_url)
 
     ### 점검 결과 ###
     print_blue("\n[*] 점검 결과")
@@ -169,8 +180,10 @@ def process_request():
     print(risk)
     print_green("\ntargeturl:\n===========")
     print(targeturl)
-    # print_green("\ninspectionurl:\n===========")
-    # print(inspectionurl)    
+    print_green("\ninspectionurl:\n===========")
+    print(inspectionurl)
+    print_green("\ndetailpayload:\n===========")
+    print(detailpayload)    
 
     ### DB Connection ###
     # DB checkList (Table: list -> INSERT, UPDATE)
