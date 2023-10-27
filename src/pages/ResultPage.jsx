@@ -272,9 +272,10 @@ export default function ResultPage(props) {
                                 취약점 발견 URL
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
-                              {/* 취약점 발견 URL 데이터*/}
-                              {datas.targeturl}
+
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                                {/* 취약점 발견 URL 데이터*/}
+                                {datas.targeturl}
                             </p>
 
                             <div className="flex items-center mx-8">
@@ -285,7 +286,7 @@ export default function ResultPage(props) {
                                 공격 성공 CASE
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
                               {/* 공격 성공 CASE 데이터*/}
                               {datas.payload}
                             </p>

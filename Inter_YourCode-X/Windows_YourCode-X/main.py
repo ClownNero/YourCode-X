@@ -1,11 +1,11 @@
-import subprocess;
-from termcolor import cprint;
-import os;
-import json;
-import openai;
-from flask import Flask, request, jsonify;
+import subprocess
+from termcolor import cprint
+import os
+import json
+from flask import Flask, request, jsonify
 from flask_cors import CORS
-from module import dbModule;
+from module import dbModule
+import openai
 
 print_red = lambda x: cprint(x, 'red')
 print_yellow = lambda x: cprint(x, 'yellow')
@@ -17,33 +17,42 @@ print_grey = lambda x : cprint(x, "grey")
 print_white = lambda x : cprint(x, "white")
 
 def dirScan(url):
-    # Windows에서 동작
     print_blue("\n[*] 디렉토리 스캔 점검")
     output = subprocess.run(['python', './Inter_YourCode-X/Scan/directory_scan.py', url], capture_output=True, text=True)
     extracted_info = output.stdout
-    directory_names = []
-    file_names = []
+    directory_names_set = set()
+    file_names_set = set()
+
     # 출력 디렉토리 이름
-    print_green("Directory Names:")
-    print_green("===========")
+    directory_names = []
     for line in extracted_info.split('\n'):
         if line.startswith("DIR: "):
-            directory_names.append(line[5:])
-            print(line[5:])
-    # 출력 파일 이름
-    print_green("\nFile Names:")
+            directory_names_set.add(line[5:])
+    print_green("Directory Names:")
     print_green("===========")
+    for directory_name in directory_names_set:
+        directory_names.append(directory_name)
+        print(directory_name)
+
+    # 출력 파일 이름
+    cnt = 0
+    file_names = []
     for line in extracted_info.split('\n'):
         if line.startswith("FILE: "):
-            file_names.append(line[6:])
-            print(line[6:])
+            file_names_set.add(line[6:])
+    print_green("\nFile Names:")
+    print_green("===========")
+    for file_name in file_names_set:
+        file_names.append(file_name)
+        print(file_name)
+        cnt +=1
+    print_grey(f"File Name cnt: {cnt}")
 
     return directory_names, file_names
 
 def sqlI(url, check_url):
     urls_json = json.dumps(check_url)
     print_blue("\n[*] SQL Injection 점검")
-    # Windows에서 동작
     output = subprocess.run(['python', './Inter_YourCode-X/VulnerabilityList/SQLI/sql_injection.py' ,url ,urls_json], capture_output=True, text=True)
     extracted_info = output.stdout
 
@@ -78,7 +87,7 @@ def sqlI(url, check_url):
     print_green("===========")
     for target in targeturl:
         print(target)
-        num += 1 #취약한 파일 경로 수 파악
+        num += 1
 
     # num 추출
     print_green("\nnum(Number of vulnerable file paths):")
@@ -97,7 +106,30 @@ def sqlI(url, check_url):
             if risk_order[extracted_risk] < risk_order[risk]:
                 risk = extracted_risk
 
-    return payload, category, num, risk, targeturl
+    # inspectionurl 추출
+    inspectionurl_s = set()
+    for line in extracted_info.split('\n'):
+        if line.startswith("inspection_url: "):
+            inspectionurl_s.add(line[16:])
+    inspectionurl = list(inspectionurl_s)
+    print_green("\ninspectionurl(Inspection url path):")
+    print_green("===========")
+    for inspection in inspectionurl:
+        print(inspection)
+
+    # detailpayload 추출
+    detailpayload_s = set()
+    for line in extracted_info.split('\n'):
+        if line.startswith("Detail payload: "):
+            detailpayload_s.add(line[16:])
+    detailpayload = list(detailpayload_s)
+    print_green("\ndetailpayload(Performance Indicators by Inspection Item):")
+    print_green("===========")
+    for detail in detailpayload:
+        print(detail)
+
+    return payload, category, num, risk, targeturl, inspectionurl, detailpayload
+    
 
 
 
@@ -120,14 +152,11 @@ def process_request():
     print_red(" - 허가된 사이트에서 진단 도구를 사용하지 않을 경우 법적인 책임은 사용자에게 있습니다.")
     print_red(" - 스캔 과정에서 데이터 손실이 발생할 수도 있으므로 점검을 시작하기 전에 중요 데이터는 반드시 백업해주세요.")
     
-    data = request.json  # 클라이언트로부터 JSON 데이터 수신
-    url = data.get('processedData')  # 'processedData' 키의 값을 추출
+    data = request.json
+    url = data.get('processedData')
     print(f"URL: {url}")
     
-    # 디렉토리 스캔 함수
     directories, files = dirScan(url)
-
-    # 프로토콜+점검IP+리소스 경로
     check_url = []
     for file in files:
         full_url = "{}/{}".format(url.rstrip('/'), file.lstrip('/'))
@@ -135,11 +164,9 @@ def process_request():
 
     ### 점검 시작 ###
     #점검항목1: SQL 인젝션(SQL Injection)
-    payload, category, num, risk, targeturl = sqlI(url, check_url)
-    #################
+    payload, category, num, risk, targeturl, inspectionurl, detailpayload = sqlI(url, check_url)
 
     ### 점검 결과 ###
-    # url, payload, category, num, risk 
     print_blue("\n[*] 점검 결과")
     print_green("url:\n===========")
     print(url)
@@ -153,34 +180,25 @@ def process_request():
     print(risk)
     print_green("\ntargeturl:\n===========")
     print(targeturl)
+    print_green("\ninspectionurl:\n===========")
+    print(inspectionurl)
+    print_green("\ndetailpayload:\n===========")
+    print(detailpayload)    
 
-    ## DB Insert Test(Table: user)
+    ### DB Connection ###
+    # DB checkList (Table: list -> INSERT, UPDATE)
     # print_blue("\n[*] DB Connection")
     # db_class = dbModule.Database()
-    # db_class.insert_url(url)
+    # db_class.checkList(url, payload, category, num, risk, targeturl)
     # print_blue("[*] DB Close")
 
-    #################
-
-    ## DB checkList (Table: list -> INSERT, UPDATE) ##
-    print_blue("\n[*] DB Connection")
-    db_class = dbModule.Database()
-    db_class.checkList(url, payload, category, num, risk, targeturl)
-    print_blue("[*] DB Close")
-
-    # Flask 애플리케이션에서 클라이언트로 응답을 보낼 수 있음
     return url
 
 # openai 
 @app.route("/openai/api",methods=["POST"])
 def chatGPT():
     try:
-        # api_key = os.getenv("REACT_APP_OPENAI_API_KEY")
-        # openai.api_key = os.getenv("REACT_APP_OPENAI_API_KEY")
-        openai.api_key = "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"
-
-        # set api key
-        # openai.api_key = api_key
+        openai.api_key = os.getenv("OPENAI_API_KEY")
         
         input_data = request.json
         user_content = input_data.get('userContent')

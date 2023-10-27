@@ -10,11 +10,9 @@ class Database:
             db = pymysql.connect(host='localhost', user='root', db='YourCode', password='root', charset='utf8')
             cursor = db.cursor()             
             # 데이터베이스에서 입력받은 URL이 존재하는지 확인
-            print(url)
             select_sql = "SELECT url FROM user where url=%s"
             cursor.execute(select_sql,(url,))
             result = cursor.fetchone()
-            print(result)
 
             # payload, targeturl 값을 문자열로 변환
             payload_str = '\n'.join(payload)
