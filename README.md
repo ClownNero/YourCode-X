@@ -5,7 +5,7 @@
 - [22gamin](https://github.com/22gamin)
 - [ClownNero](https://github.com/ClownNero)
 - [gituserYun](https://github.com/gituserYun)
-- [Clnaen](https://github.com/Clnaen).
+- [Clnaen](https://github.com/Clnaen)
 <br>
 
 ### 💻How to Use It
