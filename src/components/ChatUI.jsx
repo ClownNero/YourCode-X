@@ -30,8 +30,8 @@ export default function ChatUI(props) {
     event.preventDefault();
     setLoading(true);
     // Open Ai 테스트 대답
-    // setResponse('Lorem ipsum dolor sit amet consectetur adipisicingelit...');
     handleClick();
+    // setResponse('Loreamsfkasfnmkdlldkgnlksgnsdg....')
     setMessages((prevMessages) => [
       ...prevMessages,
       createMessage("User", userContent),
@@ -41,7 +41,7 @@ export default function ChatUI(props) {
 
     setUserContent("");
   };
-
+    
   useEffect(() => {
     if(response !== null) {
       setMessages((prevMessages) => [
@@ -66,7 +66,6 @@ export default function ChatUI(props) {
     .then((response) => response.json())
     .then((data) => {
       setResponse(data.result);
-      setLoading(false);
     })
     .catch((error) => {
       console.error('Error:', error);

@@ -1,10 +1,10 @@
-import subprocess;
-from termcolor import cprint;
-import os;
-import json;
-from flask import Flask, request, jsonify;
+import subprocess
+from termcolor import cprint
+import os
+import json
+from flask import Flask, request, jsonify
 from flask_cors import CORS
-from module import dbModule;
+from module import dbModule
 import openai
 
 print_red = lambda x: cprint(x, 'red')
@@ -106,7 +106,19 @@ def sqlI(url, check_url):
             if risk_order[extracted_risk] < risk_order[risk]:
                 risk = extracted_risk
 
-    return payload, category, num, risk, targeturl
+    # inspectionurl 추출
+    inspectionurl_s = set()
+    for line in extracted_info.split('\n'):
+        if line.startswith("inspection_url: "):
+            inspectionurl_s.add(line[16:])
+    inspectionurl = list(inspectionurl_s)
+    print_green("\ninspectionurl(Inspection url path):")
+    print_green("===========")
+    for inspection in inspectionurl:
+        print(inspection)
+
+    return payload, category, num, risk, targeturl, inspectionurl
+    
 
 
 
@@ -141,7 +153,7 @@ def process_request():
 
     ### 점검 시작 ###
     #점검항목1: SQL 인젝션(SQL Injection)
-    payload, category, num, risk, targeturl = sqlI(url, check_url)
+    payload, category, num, risk, targeturl, inspectionurl = sqlI(url, check_url)
 
     ### 점검 결과 ###
     print_blue("\n[*] 점검 결과")
@@ -157,13 +169,15 @@ def process_request():
     print(risk)
     print_green("\ntargeturl:\n===========")
     print(targeturl)
+    # print_green("\ninspectionurl:\n===========")
+    # print(inspectionurl)    
 
     ### DB Connection ###
     # DB checkList (Table: list -> INSERT, UPDATE)
-    print_blue("\n[*] DB Connection")
-    db_class = dbModule.Database()
-    db_class.checkList(url, payload, category, num, risk, targeturl)
-    print_blue("[*] DB Close")
+    # print_blue("\n[*] DB Connection")
+    # db_class = dbModule.Database()
+    # db_class.checkList(url, payload, category, num, risk, targeturl)
+    # print_blue("[*] DB Close")
 
     return url
 

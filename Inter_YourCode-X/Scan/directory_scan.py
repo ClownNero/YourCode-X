@@ -104,33 +104,33 @@ def spiderScan(target_url):
 
 
 #Dictionary Scan방식
-def dictionaryScan(target_url, parsed_url, max_ss_extension):
-    dictionary_file = "./Inter_YourCode-X/Scan/directory-list-2.3-medium.txt"
-    if not os.path.exists(dictionary_file):
-        print(f"Error: {dictionary_file} not found.")
-        return
-    else:
-        print(f"Success: {dictionary_file}")
+# def dictionaryScan(target_url, parsed_url, max_ss_extension):
+#     dictionary_file = "./Inter_YourCode-X/Scan/directory-list-2.3-medium.txt"
+#     if not os.path.exists(dictionary_file):
+#         print(f"Error: {dictionary_file} not found.")
+#         return
+#     else:
+#         print(f"Success: {dictionary_file}")
 
-    with open(dictionary_file, 'r') as f:
-        directories = [line.strip() for line in f.readlines()]
+#     with open(dictionary_file, 'r') as f:
+#         directories = [line.strip() for line in f.readlines()]
 
-    base_url = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path
-    if not parsed_url.path.endswith('/'):
-        base_url += '/'
+#     base_url = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path
+#     if not parsed_url.path.endswith('/'):
+#         base_url += '/'
 
-    session = requests.Session()
+#     session = requests.Session()
 
-    cnt = 0
-    for directory in directories:
-        file = directory + max_ss_extension
-        target_file = base_url + file
-        try:
-            response = session.head(target_file)
-            if response.status_code == 200:
-                print(f"FILE: /{file}", file=sys.stdout)
-        except requests.exceptions.RequestException as e:
-            print(f"Error: {e}")
+#     cnt = 0
+#     for directory in directories:
+#         file = directory + max_ss_extension
+#         target_file = base_url + file
+#         try:
+#             response = session.head(target_file)
+#             if response.status_code == 200:
+#                 print(f"FILE: /{file}", file=sys.stdout)
+#         except requests.exceptions.RequestException as e:
+#             print(f"Error: {e}")
 
 
 if __name__ == "__main__":
@@ -168,11 +168,11 @@ if __name__ == "__main__":
             print(f"FILE: {path_with_extension}", file=sys.stdout)
             unique_references = set()
 
-    extensions = [os.path.splitext(path)[1] for path in re_path]
+    # extensions = [os.path.splitext(path)[1] for path in re_path]
 
-    server_script_extensions = ['.php', '.jsp', '.asp', '.aspx', '.c', '.ssjs', '.py', '.rb', '.js']
-    server_script_counts = {ext: extensions.count(ext) for ext in server_script_extensions}
-    max_ss_extension = max(server_script_counts, key=server_script_counts.get)
-    max_ss_count = server_script_counts[max_ss_extension]   
+    # server_script_extensions = ['.php', '.jsp', '.asp', '.aspx', '.c', '.ssjs', '.py', '.rb', '.js']
+    # server_script_counts = {ext: extensions.count(ext) for ext in server_script_extensions}
+    # max_ss_extension = max(server_script_counts, key=server_script_counts.get)
+    # max_ss_count = server_script_counts[max_ss_extension]   
 
-    dictionaryScan(url, parsed_url, max_ss_extension) 
+    # dictionaryScan(url, parsed_url, max_ss_extension) 
