@@ -338,6 +338,7 @@ export default function ResultPage(props) {
           {/*별점 리스트 만들기*/}
           <Review />
         </div>
+        
       </div>
     </>
   );
