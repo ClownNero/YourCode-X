@@ -5,8 +5,8 @@ import { AiOutlineSend } from "react-icons/ai";
 export default function ChatUI(props) {
 
   const [messages, setMessages] = useState([
-    // { id: 1, user: "User", text: "Hello!" },
-    // { id: 2, user: "뤼튼", text: "Hi there! How can I help you today?" },
+    { id: 1, user: "User", text: "Hello!" },
+    { id: 2, user: "뤼튼", text: "Hi there! How can I help you today?" },
   ]);
 
   const [userContent, setUserContent] = useState('');
@@ -30,8 +30,8 @@ export default function ChatUI(props) {
     event.preventDefault();
     setLoading(true);
     // Open Ai 테스트 대답
-    handleClick();
-    // setResponse('Loreamsfkasfnmkdlldkgnlksgnsdg....')
+    // handleClick();
+    setResponse('Loreamsfkasfnmkdlldkgnlksgnsdg....')
     setMessages((prevMessages) => [
       ...prevMessages,
       createMessage("User", userContent),
@@ -56,20 +56,20 @@ export default function ChatUI(props) {
   const handleClick = (event) => {
     
     // OpenAI Fetch 부분
-    fetch('http://localhost:5000/openai/api', {
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-      },
-      body: JSON.stringify({ userContent: userContent }),
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      setResponse(data.result);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+    // fetch('http://localhost:5000/openai/api', {
+    //   method:'POST',
+    //   headers:{
+    //     'Content-Type':'application/json',
+    //   },
+    //   body: JSON.stringify({ userContent: userContent }),
+    // })
+    // .then((response) => response.json())
+    // .then((data) => {
+    //   setResponse(data.result);
+    // })
+    // .catch((error) => {
+    //   console.error('Error:', error);
+    // });
     
   };
 
