@@ -27,12 +27,19 @@ function Modal({ data }) {
           onClick={closeModal}
         >
           <div
-            className="bg-white rounded-[36px] p-12 w-4/5 h-5/6 overflow-auto text-center scrollbar-hide"
+            className="bg-white rounded-lg p-12 w-4/5 h-5/6 overflow-auto text-center"
             onClick={(e) => e.stopPropagation()}
           >
-            <div>
-              <h2 className="text-2xl font-bold mb-2">코드로 자세히 알아보기</h2>
-              <p className="text-Result mb-4">Learn more with code</p>
+            <h2 className="text-2xl font-bold mb-2">코드로 자세히 알아보기</h2>
+            <p className="text-Result">Learn more with code</p>
+            <div className="bg-slate-100 h-4/5 border-[#2D5FFF] border rounded-xl">
+                sfafafafssf
+              </div>
+            <div className="flex-col text-center">
+              
+              
+              
+              {/* ChatGPT data */}
             </div>
             <ChatUI />
           </div>

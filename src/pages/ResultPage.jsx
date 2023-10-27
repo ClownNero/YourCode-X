@@ -10,11 +10,11 @@ import Modal from "./Modal";
 import Review from "../components/Review";
 
 const riskValues = {
-  위험: 3,
-  주의: 2,
-  양호: 1,
+  '위험': 3,
+  '주의': 2,
+  '양호': 1
 };
-export default function ResultPage(props) {
+export default function ResultPage({ location }) {
   // 이전 페이지에서 전달 받은 결과 데이터 == 분석데이터
   //const resultData = location.state.result;
   // 예시 코드
@@ -41,29 +41,17 @@ export default function ResultPage(props) {
 
   useEffect(() => {
     if (sortOrder === "asc") {
-      setSortedData(
-        [...data].sort((a, b) =>
-          sortKey === "risk"
-            ? riskValues[a[sortKey]] < riskValues[b[sortKey]]
-              ? -1
-              : 1
-            : a[sortKey] < b[sortKey]
-            ? -1
-            : 1
-        )
-      );
+      setSortedData([...data].sort((a, b) => 
+        sortKey === 'risk' ? 
+          (riskValues[a[sortKey]] < riskValues[b[sortKey]] ? -1 : 1) :
+          (a[sortKey] < b[sortKey] ? -1 : 1)
+      ));
     } else if (sortOrder === "desc") {
-      setSortedData(
-        [...data].sort((a, b) =>
-          sortKey === "risk"
-            ? riskValues[a[sortKey]] > riskValues[b[sortKey]]
-              ? -1
-              : 1
-            : a[sortKey] > b[sortKey]
-            ? -1
-            : 1
-        )
-      );
+      setSortedData([...data].sort((a, b) => 
+        sortKey === 'risk' ?
+          (riskValues[a[sortKey]] > riskValues[b[sortKey]] ? -1 : 1) :
+          (a[sortKey] > b[sortKey] ? -1 : 1)
+      ));
     } else {
       setSortedData(data);
     }
@@ -143,9 +131,10 @@ export default function ResultPage(props) {
                       ) : (
                         <RxCaretDown className="inline text-2xl" />
                       )
-                    ) : (
-                      <RxCaretSort className="inline text-2xl" />
-                    )}
+                      ) : (
+                        <RxCaretSort className="inline text-2xl" />
+                      )
+                    }
                   </th>
                   <th
                     scope="col"
@@ -205,7 +194,7 @@ export default function ResultPage(props) {
                           {datas.num}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
-                          {datas.risk === "위험" ? (
+                          {datas.risk ==="위험" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-red-500"></span>
                           ) : datas.risk === "주의" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-yellow-300"></span>
@@ -220,7 +209,7 @@ export default function ResultPage(props) {
             </table>
           </div>
         </div>
-        <div className="mx-4 mt-14 mb-8" id="Diagnosis" name="Diagnosis">
+        <div className="mx-4 mt-14 mb-8">
           <h2 className="font-bold text-4xl text-Result">Diagnosis</h2>
           <div className="py-6">
             <h2 className="text-Result text-2xl text-left mb-3">
@@ -229,9 +218,7 @@ export default function ResultPage(props) {
             <ul>
               {data
                 ? data
-                    .filter(
-                      (datas) => datas.risk === "위험" || datas.risk === "주의"
-                    )
+                    .filter((datas) => datas.risk ==="위험" || datas.risk ==="주의")
                     .sort((a, b) => riskValues[b.risk] - riskValues[a.risk])
                     .map((datas, index) => (
                       <>

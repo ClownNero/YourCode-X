@@ -2,33 +2,9 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 
 export default function Barchart({ data }) {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
   const [options, setOptions] = useState({
     tooltip: {
       trigger: "item",
-      formatter: function (params) {
-        return (
-          '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
-          params.color +
-          '"></span>' +
-          params.seriesName +
-          "   " +
-          '<span style="font-weight:bold; margin-left:13px">' + 
-          params.data.value + 
-          '</span>'
-        );
-      },
     },
     legend: {
       left: "center",
@@ -63,25 +39,24 @@ export default function Barchart({ data }) {
       stack: "stack", // 모든 막대가 같은 위치에 쌓이도록 설정
       barGap: 0, // Same category bar gap
       barCategoryGap: 20, // Different category bar gap
-      
       data: Array(data.length)
-      .fill(null)
-      .map((_, i) =>
-        i === index ? { value: item.risk ==="위험"? 80 : item.risk ==="주의" ? 40: 0, name: item.category } : null
-      ),
+        .fill(null)
+        .map((_, i) =>
+          i === index ? { value: item.num, name: item.category } : null
+        ),
       itemStyle: {
+        borderRadius: 10,
         borderColor: "#fff",
         borderWidth: 2,
         color:
-          item.risk === "위험" ? "#F56565" : item.risk === "주의" ? "#FCD34D" : "#48BB78",
+          index % 3 === 0 ? "#2D5FFF" : index % 3 === 1 ? "#1E82E8" : "#21CAFF",
         borderRadius: [50, 50, 0, 0], //막대 차트 윗부분 둥글게 만들기
-        
       },
-      })),
+    })),
   });
   console.log(options.series);
-  const chartWidth = windowWidth >= 1560 ? (500 + data.length * 20) : (450 + data.length * 20);
-  const chartHeight = windowWidth >= 1560 ? (400 + data.length * 30) : (350 + data.length * 30); 
+  const chartWidth = 500 + data.length * 20;
+  const chartHeight = 400 + data.length * 30; // Base height of 300px plus 30px per legend
   return (
     <>
       <ReactEcharts

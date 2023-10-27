@@ -54,7 +54,7 @@ export default function Review(props) {
           ))}
         </div>
         <textarea 
-          className="w-full h-[175px] bg-[#F1F1F1] rounded-2xl resize-none p-7 focus:outline-none focus:ring-4 focus:ring-search" 
+          className="w-full h-[175px] bg-[#F1F1F1] rounded-2xl resize-none p-7" 
           placeholder="개선 사항이나 문의사항이 있다면 이곳에 남겨주세요." 
           value={reviewBody}
           required 
