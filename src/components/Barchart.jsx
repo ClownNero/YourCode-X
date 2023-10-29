@@ -67,7 +67,7 @@ export default function Barchart({ data }) {
       data: Array(data.length)
       .fill(null)
       .map((_, i) =>
-        i === index ? { value: item.risk ==="위험"? 80 : item.risk ==="주의" ? 40: 0, name: item.category } : null
+        i === index ? { value: item.num, name: item.category } : null
       ),
       itemStyle: {
         borderColor: "#fff",
