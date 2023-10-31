@@ -117,7 +117,7 @@ export default function ChatUI(props) {
           type="submit" 
           onClick={handleSubmit} 
           disabled={!userContent}  // userContent가 비어있다면 버튼은 비활성화됩니다.
-          className="px-5 py-2 bg-search text-white rounded-md hover:opacity-90"
+          className={`px-5 py-2 ${userContent ? "bg-search text-white":"text-Result"} transition delay-150 duration-150 ease-in-out rounded-md hover:opacity-90`}
         >
           <AiOutlineSend className="text-xl"/>
         </button>
