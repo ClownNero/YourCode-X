@@ -44,5 +44,4 @@ function WarningModal({ isOpen, onConfirm, onModalChange }) {
     </div>
   );
 }
-
 export default WarningModal;

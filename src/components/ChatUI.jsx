@@ -32,8 +32,8 @@ export default function ChatUI(props) {
   const handleSubmit = (event) => {
     setLoading(true);
     // Open Ai 테스트 대답
-    // handleClick();
-    setResponse('Loreamsfkasfnmkdlldkgnlksgnsdg....')
+    handleClick();
+    // setResponse('Loreamsfkasfnmkdlldkgnlksgnsdg....')
     setMessages((prevMessages) => [
       ...prevMessages,
       createMessage("User", userContent),
@@ -58,20 +58,20 @@ export default function ChatUI(props) {
   const handleClick = (event) => {
     
     // OpenAI Fetch 부분
-    // fetch('http://localhost:5000/openai/api', {
-    //   method:'POST',
-    //   headers:{
-    //     'Content-Type':'application/json',
-    //   },
-    //   body: JSON.stringify({ userContent: userContent }),
-    // })
-    // .then((response) => response.json())
-    // .then((data) => {
-    //   setResponse(data.result);
-    // })
-    // .catch((error) => {
-    //   console.error('Error:', error);
-    // });
+    fetch('http://localhost:5000/openai/api', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+      },
+      body: JSON.stringify({ userContent: userContent }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      setResponse(data.result);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
     
   };
 
@@ -117,7 +117,7 @@ export default function ChatUI(props) {
           type="submit" 
           onClick={handleSubmit} 
           disabled={!userContent}  // userContent가 비어있다면 버튼은 비활성화됩니다.
-          className={`px-5 py-2 ${userContent ? "bg-search text-white":"text-Result"} transition delay-150 duration-150 ease-in-out rounded-md hover:opacity-90`}
+          className="px-5 py-2 bg-search text-white rounded-md hover:opacity-90"
         >
           <AiOutlineSend className="text-xl"/>
         </button>
