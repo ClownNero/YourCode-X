@@ -1,31 +1,22 @@
 import React, { useState } from "react";
 // import axios from "axios";
-
 import { BsSearch } from "react-icons/bs";
-
 import { useNavigate } from "react-router-dom";
 import Introduce from "../components/Introduce";
 import Why from "../components/Why";
 import Provide from "../components/Provide";
 import Upbutton from "../components/ui/Upbutton";
+import WarningModal from "./WarningModal";
 
 export default function MainPages(props) {
   const [url, setUrl] = useState("");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const navigate = useNavigate();
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    // try {
-    //   // URL이 있는지 확인 하기 위한 로직
-    //   const response = await axios.get(url);
-    //   if (!response.ok) {
-    //     throw new Error("URL does not exist");
-    //   }
-      
-    // } catch (error) {
-    //     navigate("/analysis/result",{state: url});
-    //     console.error("Error:", error);
-    // }
+  const handleIsOpen = ()=>{
+    setModalIsOpen(!modalIsOpen);
+  };
+  const handleAnalysis = async () => {
+    handleIsOpen();
     try {
       const response =  await fetch("http://localhost:5000/gomain", {
         method: "POST",
@@ -46,11 +37,26 @@ export default function MainPages(props) {
       console.log(data);
       
     } catch (error) {
-      navigate("/analysis/result")
-      console.error("Error during analysis: ", error);
+      navigate(`/analysis/result`);
+      console.error("Error during analysis:", error);
     }
-
     setUrl("");
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setModalIsOpen(true); // 모달을 열어줍니다.
+    // try {
+    //   // URL이 있는지 확인 하기 위한 로직
+    //   const response = await axios.get(url);
+    //   if (!response.ok) {
+    //     throw new Error("URL does not exist");
+    //   }
+      
+    // } catch (error) {
+    //     navigate("/analysis/result",{state: url});
+    //     console.error("Error:", error);
+    // }
+    
   };
 
   return (
@@ -60,7 +66,7 @@ export default function MainPages(props) {
         <section className="w-full mt-44">
           <form className="flex justify-center fiexd" onSubmit={handleSubmit}>
             <input
-              className="w-8/12 p-4 border-4 border-gray-300 outline-none hover:border-search rounded text-xl mr-4"
+              className="w-8/12 p-4 border-4 border-gray-300 outline-none focus:border-search hover:border-search rounded text-xl mr-4"
               type="url"
               value={url}
               placeholder="웹페이지 URL 입력"
@@ -82,6 +88,7 @@ export default function MainPages(props) {
             <Upbutton />
           </li>
         </ul>
+        <WarningModal isOpen={modalIsOpen} onModalChange={handleIsOpen} onConfirm={handleAnalysis}/>
       </div>
     </>
   );

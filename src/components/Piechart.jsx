@@ -2,6 +2,19 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 
 export default function Piechart({ data }) {
+  const mockData = [{num:1600 , category:"Sql Injection"},{num:3925 , category:"XSS"}, {num:630, category:"Directory Traversal"}]
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   const [options, setOptions] = useState({
     tooltip: {
       trigger: "item",
@@ -23,6 +36,17 @@ export default function Piechart({ data }) {
         radius: ["40%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
+          // 위험 주의 양호 색깔 설정 부분
+          // color: function(params) {
+          //   const item = data[params.dataIndex];
+          //   if (item.risk === "위험") {
+          //     return "#F56565"; // bg-red-500
+          //   } else if (item.risk === "주의") {
+          //     return "#FCD34D"; // bg-yellow-300
+          //   } else {
+          //     return "#48BB78"; // bg-green-500
+          //   }
+          // },
           borderRadius: 10,
           borderColor: "#fff",
           borderWidth: 2,
@@ -41,13 +65,13 @@ export default function Piechart({ data }) {
         labelLine: {
           show: false,
         },
-        data: data.map((item) => ({ value: item.num, name: item.category })),
+        data: mockData.map((item) => ({ value: item.num, name: item.category })),
       },
     ],
   });
   console.log(options.series);
-  const chartWidth = 500 + data.length * 20;
-  const chartHeight = 400 + data.length * 30; // Base height of 300px plus 30px per legend
+  const chartWidth = windowWidth >= 1560 ? (500 + data.length * 20) : (450 + data.length * 20);
+  const chartHeight = windowWidth >= 1560 ? (400 + data.length * 30) : (350 + data.length * 30); 
   return (
     <>
       <ReactEcharts
