@@ -8,13 +8,14 @@ import { RxCaretSort, RxCaretUp, RxCaretDown } from "react-icons/rx";
 import { useLocation } from 'react-router-dom';
 import Modal from "./Modal";
 import Review from "../components/Review";
+import Cvechart from "../components/Cvechart";
 
 const riskValues = {
-  '위험': 3,
-  '주의': 2,
-  '양호': 1
+  위험: 3,
+  주의: 2,
+  양호: 1,
 };
-export default function ResultPage({ location }) {
+export default function ResultPage(props) {
   // 이전 페이지에서 전달 받은 결과 데이터 == 분석데이터
   //const resultData = location.state.result;
   // 예시 코드
@@ -41,17 +42,29 @@ export default function ResultPage({ location }) {
 
   useEffect(() => {
     if (sortOrder === "asc") {
-      setSortedData([...data].sort((a, b) => 
-        sortKey === 'risk' ? 
-          (riskValues[a[sortKey]] < riskValues[b[sortKey]] ? -1 : 1) :
-          (a[sortKey] < b[sortKey] ? -1 : 1)
-      ));
+      setSortedData(
+        [...data].sort((a, b) =>
+          sortKey === "risk"
+            ? riskValues[a[sortKey]] < riskValues[b[sortKey]]
+              ? -1
+              : 1
+            : a[sortKey] < b[sortKey]
+            ? -1
+            : 1
+        )
+      );
     } else if (sortOrder === "desc") {
-      setSortedData([...data].sort((a, b) => 
-        sortKey === 'risk' ?
-          (riskValues[a[sortKey]] > riskValues[b[sortKey]] ? -1 : 1) :
-          (a[sortKey] > b[sortKey] ? -1 : 1)
-      ));
+      setSortedData(
+        [...data].sort((a, b) =>
+          sortKey === "risk"
+            ? riskValues[a[sortKey]] > riskValues[b[sortKey]]
+              ? -1
+              : 1
+            : a[sortKey] > b[sortKey]
+            ? -1
+            : 1
+        )
+      );
     } else {
       setSortedData(data);
     }
@@ -86,6 +99,20 @@ export default function ResultPage({ location }) {
   return (
     <>
       <div className="mx-6 mt-40">
+      <div className="mx-4 my-14" id="Chart" name="Chart">
+          <h2 className="font-bold text-4xl text-Result">CVE Details</h2>
+          <ul className="flex justify-around w-full">
+            <li className="bg-gray py-6 2xl:mr-30 min-w-0 ">
+              <h2 className="text-Result text-2xl text-left mb-3">
+                Vulnerabilities by type Chart
+              </h2>
+              {/* 막대 차트 부분 */}
+              {/* <div className="w-[1024px] h-[450px] bg-[#F1F1F1] rounded-[30px]"> */}
+                {loading ? `Loading...` : <Cvechart data={data} />}
+              {/* </div> */}
+            </li>
+          </ul>
+        </div>
         <div className="mx-4 my-14" id="Chart" name="Chart">
           <h2 className="font-bold text-4xl text-Result">Problem Chart</h2>
           <ul className="flex justify-around w-full">
@@ -131,10 +158,9 @@ export default function ResultPage({ location }) {
                       ) : (
                         <RxCaretDown className="inline text-2xl" />
                       )
-                      ) : (
-                        <RxCaretSort className="inline text-2xl" />
-                      )
-                    }
+                    ) : (
+                      <RxCaretSort className="inline text-2xl" />
+                    )}
                   </th>
                   <th
                     scope="col"
@@ -194,7 +220,7 @@ export default function ResultPage({ location }) {
                           {datas.num}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
-                          {datas.risk ==="위험" ? (
+                          {datas.risk === "위험" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-red-500"></span>
                           ) : datas.risk === "주의" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-yellow-300"></span>
@@ -209,7 +235,7 @@ export default function ResultPage({ location }) {
             </table>
           </div>
         </div>
-        <div className="mx-4 mt-14 mb-8">
+        <div className="mx-4 mt-14 mb-8" id="Diagnosis" name="Diagnosis">
           <h2 className="font-bold text-4xl text-Result">Diagnosis</h2>
           <div className="py-6">
             <h2 className="text-Result text-2xl text-left mb-3">
@@ -218,7 +244,9 @@ export default function ResultPage({ location }) {
             <ul>
               {data
                 ? data
-                    .filter((datas) => datas.risk ==="위험" || datas.risk ==="주의")
+                    .filter(
+                      (datas) => datas.risk === "위험" || datas.risk === "주의"
+                    )
                     .sort((a, b) => riskValues[b.risk] - riskValues[a.risk])
                     .map((datas, index) => (
                       <>
@@ -259,6 +287,7 @@ export default function ResultPage({ location }) {
                                 취약점 발견 URL
                               </span>
                             </div>
+
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
                                 {/* 취약점 발견 URL 데이터*/}
                                 {datas.targeturl}
