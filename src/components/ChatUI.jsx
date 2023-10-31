@@ -5,8 +5,6 @@ import { AiOutlineSend } from "react-icons/ai";
 export default function ChatUI(props) {
 
   const [messages, setMessages] = useState([
-    { id: 1, user: "User", text: "Hello!" },
-    { id: 2, user: "뤼튼", text: "Hi there! How can I help you today?" },
   ]);
 
   const [userContent, setUserContent] = useState('');
@@ -24,10 +22,14 @@ export default function ChatUI(props) {
     user,
     text,
    });
-
+   const handleKeyDown = (event) => {
+    console.log(event.key)
+    if (event.key === 'Enter'){
+      handleSubmit();
+    }
+   }
   // 제출 핸들러 
   const handleSubmit = (event) => {
-    event.preventDefault();
     setLoading(true);
     // Open Ai 테스트 대답
     // handleClick();
@@ -108,9 +110,15 @@ export default function ChatUI(props) {
           value={userContent}
           required
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           className="flex-grow px-4 py-2 outline-none"
         />
-        <button type="submit" onClick={handleSubmit} className="px-5 py-2 bg-search text-white rounded-md hover:opacity-90">
+        <button 
+          type="submit" 
+          onClick={handleSubmit} 
+          disabled={!userContent}  // userContent가 비어있다면 버튼은 비활성화됩니다.
+          className="px-5 py-2 bg-search text-white rounded-md hover:opacity-90"
+        >
           <AiOutlineSend className="text-xl"/>
         </button>
       </div>

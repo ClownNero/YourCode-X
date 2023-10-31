@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 
 export default function Piechart({ data }) {
-  const mockData = [{num:1600 , category:"Sql Injection"},{num:3925 , category:"XSS"}, {num:630, category:"Directory Traversal"}]
+  //const mockData = [{num:1600 , category:"Sql Injection"},{num:3925 , category:"XSS"}, {num:630, category:"Directory Traversal"}]
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  console.log(data)
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -36,16 +37,17 @@ export default function Piechart({ data }) {
         radius: ["40%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
-          color: function(params) {
-            const item = data[params.dataIndex];
-            if (item.risk === "위험") {
-              return "#F56565"; // bg-red-500
-            } else if (item.risk === "주의") {
-              return "#FCD34D"; // bg-yellow-300
-            } else {
-              return "#48BB78"; // bg-green-500
-            }
-          },
+          // 위험 주의 양호 색깔 설정 부분
+          // color: function(params) {
+          //   const item = data[params.dataIndex];
+          //   if (item.risk === "위험") {
+          //     return "#F56565"; // bg-red-500
+          //   } else if (item.risk === "주의") {
+          //     return "#FCD34D"; // bg-yellow-300
+          //   } else {
+          //     return "#48BB78"; // bg-green-500
+          //   }
+          // },
           borderRadius: 10,
           borderColor: "#fff",
           borderWidth: 2,
@@ -64,7 +66,7 @@ export default function Piechart({ data }) {
         labelLine: {
           show: false,
         },
-        data: mockData.map((item) => ({ value: item.num, name: item.category })),
+        data: data.map((item) => ({ value: item.payload.split('\n').length, name: item.category })),
       },
     ],
   });

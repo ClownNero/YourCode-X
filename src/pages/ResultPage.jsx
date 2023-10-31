@@ -8,6 +8,7 @@ import { RxCaretSort, RxCaretUp, RxCaretDown } from "react-icons/rx";
 import { useLocation } from 'react-router-dom';
 import Modal from "./Modal";
 import Review from "../components/Review";
+import Cvechart from "../components/Cvechart";
 
 const riskValues = {
   위험: 3,
@@ -98,6 +99,20 @@ export default function ResultPage(props) {
   return (
     <>
       <div className="mx-6 mt-40">
+      <div className="mx-4 my-14" id="Chart" name="Chart">
+          <h2 className="font-bold text-4xl text-Result">CVE Details</h2>
+          <ul className="flex justify-around w-full">
+            <li className="bg-gray py-6 2xl:mr-30 min-w-0 ">
+              <h2 className="text-Result text-2xl text-left mb-3">
+                Vulnerabilities by type Chart
+              </h2>
+              {/* 막대 차트 부분 */}
+              {/* <div className="w-[1024px] h-[450px] bg-[#F1F1F1] rounded-[30px]"> */}
+                {loading ? `Loading...` : <Cvechart data={data} />}
+              {/* </div> */}
+            </li>
+          </ul>
+        </div>
         <div className="mx-4 my-14" id="Chart" name="Chart">
           <h2 className="font-bold text-4xl text-Result">Problem Chart</h2>
           <ul className="flex justify-around w-full">

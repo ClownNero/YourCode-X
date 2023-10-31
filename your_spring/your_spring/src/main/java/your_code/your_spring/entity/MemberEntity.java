@@ -17,7 +17,10 @@ public class MemberEntity {
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //
 //    private Long id;
-//
+    private String url;
+    
+    @Column(length = 3000)
+    private String payload;
 //    @Column
     private String category;
 //
@@ -27,8 +30,7 @@ public class MemberEntity {
 //    @Column
     private String risk;
 
-    @Column(length = 3000)
-    private String payload;
+
     private String targeturl;
 
 
