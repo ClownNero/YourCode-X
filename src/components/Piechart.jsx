@@ -66,7 +66,7 @@ export default function Piechart({ data }) {
         labelLine: {
           show: false,
         },
-        data: data.map((item) => ({ value: item.payload.split('\n').length, name: item.category })),
+        data: data.map((item) => ({ value: item.payload_1.split('\n').length, name: item.category_1 })),
       },
     ],
   });

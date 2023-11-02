@@ -210,19 +210,19 @@ export default function ResultPage(props) {
                 {data
                   ? sortedData.map((datas, index) => (
                       <tr
-                        key={datas.category}
+                        key={datas.category_1}
                         className={index % 2 === 1 ? "bg-[#E3EBFF]" : ""}
                       >
                         <td className="px-6 py-4 whitespace-normal text-left">
-                          {datas.category}
+                          {datas.category_1}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
-                          {datas.num}
+                          {datas.num_1}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
-                          {datas.risk === "위험" ? (
+                          {datas.risk_1 === "위험" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-red-500"></span>
-                          ) : datas.risk === "주의" ? (
+                          ) : datas.risk_1 === "주의" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-yellow-300"></span>
                           ) : (
                             <span className="inline-block h-3 w-3 rounded-full bg-green-500"></span>
@@ -245,7 +245,7 @@ export default function ResultPage(props) {
               {data
                 ? data
                     .filter(
-                      (datas) => datas.risk === "위험" || datas.risk === "주의"
+                      (datas) => datas.risk_1 === "위험" || datas.risk_1 === "주의"
                     )
                     .sort((a, b) => riskValues[b.risk] - riskValues[a.risk])
                     .map((datas, index) => (
@@ -257,12 +257,12 @@ export default function ResultPage(props) {
                           }`}
                         >
                           <div>
-                            {datas.risk === "위험" ? (
+                            {datas.risk_1 === "위험" ? (
                               <span className="inline-block h-4 w-4 rounded-full bg-red-500"></span>
                             ) : (
                               <span className="inline-block h-4 w-4 rounded-full bg-yellow-300"></span>
                             )}
-                            <span className="ml-4">{datas.category}</span>
+                            <span className="ml-4">{datas.category_1}</span>
                           </div>
                           {expandedIndex === index ? (
                             <RxCaretUp
@@ -284,13 +284,12 @@ export default function ResultPage(props) {
                                 1
                               </span>
                               <span className="text-lg ml-3">
-                                취약점 발견 URL
+                                <b>Target URL</b> - 점검 대상 URL
                               </span>
                             </div>
-
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
-                                {/* 취약점 발견 URL 데이터*/}
-                                {datas.targeturl}
+                              {/* 공격 성공 CASE 데이터*/}
+                              {datas.inspectionurl_1}
                             </p>
 
                             <div className="flex items-center mx-8">
@@ -298,31 +297,48 @@ export default function ResultPage(props) {
                                 2
                               </span>
                               <span className="text-lg ml-3">
-                                공격 성공 CASE
+                                <b>Vulnerability Found URL</b> - 취약점이 발견된 URL
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
-                              {/* 공격 성공 CASE 데이터*/}
-                              {datas.payload}
+                                {/* 취약점 발견 URL 데이터*/}
+                                {datas.targeturl_1}
                             </p>
+
                             <div className="flex items-center mx-8">
                               <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
                                 3
                               </span>
-                              <span className="text-lg ml-3">Feedback</span>
+                              <span className="text-lg ml-3">
+                                <b>Detail Vulnerability</b> - 상세 취약점 정보
+                              </span>
+                            </div>
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                              {datas.detailpayload_1}
+                            </p>
+
+                            <div className="flex items-center mx-8">
+                              <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
+                                4
+                              </span>
+                              <span className="text-lg ml-3">
+                                <b>Vulnerability Payload Case</b> - 취약한 데이터가 전송되는 케이스
+                              </span>
+                            </div>
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                              {datas.payload_1}
+                            </p>
+                            
+                            <div className="flex items-center mx-8">
+                              <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
+                                5
+                              </span>
+                              <span className="text-lg ml-3">
+                              <b>FeedBack</b> - 평가 
+                              </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
-                              {/* FeedBack 데이터*/}
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Numquam natus consequuntur rerum repudiandae
-                              veniam quia consectetur impedit quaerat ea
-                              incidunt, maiores aliquid soluta, nostrum dicta
-                              illo quidem eveniet, temporibus magnam! Lorem
-                              ipsum dolor sit amet consectetur adipisicing elit.
-                              Ratione possimus aperiam voluptatum temporibus
-                              harum molestias nam est rem mollitia ad maxime
-                              soluta, eligendi deleniti hic quisquam tempora.
-                              Minus, blanditiis ea.
+                              {datas.feedback_1}
                             </p>
                             <Modal data={data} />
                           </>
