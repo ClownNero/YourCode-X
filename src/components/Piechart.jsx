@@ -33,7 +33,6 @@ export default function Piechart({ data }) {
     tooltip: {
       trigger: "item",
     },
-
     legend: {
       left: "center",
       top: "bottom",
@@ -48,6 +47,7 @@ export default function Piechart({ data }) {
       {
         type: "pie",
         radius: ["40%", "70%"],
+        center: ['50%', '45%'],  // 이 값을 조절하여 차트의 위치를 변경합니다.
         avoidLabelOverlap: false,
         itemStyle: {
           color: function(params) {

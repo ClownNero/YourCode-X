@@ -99,10 +99,10 @@ export default function ResultPage(props) {
   return (
     <>
       <div className="mx-6 mt-40">
-      <div className="mx-4 my-14" id="Chart" name="Chart">
+      <div className="mx-4 my-14" id="CVE" name="CVE">
           <h2 className="font-bold text-4xl text-Result">CVE Details</h2>
           <ul className="flex justify-around w-full">
-            <li className="bg-gray py-6 2xl:mr-30 min-w-0 ">
+            <li className="bg-gray py-6 xl:mr-0 mr-12 min-w-0 ">
               <h2 className="text-Result text-2xl text-left mb-3">
                 Vulnerabilities by type Chart
               </h2>
@@ -284,7 +284,20 @@ export default function ResultPage(props) {
                                 1
                               </span>
                               <span className="text-lg ml-3">
-                                취약점 발견 URL
+                                <b>Target URL</b>
+                              </span>
+                            </div>
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                              {/* 공격 성공 CASE 데이터*/}
+                              {datas.inspectionurl_1}
+                            </p>
+
+                            <div className="flex items-center mx-8">
+                              <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
+                                2
+                              </span>
+                              <span className="text-lg ml-3">
+                                <b>Vulnerability Found URL</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
@@ -294,44 +307,34 @@ export default function ResultPage(props) {
 
                             <div className="flex items-center mx-8">
                               <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
-                                2
-                              </span>
-                              <span className="text-lg ml-3">
-                                검사항목 URL
-                              </span>
-                            </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
-                              {/* 공격 성공 CASE 데이터*/}
-                              {datas.inspectionurl_1}
-                            </p>
-                            <div className="flex items-center mx-8">
-                              <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
                                 3
                               </span>
                               <span className="text-lg ml-3">
-                                Detailpayload
+                                <b>Detail Vulnerability</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
                               {datas.detailpayload_1}
                             </p>
+
                             <div className="flex items-center mx-8">
                               <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
                                 4
                               </span>
                               <span className="text-lg ml-3">
-                                Payload
+                                <b>Vulnerability Payload Case</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
                               {datas.payload_1}
                             </p>
+                            
                             <div className="flex items-center mx-8">
                               <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
                                 5
                               </span>
                               <span className="text-lg ml-3">
-                                FeedBack
+                              <b>FeedBack</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
