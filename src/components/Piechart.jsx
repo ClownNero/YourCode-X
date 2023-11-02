@@ -2,6 +2,19 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 
 export default function Piechart({ data }) {
+  const vulnerabilitiesData =[
+    { name: 'Overflow', color: "#c1232b"},
+    { name: 'Memory Corruption', color: "#27727b" },
+    { name: 'SQL 인젝션', color: "#fcce10" },
+    { name: 'XSS', color: "#e87c25" },
+    { name: 'Directory Traversal', color: "#b5c334" },
+    { name: 'File Inclusion', color: "#fe8463" },
+    { name: 'CSRF', color: "#9bca63" },
+    { name: 'XXE', color: "#fad860" },
+    { name: 'SSRF', color: "#f3a43b" },
+    { name: 'Open Redirect', color: "#60c0dd" },
+    { name: 'Input Validation', color: "#d7504b"},
+  ];
   //const mockData = [{num:1600 , category:"Sql Injection"},{num:3925 , category:"XSS"}, {num:630, category:"Directory Traversal"}]
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   console.log(data)
@@ -37,17 +50,12 @@ export default function Piechart({ data }) {
         radius: ["40%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
-          // 위험 주의 양호 색깔 설정 부분
-          // color: function(params) {
-          //   const item = data[params.dataIndex];
-          //   if (item.risk === "위험") {
-          //     return "#F56565"; // bg-red-500
-          //   } else if (item.risk === "주의") {
-          //     return "#FCD34D"; // bg-yellow-300
-          //   } else {
-          //     return "#48BB78"; // bg-green-500
-          //   }
-          // },
+          color: function(params) {
+           console.log(params.data.name_1)
+            const currentItem = params.data.name_1;
+            const matchingItem = vulnerabilitiesData.find(item => item.name === currentItem);
+            return matchingItem ? matchingItem.color : null; // 기본 색상은 검은색입니다.
+          },
           borderRadius: 10,
           borderColor: "#fff",
           borderWidth: 2,
@@ -66,7 +74,7 @@ export default function Piechart({ data }) {
         labelLine: {
           show: false,
         },
-        data: data.map((item) => ({ value: item.payload.split('\n').length, name: item.category })),
+        data: data.map((item) => ({ value: item.payload_1.split('\n').length, name: item.category_1 })),
       },
     ],
   });

@@ -39,7 +39,7 @@ export default function Barchart({ data }) {
       itemGap: 20, // 아이템 간 간격 증가
       itemWidth: 25, // 심볼 너비 증가
       itemHeight: 15, // 심볼 높이 증가
-      data: data.map((item) => item.category),
+      data: data.map((item) => item.category_1),
     },
     grid: {
       left: "10%",
@@ -58,7 +58,7 @@ export default function Barchart({ data }) {
       splitLine: { show: false },
     },
     series: data.map((item, index) => ({
-      name: item.category,
+      name: item.category_1,
       type: "bar",
       stack: "stack", // 모든 막대가 같은 위치에 쌓이도록 설정
       barGap: 0, // Same category bar gap
@@ -67,13 +67,13 @@ export default function Barchart({ data }) {
       data: Array(data.length)
       .fill(null)
       .map((_, i) =>
-        i === index ? { value: item.num, name: item.category } : null
+        i === index ? { value: item.num_1, name: item.category_1 } : null
       ),
       itemStyle: {
         borderColor: "#fff",
         borderWidth: 2,
         color:
-          item.risk === "위험" ? "#F56565" : item.risk === "주의" ? "#FCD34D" : "#48BB78",
+          item.risk_1 === "위험" ? "#F56565" : item.risk_1 === "주의" ? "#FCD34D" : "#48BB78",
         borderRadius: [50, 50, 0, 0], //막대 차트 윗부분 둥글게 만들기
         
       },

@@ -8,30 +8,37 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "list")  //대문자 인식안됨!!!!!!!!!대문자하려면 의존성 추가해야됨
+@Table(name = "list_1")  //대문자 인식안됨!!!!!!!!!대문자하려면 의존성 추가해야됨
 
 public class MemberEntity {
-
 
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //
 //    private Long id;
-//
-//    @Column
-    private String category;
-//
-//    @Column(unique = true)
-    private Integer num;
-//
-//    @Column
-    private String risk;
+
+    @Column(length = 500)
+    private String url;
 
     @Column(length = 3000)
-    private String payload;
-    private String targeturl;
+    private String payload_1;
 
+    @Column(length = 30)
+    private String category_1;
 
+    private Integer num_1;
+
+    @Column(length = 15)
+    private String risk_1;
+
+    @Column(length = 500)
+    private String targeturl_1;
+
+    @Column(length = 500)
+    private String inspectionurl_1;
+
+    @Column(length = 300)
+    private String detailpayload_1;
 
 
 //    public static MemberEntity toMemberEntity(MemberDTO memberDTO){
