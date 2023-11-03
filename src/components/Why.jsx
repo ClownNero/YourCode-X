@@ -4,12 +4,12 @@ export default function Why(props) {
   return (
     <>
       <li
-        className="bg-gray-100 flex justify-center px-6 py-32 "
+        className="bg-gray-100 flex justify-center items-center px-6 py-32 "
         id="Why"
         name="Why"
       >
         <img
-          className="w-[330px] h-[220px] drop-shadow-text"
+          className="w-[380px] h-[260px] drop-shadow-text"
           src="/images/none.png"
           alt="security chart"
         />

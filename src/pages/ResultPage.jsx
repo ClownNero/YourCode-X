@@ -99,10 +99,10 @@ export default function ResultPage(props) {
   return (
     <>
       <div className="mx-6 mt-40">
-      <div className="mx-4 my-14" id="Chart" name="Chart">
+      <div className="mx-4 my-14" id="CVE" name="CVE">
           <h2 className="font-bold text-4xl text-Result">CVE Details</h2>
           <ul className="flex justify-around w-full">
-            <li className="bg-gray py-6 2xl:mr-30 min-w-0 ">
+            <li className="bg-gray py-6 xl:mr-0 mr-12 min-w-0 ">
               <h2 className="text-Result text-2xl text-left mb-3">
                 Vulnerabilities by type Chart
               </h2>
@@ -284,7 +284,7 @@ export default function ResultPage(props) {
                                 1
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Target URL</b> - 점검 대상 URL
+                                <b>Target URL</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
@@ -297,7 +297,7 @@ export default function ResultPage(props) {
                                 2
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Vulnerability Found URL</b> - 취약점이 발견된 URL
+                                <b>Vulnerability Found URL</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
@@ -310,7 +310,7 @@ export default function ResultPage(props) {
                                 3
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Detail Vulnerability</b> - 상세 취약점 정보
+                                <b>Detail Vulnerability</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
@@ -322,7 +322,7 @@ export default function ResultPage(props) {
                                 4
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Vulnerability Payload Case</b> - 취약한 데이터가 전송되는 케이스
+                                <b>Vulnerability Payload Case</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
@@ -334,7 +334,7 @@ export default function ResultPage(props) {
                                 5
                               </span>
                               <span className="text-lg ml-3">
-                              <b>FeedBack</b> - 평가 
+                              <b>FeedBack</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
@@ -359,7 +359,7 @@ export default function ResultPage(props) {
           <p className="text-white my-8">
             다른 웹 페에지에서도 취약점을 찾아보고 싶다면
           </p>
-          <button className="px-16 py-4 bg-[#1360FF] rounded-xl my-4">
+          <button className="px-16 py-4 bg-[#1360FF] rounded-xl my-4 hover:opacity-90">
             <Link to="/" className="text-white text-xl drop-shadow-text">
               첫페이지로 돌아가기
             </Link>
