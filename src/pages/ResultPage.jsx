@@ -359,7 +359,7 @@ export default function ResultPage(props) {
           <p className="text-white my-8">
             다른 웹 페에지에서도 취약점을 찾아보고 싶다면
           </p>
-          <button className="px-16 py-4 bg-[#1360FF] rounded-xl my-4">
+          <button className="px-16 py-4 bg-[#1360FF] rounded-xl my-4 hover:opacity-90">
             <Link to="/" className="text-white text-xl drop-shadow-text">
               첫페이지로 돌아가기
             </Link>
