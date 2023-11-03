@@ -316,6 +316,7 @@ def process_request():
     # DB checkList (Table: list -> INSERT, UPDATE)
     print_blue("\n[*] DB Connection")
     db_class = dbModule.Database()
+    # db_class.checkList_1(url, payload_1, category_1, num_1, risk_1, targeturl_1)
     db_class.checkList_1(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
     print_blue("[*] DB Close")
 

@@ -28,6 +28,7 @@ export default function Navbar(props) {
           isOpen ? "block" : "hidden"
         } lg:flex w-full lg:w-auto`}
       >
+        {location.pathname === '/analysis/result' ? <Button text="CVE" clickId="CVE" />:null}
         {location.pathname === '/analysis/result' ? <Button text="Chart" clickId="Chart" />:<Button text="Introduce" clickId="Introduce" />}
         {location.pathname === '/analysis/result' ? <Button text="List" clickId="List" />:<Button text="Why" clickId="Why" />}
         {location.pathname === '/analysis/result' ? <Button text="Diagnosis" clickId="Diagnosis" />:<Button text="Provide" clickId="Provide" />}
