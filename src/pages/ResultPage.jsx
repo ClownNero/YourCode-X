@@ -284,7 +284,7 @@ export default function ResultPage(props) {
                                 1
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Target URL</b>
+                                <b>Target URL</b> - 점검 대상 URL
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
@@ -297,7 +297,7 @@ export default function ResultPage(props) {
                                 2
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Vulnerability Found URL</b>
+                                <b>Vulnerability Found URL</b> - 취약점이 발견된 URL
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
@@ -310,7 +310,7 @@ export default function ResultPage(props) {
                                 3
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Detail Vulnerability</b>
+                                <b>Detail Vulnerability</b> - 상세 취약점 정보
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
@@ -322,7 +322,7 @@ export default function ResultPage(props) {
                                 4
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Vulnerability Payload Case</b>
+                                <b>Vulnerability Payload Case</b> - 취약한 데이터가 전송되는 케이스
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
@@ -334,7 +334,7 @@ export default function ResultPage(props) {
                                 5
                               </span>
                               <span className="text-lg ml-3">
-                              <b>FeedBack</b>
+                              <b>FeedBack</b> - 평가 
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
