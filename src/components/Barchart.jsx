@@ -70,7 +70,7 @@ export default function Barchart({ data }) {
         i === index ? { value: item.num_1, name: item.category_1 } : null
       ),
       itemStyle: {
-        borderColor: "#fff",
+        borderColor: "#f1f1f1",
         borderWidth: 2,
         color:
           item.risk_1 === "위험" ? "#F56565" : item.risk_1 === "주의" ? "#FCD34D" : "#48BB78",
@@ -88,7 +88,7 @@ export default function Barchart({ data }) {
         style={{
           width: `${chartWidth}px`,
           height: `${chartHeight}px`,
-          backgroundColor: "#F1F1F1",
+          boxShadow: "2px 2px 20px 10px rgba(0,0,0,0.1)",
           padding: "10px",
           borderRadius: "30px",
         }}

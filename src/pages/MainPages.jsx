@@ -82,7 +82,7 @@ export default function MainPages(props) {
           <Introduce />
           <Why />
           <Provide />
-          <li className="p-14">
+          <li className="p-16">
             <Upbutton />
           </li>
         </ul>

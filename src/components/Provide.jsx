@@ -9,7 +9,7 @@ export default function Provide(props) {
         </p>
         <div>
           <ul className="flex mt-24 mb-20 justify-center text-gray-600">
-            <li className="bg-white rounded-tl-3xl rounded-br-3xl px-10 pb-20 pt-12 mr-7 shadow-custom">
+            <li className="bg-white rounded-tl-3xl rounded-br-3xl px-10 pb-20 pt-12 mr-7 shadow-custom transform transition-all duration-300 hover:-translate-y-1 hover:-translate-x-1 hover:scale-105">
               <img
                 src="/images/trust.png"
                 alt="trust logo"
@@ -23,7 +23,7 @@ export default function Provide(props) {
               <p>취약점 정보를 제공하여</p>
               <p>실제 위험에 대비할 수 있도록 도움</p>
             </li>
-            <li className="bg-white rounded-tl-3xl rounded-br-3xl px-10 pb-20 pt-12 mx-7 shadow-custom">
+            <li className="bg-white rounded-tl-3xl rounded-br-3xl px-10 pb-20 pt-12 mx-7 shadow-custom transform transition-all duration-300 hover:-translate-y-1 hover:-translate-x-1 hover:scale-105">
               <img
                 src="/images/algorithm.png"
                 alt="algorithm logo"
@@ -37,7 +37,7 @@ export default function Provide(props) {
               <p>취약점을 검사하여</p>
               <p>웹 애플리케이션의 보안을 강화</p>
             </li>
-            <li className="bg-white rounded-tl-3xl rounded-br-3xl px-10 pb-20 pt-12 ml-7 shadow-custom">
+            <li className="bg-white rounded-tl-3xl rounded-br-3xl px-10 pb-20 pt-12 ml-7 shadow-custom transform transition-all duration-300 hover:-translate-y-1 hover:-translate-x-1 hover:scale-105">
               <img
                 src="/images/schematic.png"
                 alt="third logo"

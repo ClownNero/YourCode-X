@@ -99,11 +99,11 @@ export default function ResultPage(props) {
   return (
     <>
       <div className="mx-6 mt-40">
-      <div className="mx-4 my-14" id="CVE" name="CVE">
+      <div className="mx-4 pt-6 pb-12" id="CVE" name="CVE">
           <h2 className="font-bold text-4xl text-Result">CVE Details</h2>
           <ul className="flex justify-around w-full">
-            <li className="bg-gray py-6 xl:mr-0 mr-12 min-w-0 ">
-              <h2 className="text-Result text-2xl text-left mb-3">
+            <li className="pt-14 xl:mr-0 mr-12 min-w-0 ">
+              <h2 className="text-Result text-2xl text-left mb-6">
                 Vulnerabilities by type Chart
               </h2>
               {/* 막대 차트 부분 */}
@@ -113,18 +113,18 @@ export default function ResultPage(props) {
             </li>
           </ul>
         </div>
-        <div className="mx-4 my-14" id="Chart" name="Chart">
+        <div className="mx-4 py-14" id="Chart" name="Chart">
           <h2 className="font-bold text-4xl text-Result">Problem Chart</h2>
           <ul className="flex justify-around w-full">
-            <li className="bg-gray py-6 2xl:mr-30 mr-12 min-w-0">
-              <h2 className="text-Result text-2xl text-left mb-3">
+            <li className="pt-14 2xl:mr-30 mr-12 min-w-0">
+              <h2 className="text-Result text-2xl text-left mb-6">
                 위험도 차트 Risk Chart
               </h2>
               {/* 막대 차트 부분 */}
               {loading ? `Loading...` : <Barchart data={data} />}
             </li>
-            <li className="bg-gray text-center py-6 2xl:ml-30 ml-12 min-w-0">
-              <h2 className="text-Result text-2xl text-left mb-3">
+            <li className="text-center pt-14 2xl:ml-30 ml-12 min-w-0">
+              <h2 className="text-Result text-2xl text-left mb-6">
                 취약점 차트 Weakness Chart
               </h2>
               {/* 파이 차트 부분 */}
@@ -132,12 +132,12 @@ export default function ResultPage(props) {
             </li>
           </ul>
         </div>
-        <div className="mx-4 my-14" id="List" name="List">
+        <div className="mx-4 py-14" id="List" name="List">
           <h2 className="font-bold text-4xl text-Result">Problem List</h2>
-          <p className="text-Result text-2xl py-6 text-left mb-2">
+          <p className="text-Result text-2xl pt-14 pb-6 text-left mb-2">
             취약점 세부 목록
           </p>
-          <div className="bg-gray text-center rounded-3xl ">
+          <div className="bg-gray text-center rounded-3xl shadow-md ">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-[#1360FF]">
                 <tr>
@@ -235,9 +235,9 @@ export default function ResultPage(props) {
             </table>
           </div>
         </div>
-        <div className="mx-4 mt-14 mb-8" id="Diagnosis" name="Diagnosis">
+        <div className="mx-4 mt-14 mb-10" id="Diagnosis" name="Diagnosis">
           <h2 className="font-bold text-4xl text-Result">Diagnosis</h2>
-          <div className="py-6">
+          <div className="py-14">
             <h2 className="text-Result text-2xl text-left mb-3">
               진단 세부 사항
             </h2>
@@ -349,7 +349,7 @@ export default function ResultPage(props) {
             </ul>
           </div>
         </div>
-        <div className="p-12 text-center ">
+        <div className="p-14 text-center ">
           <Upbutton />
         </div>
         <div className="bg-yourcodex bg-cover rounded-xl text-center p-10">

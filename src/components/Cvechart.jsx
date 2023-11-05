@@ -13,7 +13,6 @@ export default function Cvechart({ data }) {
     legend: {
       itemGap: 15,
       orient: 'vertical',
-      right: 'right',
       right: '5%',
       top:'middle',
       textStyle: {
@@ -92,7 +91,7 @@ export default function Cvechart({ data }) {
         style={{
           width: `1024px`,
           height: `450px`,
-          backgroundColor: "#F1F1F1",
+          boxShadow: "2px 2px 20px 10px rgba(0,0,0,0.1)",
           borderRadius: "30px",
           
         }}
