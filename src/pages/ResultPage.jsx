@@ -28,6 +28,10 @@ export default function ResultPage(props) {
   const [sortOrder, setSortOrder] = useState(null);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
+
+  const [list1, setList1] = useState([]);
+  const [list2, setList2] = useState([]);
+
   useEffect(() => {
     // fetch('http://localhost:5000/gomain',{
     //   method:'POST',
@@ -76,6 +80,9 @@ export default function ResultPage(props) {
       .then((res) => {
         console.log(res);
         setData(res.data);
+        setList1(res.data.list_1);
+        setList2(res.data.list_2);
+        console.log(res.data);
         setLoading(false); // 데이터 요청 완료(성공 또는 실패) 후 로딩 상태를 false로 설정
       })
       .catch((err) => {
@@ -99,39 +106,8 @@ export default function ResultPage(props) {
   return (
     <>
       <div className="mx-6 mt-40">
-      <div className="mx-4 my-14" id="Chart" name="Chart">
-          <h2 className="font-bold text-4xl text-Result">CVE Details</h2>
-          <ul className="flex justify-around w-full">
-            <li className="bg-gray py-6 2xl:mr-30 min-w-0 ">
-              <h2 className="text-Result text-2xl text-left mb-3">
-                Vulnerabilities by type Chart
-              </h2>
-              {/* 막대 차트 부분 */}
-              {/* <div className="w-[1024px] h-[450px] bg-[#F1F1F1] rounded-[30px]"> */}
-                {loading ? `Loading...` : <Cvechart data={data} />}
-              {/* </div> */}
-            </li>
-          </ul>
-        </div>
-        <div className="mx-4 my-14" id="Chart" name="Chart">
-          <h2 className="font-bold text-4xl text-Result">Problem Chart</h2>
-          <ul className="flex justify-around w-full">
-            <li className="bg-gray py-6 2xl:mr-30 mr-12 min-w-0">
-              <h2 className="text-Result text-2xl text-left mb-3">
-                위험도 차트 Risk Chart
-              </h2>
-              {/* 막대 차트 부분 */}
-              {loading ? `Loading...` : <Barchart data={data} />}
-            </li>
-            <li className="bg-gray text-center py-6 2xl:ml-30 ml-12 min-w-0">
-              <h2 className="text-Result text-2xl text-left mb-3">
-                취약점 차트 Weakness Chart
-              </h2>
-              {/* 파이 차트 부분 */}
-              {loading ? `Loading...` : <Piechart data={data} />}
-            </li>
-          </ul>
-        </div>
+
+
         <div className="mx-4 my-14" id="List" name="List">
           <h2 className="font-bold text-4xl text-Result">Problem List</h2>
           <p className="text-Result text-2xl py-6 text-left mb-2">
@@ -206,32 +182,7 @@ export default function ResultPage(props) {
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200 text-Result text-lg">
-                {data
-                  ? sortedData.map((datas, index) => (
-                      <tr
-                        key={datas.category}
-                        className={index % 2 === 1 ? "bg-[#E3EBFF]" : ""}
-                      >
-                        <td className="px-6 py-4 whitespace-normal text-left">
-                          {datas.category}
-                        </td>
-                        <td className="px-6 py-4 whitespace-normal">
-                          {datas.num}
-                        </td>
-                        <td className="px-6 py-4 whitespace-normal">
-                          {datas.risk === "위험" ? (
-                            <span className="inline-block h-3 w-3 rounded-full bg-red-500"></span>
-                          ) : datas.risk === "주의" ? (
-                            <span className="inline-block h-3 w-3 rounded-full bg-yellow-300"></span>
-                          ) : (
-                            <span className="inline-block h-3 w-3 rounded-full bg-green-500"></span>
-                          )}
-                        </td>
-                      </tr>
-                    ))
-                  : ""}
-              </tbody>
+
             </table>
           </div>
         </div>
@@ -242,10 +193,10 @@ export default function ResultPage(props) {
               진단 세부 사항
             </h2>
             <ul>
-              {data
-                ? data
+              {list1
+                ? list1
                     .filter(
-                      (datas) => datas.risk === "위험" || datas.risk === "주의"
+                      (datas) => datas.risk_1 === "위험" || datas.risk_1 === "주의"
                     )
                     .sort((a, b) => riskValues[b.risk] - riskValues[a.risk])
                     .map((datas, index) => (
@@ -257,12 +208,12 @@ export default function ResultPage(props) {
                           }`}
                         >
                           <div>
-                            {datas.risk === "위험" ? (
+                            {datas.risk_1 === "위험" ? (
                               <span className="inline-block h-4 w-4 rounded-full bg-red-500"></span>
                             ) : (
                               <span className="inline-block h-4 w-4 rounded-full bg-yellow-300"></span>
                             )}
-                            <span className="ml-4">{datas.category}</span>
+                            <span className="ml-4">{datas.category_1}</span>
                           </div>
                           {expandedIndex === index ? (
                             <RxCaretUp
@@ -290,7 +241,7 @@ export default function ResultPage(props) {
 
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
                                 {/* 취약점 발견 URL 데이터*/}
-                                {datas.targeturl}
+                                {datas.targeturl_1}
                             </p>
 
                             <div className="flex items-center mx-8">
@@ -303,7 +254,97 @@ export default function ResultPage(props) {
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
                               {/* 공격 성공 CASE 데이터*/}
-                              {datas.payload}
+                              {datas.payload_1}
+                            </p>
+                            <div className="flex items-center mx-8">
+                              <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
+                                3
+                              </span>
+                              <span className="text-lg ml-3">Feedback</span>
+                            </div>
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
+                              {/* FeedBack 데이터*/}
+                              Lorem ipsum dolor sit amet consectetur adipisicing
+                              elit. Numquam natus consequuntur rerum repudiandae
+                              veniam quia consectetur impedit quaerat ea
+                              incidunt, maiores aliquid soluta, nostrum dicta
+                              illo quidem eveniet, temporibus magnam! Lorem
+                              ipsum dolor sit amet consectetur adipisicing elit.
+                              Ratione possimus aperiam voluptatum temporibus
+                              harum molestias nam est rem mollitia ad maxime
+                              soluta, eligendi deleniti hic quisquam tempora.
+                              Minus, blanditiis ea.
+                            </p>
+                            <Modal data={data} />
+                          </>
+                        )}
+                      </>
+                    ))
+                : ""}
+            </ul>
+            <ul>
+              {list2
+                ? list2
+                    .filter(
+                      (datas) => datas.risk_2 === "위험" || datas.risk_2 === "주의"
+                    )
+                    .sort((a, b) => riskValues[b.risk] - riskValues[a.risk])
+                    .map((datas, index) => (
+                      <>
+                        <li
+                          key={index}
+                          className={`flex justify-between px-3 py-5 text-Result text-xl items-center ${
+                            expandedIndex === index ? "" : "border-b-4"
+                          }`}
+                        >
+                          <div>
+                            {datas.risk_2 === "위험" ? (
+                              <span className="inline-block h-4 w-4 rounded-full bg-red-500"></span>
+                            ) : (
+                              <span className="inline-block h-4 w-4 rounded-full bg-yellow-300"></span>
+                            )}
+                            <span className="ml-4">{datas.category_2}</span>
+                          </div>
+                          {expandedIndex === index ? (
+                            <RxCaretUp
+                              onClick={() => setExpandedIndex(null)}
+                              className="text-2xl"
+                            />
+                          ) : (
+                            <RxCaretDown
+                              onClick={() => setExpandedIndex(index)}
+                              className="text-2xl"
+                            />
+                          )}
+                        </li>
+                        {/* If this item is expanded, show the detailed description and modal */}
+                        {expandedIndex === index && (
+                          <>
+                            <div className="flex items-center mx-8">
+                              <span className="rounded-full w-9 h-9 flex items-center text-white font-bold justify-center mr-2 bg-[#1360FF]">
+                                1
+                              </span>
+                              <span className="text-lg ml-3">
+                                취약점 발견 URL
+                              </span>
+                            </div>
+
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                                {/* 취약점 발견 URL 데이터*/}
+                                {datas.targeturl_2}
+                            </p>
+
+                            <div className="flex items-center mx-8">
+                              <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
+                                2
+                              </span>
+                              <span className="text-lg ml-3">
+                                공격 성공 CASE
+                              </span>
+                            </div>
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                              {/* 공격 성공 CASE 데이터*/}
+                              {datas.payload_2}
                             </p>
                             <div className="flex items-center mx-8">
                               <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
