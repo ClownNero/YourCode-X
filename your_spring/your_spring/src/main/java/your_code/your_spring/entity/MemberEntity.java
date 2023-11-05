@@ -12,6 +12,7 @@ import lombok.Setter;
 
 public class MemberEntity {
 
+
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //
@@ -21,24 +22,27 @@ public class MemberEntity {
     private String url;
 
     @Column(length = 3000)
-    private String payload_1;
+    private String payload;
 
     @Column(length = 30)
-    private String category_1;
+    private String category;
 
-    private Integer num_1;
+    private Integer num;
 
     @Column(length = 15)
-    private String risk_1;
+    private String risk;
 
     @Column(length = 500)
-    private String targeturl_1;
+    private String targeturl;
 
     @Column(length = 500)
-    private String inspectionurl_1;
+    private String inspectionurl;
 
     @Column(length = 300)
-    private String detailpayload_1;
+    private String detailpayload;
+
+
+
 
 
 //    public static MemberEntity toMemberEntity(MemberDTO memberDTO){

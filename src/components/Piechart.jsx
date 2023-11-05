@@ -6,7 +6,7 @@ export default function Piechart({ data }) {
     { name: 'Overflow', color: "#c1232b"},
     { name: 'Memory Corruption', color: "#27727b" },
     { name: 'SQL 인젝션(SQLI)', color: "#fcce10" },
-    { name: 'XSS(TestData)', color: "#e87c25" },
+    { name: '크로스사이트스크립팅(XSS)', color: "#e87c25" },
     { name: 'Directory Indexing(TestData)', color: "#b5c334" },
     { name: 'File Inclusion', color: "#fe8463" },
     { name: 'CSRF', color: "#9bca63" },
@@ -74,7 +74,7 @@ export default function Piechart({ data }) {
         labelLine: {
           show: false,
         },
-        data: data.map((item) => ({ value: item.payload_1.split('\n').length, name: item.category_1 })),
+        data: data.map((item) => ({ value: item[0].payload.split('\n').length, name: item[0].category })),
       },
     ],
   });

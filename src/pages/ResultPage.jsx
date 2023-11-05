@@ -22,7 +22,7 @@ export default function ResultPage(props) {
   // Mock 데이터 가져오기
   const [data, setData] = useState([]);
   const { state } = useLocation();
-  console.log(state);
+  
   const [sortedData, setSortedData] = useState([]);
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState(null);
@@ -45,10 +45,10 @@ export default function ResultPage(props) {
       setSortedData(
         [...data].sort((a, b) =>
           sortKey === "risk"
-            ? riskValues[a[sortKey]] < riskValues[b[sortKey]]
+            ? riskValues[a[0][sortKey]] < riskValues[b[0][sortKey]]
               ? -1
               : 1
-            : a[sortKey] < b[sortKey]
+            : a[0][sortKey] < b[0][sortKey]
             ? -1
             : 1
         )
@@ -57,10 +57,10 @@ export default function ResultPage(props) {
       setSortedData(
         [...data].sort((a, b) =>
           sortKey === "risk"
-            ? riskValues[a[sortKey]] > riskValues[b[sortKey]]
+            ? riskValues[a[0][sortKey]] > riskValues[b[0][sortKey]]
               ? -1
               : 1
-            : a[sortKey] > b[sortKey]
+            : a[0][sortKey] > b[0][sortKey]
             ? -1
             : 1
         )
@@ -75,7 +75,9 @@ export default function ResultPage(props) {
       .get("http://localhost:8081/analysis/result")
       .then((res) => {
         console.log(res);
-        setData(res.data);
+        const listArray = Object.values(res.data);
+        console.log(listArray);
+        setData(listArray);
         setLoading(false); // 데이터 요청 완료(성공 또는 실패) 후 로딩 상태를 false로 설정
       })
       .catch((err) => {
@@ -173,7 +175,7 @@ export default function ResultPage(props) {
                     }}
                   >
                     Number of Found{" "}
-                    {sortKey === "payload" ? (
+                    {sortKey === "num" ? (
                       sortOrder === "desc" ? (
                         <RxCaretUp className="inline text-2xl" />
                       ) : (
@@ -210,19 +212,19 @@ export default function ResultPage(props) {
                 {data
                   ? sortedData.map((datas, index) => (
                       <tr
-                        key={datas.category_1}
+                        key={datas[0].category}
                         className={index % 2 === 1 ? "bg-[#E3EBFF]" : ""}
                       >
                         <td className="px-6 py-4 whitespace-normal text-left">
-                          {datas.category_1}
+                          {datas[0].category}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
-                          {datas.num_1}
+                          {datas[0].num}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
-                          {datas.risk_1 === "위험" ? (
+                          {datas[0].risk === "위험" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-red-500"></span>
-                          ) : datas.risk_1 === "주의" ? (
+                          ) : datas[0].risk === "주의" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-yellow-300"></span>
                           ) : (
                             <span className="inline-block h-3 w-3 rounded-full bg-green-500"></span>
@@ -245,9 +247,9 @@ export default function ResultPage(props) {
               {data
                 ? data
                     .filter(
-                      (datas) => datas.risk_1 === "위험" || datas.risk_1 === "주의"
+                      (datas) => datas[0].risk === "위험" || datas[0].risk === "주의"
                     )
-                    .sort((a, b) => riskValues[b.risk] - riskValues[a.risk])
+                    .sort((a, b) => riskValues[b[0].risk] - riskValues[a[0].risk])
                     .map((datas, index) => (
                       <>
                         <li
@@ -257,12 +259,12 @@ export default function ResultPage(props) {
                           }`}
                         >
                           <div>
-                            {datas.risk_1 === "위험" ? (
+                            {datas[0].risk === "위험" ? (
                               <span className="inline-block h-4 w-4 rounded-full bg-red-500"></span>
                             ) : (
                               <span className="inline-block h-4 w-4 rounded-full bg-yellow-300"></span>
                             )}
-                            <span className="ml-4">{datas.category_1}</span>
+                            <span className="ml-4">{datas[0].category}</span>
                           </div>
                           {expandedIndex === index ? (
                             <RxCaretUp
@@ -289,7 +291,7 @@ export default function ResultPage(props) {
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
                               {/* 공격 성공 CASE 데이터*/}
-                              {datas.inspectionurl_1}
+                              {datas[0].inspectionurl}
                             </p>
 
                             <div className="flex items-center mx-8">
@@ -302,7 +304,7 @@ export default function ResultPage(props) {
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
                                 {/* 취약점 발견 URL 데이터*/}
-                                {datas.targeturl_1}
+                                {datas[0].targeturl}
                             </p>
 
                             <div className="flex items-center mx-8">
@@ -314,7 +316,7 @@ export default function ResultPage(props) {
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
-                              {datas.detailpayload_1}
+                              {datas[0].detailpayload}
                             </p>
 
                             <div className="flex items-center mx-8">
@@ -326,7 +328,7 @@ export default function ResultPage(props) {
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
-                              {datas.payload_1}
+                              {datas[0].payload}
                             </p>
                             
                             <div className="flex items-center mx-8">
@@ -338,7 +340,7 @@ export default function ResultPage(props) {
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
-                              {datas.feedback_1}
+                              {datas[0].feedback}
                             </p>
                             <Modal data={data} />
                           </>
