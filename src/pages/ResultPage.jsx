@@ -286,7 +286,7 @@ export default function ResultPage(props) {
                                 1
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Target URL</b>
+                                <b>점검 대상 URL</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
@@ -299,7 +299,7 @@ export default function ResultPage(props) {
                                 2
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Vulnerability Found URL</b>
+                                <b>취약점이 발견된 URL</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
@@ -312,7 +312,7 @@ export default function ResultPage(props) {
                                 3
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Detail Vulnerability</b>
+                                <b>상세 취약점 정보</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
@@ -324,7 +324,7 @@ export default function ResultPage(props) {
                                 4
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Vulnerability Payload Case</b>
+                                <b>취약점 데이터가 전송되는 경우</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
@@ -336,7 +336,7 @@ export default function ResultPage(props) {
                                 5
                               </span>
                               <span className="text-lg ml-3">
-                              <b>FeedBack</b>
+                              <b>평가</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">

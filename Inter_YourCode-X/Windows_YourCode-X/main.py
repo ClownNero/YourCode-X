@@ -96,7 +96,7 @@ def sqlI(url, check_url):
     print_grey(f"payload cnt: {cnt}")
 
     # category_1 추출
-    category_1 = "SQL 인젝션(SQLI)"
+    category_1 = "SQL 인젝션(SQL Injection)"
     print_green("\ncategory:")
     print_green("===========")
     print(category_1)
@@ -313,10 +313,8 @@ def process_request():
     print(detailpayload_2)    
 
     ### DB Connection ###
-    # DB checkList (Table: list -> INSERT, UPDATE)
     print_blue("\n[*] DB Connection")
     db_class = dbModule.Database()
-    # db_class.checkList_1(url, payload_1, category_1, num_1, risk_1, targeturl_1)
     db_class.checkList_1(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
     db_class.checkList_2(url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2)
     print_blue("[*] DB Close")

@@ -5,7 +5,7 @@ export default function Piechart({ data }) {
   const vulnerabilitiesData =[
     { name: 'Overflow', color: "#c1232b"},
     { name: 'Memory Corruption', color: "#27727b" },
-    { name: 'SQL 인젝션(SQLI)', color: "#fcce10" },
+    { name: 'SQL 인젝션(SQL Injection)', color: "#fcce10" },
     { name: '크로스사이트스크립팅(XSS)', color: "#e87c25" },
     { name: 'Directory Indexing(TestData)', color: "#b5c334" },
     { name: 'File Inclusion', color: "#fe8463" },
@@ -15,9 +15,9 @@ export default function Piechart({ data }) {
     { name: 'Open Redirect', color: "#60c0dd" },
     { name: 'Input Validation', color: "#d7504b"},
   ];
+
   //const mockData = [{num:1600 , category:"Sql Injection"},{num:3925 , category:"XSS"}, {num:630, category:"Directory Traversal"}]
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  console.log(data)
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -78,7 +78,6 @@ export default function Piechart({ data }) {
       },
     ],
   });
-  console.log(options.series);
   const chartWidth = windowWidth >= 1560 ? (500 + data.length * 20) : (450 + data.length * 20);
   const chartHeight = windowWidth >= 1560 ? (400 + data.length * 30) : (350 + data.length * 30); 
   return (
@@ -87,7 +86,7 @@ export default function Piechart({ data }) {
         style={{
           width: `${chartWidth}px`,
           height: `${chartHeight}px`,
-          boxShadow: "2px 2px 20px 10px rgba(0,0,0,0.1)",
+          boxShadow: "2px 2px 20px 5px rgba(0,0,0,0.1)",
           padding: "10px",
           borderRadius: "30px",
         }}

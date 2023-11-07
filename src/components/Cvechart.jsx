@@ -91,7 +91,7 @@ export default function Cvechart({ data }) {
         style={{
           width: `1024px`,
           height: `450px`,
-          boxShadow: "2px 2px 20px 10px rgba(0,0,0,0.1)",
+          boxShadow: "2px 2px 20px 5px rgba(0,0,0,0.1)",
           borderRadius: "30px",
           
         }}

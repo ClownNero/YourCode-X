@@ -1,35 +1,15 @@
-import React, { useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import React from 'react';
 
-function WarningModal({ isOpen, onConfirm, onModalChange }) {
-  const [checkedItems, setCheckedItems] = useState({
-    item1: false,
-    item2: false,
-    item3: false,
-  });
-
-  const handleCheckChange = (event) => {
-    setCheckedItems({
-      ...checkedItems,
-      [event.target.name]: event.target.checked,
-    });
-  };
-
-  const handleSubmit = () => {
-    const checkedContents = Object.entries(checkedItems)
-      .filter(([key, value]) => value)
-      .map(([key, value]) => key);
-    onConfirm(checkedContents);
-  };
+export default function CheckListModal(props) {
   return (
     <div>
-      {isOpen && (
+      {/* {isOpen && (
         <div
-          className="fixed inset-0 min-w-[968px] flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-auto"
+          className="fixed inset-0 min-w-[1024px] flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-auto"
           onClick={onModalChange}
         >
           <div
-            className="bg-white  w-[968px] h-[540px] overflow-auto text-left scrollbar-hide"
+            className="bg-white  w-[1024px] h-[540px] overflow-auto text-left scrollbar-hide"
           >
             <div className="flex items-center justify-between bg-[#756F5221] px-4 py-2">
               <div className="inline-flex items-center">
@@ -65,8 +45,8 @@ function WarningModal({ isOpen, onConfirm, onModalChange }) {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
-export default WarningModal;
+
