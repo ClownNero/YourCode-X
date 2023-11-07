@@ -28,7 +28,7 @@ public class MemberEntity {
     @Column(length = 500)
     private String targeturl;
 
-    @Column(length = 500)
+    @Column(length = 3000)
     private String inspectionurl;
 
     @Column(length = 300)
