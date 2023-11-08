@@ -27,12 +27,28 @@ public class HomeController {
     private final MemberService2 memberService2;
     private final MemberService3 memberService3;
 
+//        return results;
+//    }
+
     @GetMapping("/analysis/result")
     public Map<String, List<?>> getResults(){
         Map<String, List<?>> results = new HashMap<>();
-        results.put("list_1", memberService.getId());
-        results.put("list_2", memberService2.getId());
-        results.put("list_3", memberService3.getId());
+        List<?> list1 = memberService.getId();
+        List<?> list2 = memberService2.getId();
+        List<?> list3 = memberService3.getId();
+
+        if(!list1.isEmpty()){
+            results.put("list_1", list1);
+        }
+        if(!list2.isEmpty()){
+            results.put("list_2", list2);
+        }
+        if(!list3.isEmpty()){
+            results.put("list_3", list3);
+        }
+
         return results;
     }
+
+
 }

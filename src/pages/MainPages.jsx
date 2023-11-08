@@ -7,23 +7,36 @@ import Why from "../components/Why";
 import Provide from "../components/Provide";
 import Upbutton from "../components/ui/Upbutton";
 import WarningModal from "./WarningModal";
+import CheckListModal from "./CheckListModal";
 
 export default function MainPages(props) {
   const [url, setUrl] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [checkModalIsOpen, setCheckModalIsOpen] = useState(false);
   const navigate = useNavigate();
+
+  const handleCheckModalIsOpen= () => {
+    setModalIsOpen(false);
+    setCheckModalIsOpen(!checkModalIsOpen);
+  };
+
   const handleIsOpen = () => {
     setModalIsOpen(!modalIsOpen);
   };
-  const handleAnalysis = async () => {
-    handleIsOpen();
+
+  const handleAnalysis = async (checkedContents) => {
+    handleCheckModalIsOpen();
     try {
+      console.log(checkedContents);
       const response = await fetch("http://localhost:5000/gomain", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ processedData: url }),
+        body: JSON.stringify({
+          processedData: url,
+          checkItems: checkedContents,
+        }),
       });
 
       if (!response.ok) {
@@ -82,14 +95,19 @@ export default function MainPages(props) {
           <Introduce />
           <Why />
           <Provide />
-          <li className="p-14">
+          <li className="p-16">
             <Upbutton />
           </li>
         </ul>
         <WarningModal
           isOpen={modalIsOpen}
-          onModalChange={handleIsOpen}
-          onConfirm={handleAnalysis}
+          onModalClose={handleIsOpen}
+          onModalChange={handleCheckModalIsOpen}
+        />
+        <CheckListModal 
+          isOpen={checkModalIsOpen}
+          onModalClose={handleCheckModalIsOpen}
+          onCofirm={handleAnalysis}
         />
       </div>
     </>

@@ -1,24 +1,28 @@
 import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-function WarningModal({ isOpen, onConfirm, onModalChange }) {
+function WarningModal({ isOpen, onModalChange, onModalClose }) {
 
+  const handleSubmit = () => {
+    onModalChange();
+  };
   return (
     <div>
       {isOpen && (
         <div
-          className="fixed inset-0 min-w-[1024px] flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-auto"
-          onClick={onModalChange}
+          className="fixed inset-0 min-w-[968px] flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-auto"
+          onClick={onModalClose}
         >
           <div
-            className="bg-white  w-[1024px] h-[540px] overflow-auto text-left scrollbar-hide"
+            className="bg-white  w-[968px] h-[540px] overflow-auto text-left scrollbar-hide"
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between bg-[#756F5221] px-4 py-2">
               <div className="inline-flex items-center">
                 <div className="text-2xl mr-4 inline bg-[#D9CB84] w-[35px] text-center rounded-full">!</div>
                 <span className="font-bold text-xl">WARNING!</span>
               </div>
-              <AiOutlineClose className="text-xl" onClick={onModalChange}/>
+              <AiOutlineClose className="text-xl" onClick={onModalClose}/>
             </div>
             <div className="p-12">
               <h2 className="text-2xl font-bold">아래에 명시된 주의사항을 확인 후 진행해주세요.</h2>
@@ -32,7 +36,7 @@ function WarningModal({ isOpen, onConfirm, onModalChange }) {
                 <p className="text-sm mb-4">아래 버튼을 클릭 시 취약점 분석이 시작됩니다.</p>
                 <button 
                   className="px-8 py-3 bg-[#E0D9B0] rounded-xl text-lg"
-                  onClick={onConfirm}
+                  onClick={handleSubmit}
                 >
                     위와 같은 주의사항을 확인하였습니다.
                 </button>
@@ -44,5 +48,4 @@ function WarningModal({ isOpen, onConfirm, onModalChange }) {
     </div>
   );
 }
-
 export default WarningModal;

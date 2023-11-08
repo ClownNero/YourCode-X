@@ -361,43 +361,48 @@ def process_request():
     url = data.get('processedData')
     print(f"URL: {url}")
     
+    checkedContents = data.get("checkItems")
+    print(f"category: {checkedContents}")
+
     directories, files, identi_paths = dirScan(url)
     check_url = []
     for file in files:
         full_url = "{}/{}".format(url.rstrip('/'), file.lstrip('/'))
         check_url.append(full_url)
 
-    ### 점검 시작 ###
+    ### 점검 시작 & 점검 결과 & DB Connection###
     # 점검항목1: SQL 인젝션(SQL Injection)
-    payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1 = sql_injection(url, check_url)
-    
+    if 'SQL 인젝션(SQL Injection)' in checkedContents:
+        payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1 = sql_injection(url, check_url)
+        print_blue("\n[*] SQL Injection 점검 결과")
+        inspection_result(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
+        
+        print_blue("\n[*] DB Connection")
+        db_class = dbModule.Database()
+        db_class.checkList_1(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
+        print_blue("[*] DB Close")
+
     # 점검항목2: 크로스사이트스크립트(XSS)
-    payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2 = xss(url, check_url, identi_paths)
+    if '크로스사이트스크립팅(XSS)' in checkedContents:    
+        payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2 = xss(url, check_url, identi_paths)
+        print_blue("\n[*] XSS 점검 결과")
+        inspection_result(url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2)
+
+        print_blue("\n[*] DB Connection")
+        db_class = dbModule.Database()
+        db_class.checkList_2(url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2)
+        print_blue("[*] DB Close")
 
     # 점검항목3: 디렉토리 트레버셜(Directory Traversal)
-    payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3 = directory_traversal(url, check_url, identi_paths)
+    if '디렉토리 트레버설(Directory Traversal)' in checkedContents: 
+        payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3 = directory_traversal(url, check_url, identi_paths)
+        print_blue("\n[*] Directory Traversal 점검 결과")
+        inspection_result(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
 
-
-    ### 점검 결과 ###
-    # 1: SQL 인젝션(SQLI): url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1
-    print_blue("\n[*] SQL Injection 점검 결과")
-    inspection_result(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
-    
-    # 2: 크로스사이트스크립팅(XSS): url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2
-    print_blue("\n[*] XSS 점검 결과")
-    inspection_result(url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2)
-
-    # 3: 데렉토리 트레버셜(Directory Traversal): url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3
-    print_blue("\n[*] Directory Traversal 점검 결과")
-    inspection_result(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
-
-    ### DB Connection ###
-    print_blue("\n[*] DB Connection")
-    db_class = dbModule.Database()
-    db_class.checkList_1(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
-    db_class.checkList_2(url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2)
-    db_class.checkList_3(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
-    print_blue("[*] DB Close")
+        print_blue("\n[*] DB Connection")
+        db_class = dbModule.Database()
+        db_class.checkList_3(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
+        print_blue("[*] DB Close")
 
     return url
 
