@@ -19,6 +19,7 @@ export default function MainPages(props) {
   const handleAnalysis = async (checkedContents) => {
     handleIsOpen();
     try {
+      console.log(checkedContents);
       const response = await fetch("http://localhost:5000/gomain", {
         method: "POST",
         headers: {
