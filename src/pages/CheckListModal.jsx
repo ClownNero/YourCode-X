@@ -1,52 +1,39 @@
-import React from 'react';
+import React from "react";
 
 export default function CheckListModal(props) {
   return (
     <div>
-      {/* {isOpen && (
-        <div
-          className="fixed inset-0 min-w-[1024px] flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-auto"
-          onClick={onModalChange}
-        >
-          <div
-            className="bg-white  w-[1024px] h-[540px] overflow-auto text-left scrollbar-hide"
-          >
-            <div className="flex items-center justify-between bg-[#756F5221] px-4 py-2">
-              <div className="inline-flex items-center">
-                <div className="text-2xl mr-4 inline bg-[#D9CB84] w-[35px] text-center rounded-full">!</div>
-                <span className="font-bold text-xl">WARNING!</span>
-              </div>
-              <AiOutlineClose className="text-xl" onClick={onModalChange}/>
+      {1 && (
+        <div className="fixed inset-0 min-w-[1280px] flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-auto">
+          <div className="bg-white  w-[1280px] h-5/6 overflow-auto text-left scrollbar-hide">
+            <div className="h-1/5 border-b-black border-2 px-6 pt-8">
+              <h2 className="font-bold">
+                원하는 평가 항목을 선택해주세요.(최소 1개 이상)
+              </h2>
             </div>
-            <div className="p-12">
-              <h2 className="text-2xl font-bold">아래에 명시된 주의사항을 확인 후 진행해주세요.</h2>
-              <ol className="bg-[#F7F5EB] my-6 py-8 px-4 space-y-4">
-                <li>- 웹 사이트의 보안을 테스트하거나 스캔하기 전에 반드시 사전 허가를 받아야 합니다.</li>
-                <li>- 허가된 사이트에서 진단 도구를 사용하지 않을 경우 법적인 책임은 사용자에게 있습니다.</li>
-                <li>- 스캔 과정에서 데이터 손실이 발생할 수도 있으므로 점검을 시작하기 전에 중요 데이터는 반드시 백업해주세요.</li>
-              </ol>
-              <p>주의사항의 미숙지로 인해 발생하는 모든 상황에 대한 법적 책임은 사용자에게 있음을 알립니다.</p>
-              <div className="p-10">
-              <ol onClick={(e) => e.stopPropagation()}>
-                <li><input type="checkbox" name="SQL 인젝션(SQL Injection)" onChange={handleCheckChange}/>SQL 인젝션(SQL Injection)</li>
-                <li><input type="checkbox" name="크로스사이트스크립팅(XSS)" onChange={handleCheckChange}/>크로스사이트스크립팅(XSS)</li>
-                <li><input type="checkbox" name="Directory Indexing(TestData)" onChange={handleCheckChange}/>Directory Indexing(TestData)</li>
-              </ol>
+            <div className="h-4/5 flex">
+              <div className="w-1/5 border-r-2">
+                <div className="h-5/6 border-b-2">
+                  <ol>
+                    <li className="border-b-2 px-6 py-4">
+                      SQL 인젝션(SQL Injection)
+                    </li>
+                    <li className="border-b-2 px-6 py-4">
+                      크로스사이트스크립팅(XSS)
+                    </li>
+                  </ol>
+                </div>
+                <div className="h-1/6 bg-[#F0F0F0]">
+                  {/* 이전 버튼과 점검 시작하기 버튼 */}
+                </div>
               </div>
-              <div className="text-center mt-8">
-                <p className="text-sm mb-4">아래 버튼을 클릭 시 취약점 분석이 시작됩니다.</p>
-                <button 
-                  className="px-8 py-3 bg-[#E0D9B0] rounded-xl text-lg"
-                  onClick={handleSubmit}
-                >
-                    위와 같은 주의사항을 확인하였습니다.
-                </button>
+              <div className="w-4/5 bg-[#FAFAFA]">
+                {/* 선택한 취약점 별 Page Component 보여주기 */}
               </div>
             </div>
           </div>
         </div>
-      )} */}
+      )}
     </div>
   );
 }
-

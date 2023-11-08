@@ -24,7 +24,10 @@ export default function MainPages(props) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ processedData: url, checkItems: checkedContents}),
+        body: JSON.stringify({
+          processedData: url,
+          checkItems: checkedContents,
+        }),
       });
 
       if (!response.ok) {
@@ -92,7 +95,7 @@ export default function MainPages(props) {
           onModalChange={handleIsOpen}
           onConfirm={handleAnalysis}
         />
-        {/* <CheckListModal/> */}
+        <CheckListModal />
       </div>
     </>
   );
