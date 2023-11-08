@@ -1,12 +1,12 @@
 import React from "react";
 
-export default function SqlInjection(props) {
+export default function Xss(props) {
   return (
     <div className="px-6 py-4">
       <div className="mb-10">
         <h3 className="font-[600] text-xl pb-4">설명</h3>
         <p>
-          <span className="text-lg">SQL 인젝션(SQL Injection)</span>은 악의적인
+          <span className="text-lg">크로스사이트스크립팅(XSS)</span>은 악의적인
           사용자가 웹 응용 프로그램의 입력 필드에 악의적인 SQL 쿼리를 삽입하여
           데이터베이스에 대한 비인가된 액세스를 시도하는 공격 유형으로, 웹
           페이지에서 사용자가 입력한 값을 제대로 검사하지 않고 그대로 데이터
