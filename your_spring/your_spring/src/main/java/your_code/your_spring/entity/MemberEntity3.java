@@ -7,9 +7,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "list_1")
-
-public class MemberEntity {
+@Table(name = "list_3")
+public class MemberEntity3 {
     @Id
     @Column(length = 500)
     private String url;

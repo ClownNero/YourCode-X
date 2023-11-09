@@ -13,7 +13,7 @@ public class MemberEntity2 {
     @Column(length = 500)
     private String url;
 
-    @Column(length = 3000)
+    @Column(length = 10000)
     private String payload;
 
     @Column(length = 30)
@@ -27,7 +27,7 @@ public class MemberEntity2 {
     @Column(length = 500)
     private String targeturl;
 
-    @Column(length = 500)
+    @Column(length = 3000)
     private String inspectionurl;
 
     @Column(length = 300)
