@@ -10,8 +10,7 @@ export default function App(props) {
   
   return (
     <>
-      <div className="flex flex-col justify-between">
-        {/* {location.pathname === '/analysis/result' ? <ResultNavbar />:<Navbar />} */}
+      <div className="flex flex-col justify-between ">
         <Navbar/>
         <QueryClientProvider client={queryClient}>
           <div>

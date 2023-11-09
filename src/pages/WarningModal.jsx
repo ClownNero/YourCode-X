@@ -38,7 +38,7 @@ function WarningModal({ isOpen, onModalChange, onModalClose }) {
                   className="px-8 py-3 bg-[#E0D9B0] rounded-xl text-lg"
                   onClick={handleSubmit}
                 >
-                    위와 같은 주의사항을 확인하였습니다.
+                  위와 같은 주의사항을 확인하였습니다.
                 </button>
               </div>
             </div>

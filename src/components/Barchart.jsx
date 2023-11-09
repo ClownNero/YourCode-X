@@ -75,7 +75,16 @@ export default function Barchart({ data }) {
         color:
           item[0].risk === "위험" ? "#F56565" : item[0].risk === "주의" ? "#FCD34D" : "#48BB78",
         borderRadius: [50, 50, 0, 0], //막대 차트 윗부분 둥글게 만들기
-        
+      },
+      label: {
+        show: true, // 라벨 표시
+        position: 'top', // 라벨 위치
+        formatter: function (params) {
+          return params.data.value === 0 ? '0' : ''; // 값이 0일 경우 '0'을 표시
+        },
+        textStyle: {
+          fontSize: 20,
+        }
       },
       })),
   });

@@ -394,15 +394,15 @@ def process_request():
         print_blue("[*] DB Close")
 
     # 점검항목3: 디렉토리 트레버셜(Directory Traversal)
-    if '디렉토리 트레버설(Directory Traversal)' in checkedContents: 
-        payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3 = directory_traversal(url, check_url, identi_paths)
-        print_blue("\n[*] Directory Traversal 점검 결과")
-        inspection_result(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
+    # if '디렉토리 트레버설(Directory Traversal)' in checkedContents: 
+    payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3 = directory_traversal(url, check_url, identi_paths)
+    print_blue("\n[*] Directory Traversal 점검 결과")
+    inspection_result(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
 
-        print_blue("\n[*] DB Connection")
-        db_class = dbModule.Database()
-        db_class.checkList_3(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
-        print_blue("[*] DB Close")
+    print_blue("\n[*] DB Connection")
+    db_class = dbModule.Database()
+    db_class.checkList_3(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
+    print_blue("[*] DB Close")
 
     return url
 

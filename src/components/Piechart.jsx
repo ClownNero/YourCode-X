@@ -7,7 +7,7 @@ export default function Piechart({ data }) {
     { name: 'Memory Corruption', color: "#27727b" },
     { name: 'SQL 인젝션(SQL Injection)', color: "#fcce10" },
     { name: '크로스사이트스크립팅(XSS)', color: "#e87c25" },
-    { name: 'Directory Indexing(TestData)', color: "#b5c334" },
+    { name: '디렉토리 트레버설(Directory Traversal)', color: "#b5c334" },
     { name: 'File Inclusion', color: "#fe8463" },
     { name: 'CSRF', color: "#9bca63" },
     { name: 'XXE', color: "#fad860" },

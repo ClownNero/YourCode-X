@@ -80,7 +80,6 @@ export default function ChatUI(props) {
         {messages.map((message) => (
           <>
           <div className="flex justify-between items-start ml-12 mr-3">
-          {/* {message.user === "User" ? "": <BsFillPersonFill className="text-[#D9D9D9] bg-search text-5xl rounded-full"/>} */}
           {message.user === "User" ? "": 
             <img
               className="text-[#D9D9D9] bg-slate-400 w-12 rounded-full drop-shadow-md inline mt-6"
@@ -95,7 +94,7 @@ export default function ChatUI(props) {
                   : "bg-white self-start"
               }`}
             >   
-            {loading ? <p>Loading....</p> : <p className="text-left whitespace-pre-line">{message.text}</p> }
+            {loading ? <p>Loading....</p> : <p className="text-left whitespace-pre-line break-words">{message.text}</p> }
             </div>
             {message.user === "User"?<BsFillPersonFill className="text-[#D9D9D9] bg-search text-[44px] rounded-full mt-5"/>:""}
           </div>

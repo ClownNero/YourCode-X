@@ -281,7 +281,7 @@ export default function ResultPage(props) {
                         {/* If this item is expanded, show the detailed description and modal */}
                         {expandedIndex === index && (
                           <>
-                            <div className="flex items-center mx-8">
+                            <div className="flex items-center mx-8 mt-4">
                               <span className="rounded-full w-9 h-9 flex items-center text-white font-bold justify-center mr-2 bg-[#1360FF]">
                                 1
                               </span>
@@ -289,7 +289,7 @@ export default function ResultPage(props) {
                                 <b>점검 대상 URL</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line break-words">
                               {/* 공격 성공 CASE 데이터*/}
                               {datas[0].inspectionurl}
                             </p>
@@ -302,7 +302,7 @@ export default function ResultPage(props) {
                                 <b>취약점이 발견된 URL</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line break-words">
                                 {/* 취약점 발견 URL 데이터*/}
                                 {datas[0].targeturl}
                             </p>
@@ -315,7 +315,7 @@ export default function ResultPage(props) {
                                 <b>상세 취약점 정보</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line break-words">
                               {datas[0].detailpayload}
                             </p>
 
@@ -327,7 +327,7 @@ export default function ResultPage(props) {
                                 <b>취약점 데이터가 전송되는 경우</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line break-words">
                               {datas[0].payload}
                             </p>
                             
@@ -339,7 +339,7 @@ export default function ResultPage(props) {
                               <b>평가</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line break-words">
                               {datas[0].feedback}
                             </p>
                             <Modal data={data} />
