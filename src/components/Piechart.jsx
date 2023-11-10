@@ -2,9 +2,22 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 
 export default function Piechart({ data }) {
+  const vulnerabilitiesData =[
+    { name: 'Overflow', color: "#c1232b"},
+    { name: 'Memory Corruption', color: "#27727b" },
+    { name: 'SQL 인젝션(SQL Injection)', color: "#fcce10" },
+    { name: '크로스사이트스크립팅(XSS)', color: "#e87c25" },
+    { name: 'Directory Indexing(TestData)', color: "#b5c334" },
+    { name: 'File Inclusion', color: "#fe8463" },
+    { name: 'CSRF', color: "#9bca63" },
+    { name: 'XXE', color: "#fad860" },
+    { name: 'SSRF', color: "#f3a43b" },
+    { name: 'Open Redirect', color: "#60c0dd" },
+    { name: 'Input Validation', color: "#d7504b"},
+  ];
+
   //const mockData = [{num:1600 , category:"Sql Injection"},{num:3925 , category:"XSS"}, {num:630, category:"Directory Traversal"}]
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  console.log(data)
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -20,7 +33,6 @@ export default function Piechart({ data }) {
     tooltip: {
       trigger: "item",
     },
-
     legend: {
       left: "center",
       top: "bottom",
@@ -34,22 +46,18 @@ export default function Piechart({ data }) {
     series: [
       {
         type: "pie",
-        radius: ["40%", "70%"],
+        radius: ["35%", "70%"],
+        center: ['50%', '45%'],  // 이 값을 조절하여 차트의 위치를 변경합니다.
         avoidLabelOverlap: false,
         itemStyle: {
-          // 위험 주의 양호 색깔 설정 부분
-          // color: function(params) {
-          //   const item = data[params.dataIndex];
-          //   if (item.risk === "위험") {
-          //     return "#F56565"; // bg-red-500
-          //   } else if (item.risk === "주의") {
-          //     return "#FCD34D"; // bg-yellow-300
-          //   } else {
-          //     return "#48BB78"; // bg-green-500
-          //   }
-          // },
+          color: function(params) {
+           console.log(params.data.name)
+            const currentItem = params.data.name;
+            const matchingItem = vulnerabilitiesData.find(item => item.name === currentItem);
+            return matchingItem ? matchingItem.color : null; // 기본 색상은 검은색입니다.
+          },
           borderRadius: 10,
-          borderColor: "#fff",
+          borderColor: "#f1f1f1",
           borderWidth: 2,
         },
         label: {
@@ -66,11 +74,10 @@ export default function Piechart({ data }) {
         labelLine: {
           show: false,
         },
-        data: data.map((item) => ({ value: item.payload_1.split('\n').length, name: item.category_1 })),
+        data: data.map((item) => ({ value: item[0].payload.split('\n').length, name: item[0].category })),
       },
     ],
   });
-  console.log(options.series);
   const chartWidth = windowWidth >= 1560 ? (500 + data.length * 20) : (450 + data.length * 20);
   const chartHeight = windowWidth >= 1560 ? (400 + data.length * 30) : (350 + data.length * 30); 
   return (
@@ -79,7 +86,7 @@ export default function Piechart({ data }) {
         style={{
           width: `${chartWidth}px`,
           height: `${chartHeight}px`,
-          backgroundColor: "#F1F1F1",
+          boxShadow: "2px 2px 20px 5px rgba(0,0,0,0.1)",
           padding: "10px",
           borderRadius: "30px",
         }}

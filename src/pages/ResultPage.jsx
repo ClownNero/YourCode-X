@@ -22,16 +22,12 @@ export default function ResultPage(props) {
   // Mock 데이터 가져오기
   const [data, setData] = useState([]);
   const { state } = useLocation();
-  console.log(state);
+  
   const [sortedData, setSortedData] = useState([]);
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState(null);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
-
-  const [list1, setList1] = useState([]);
-  const [list2, setList2] = useState([]);
-
   useEffect(() => {
     // fetch('http://localhost:5000/gomain',{
     //   method:'POST',
@@ -49,10 +45,10 @@ export default function ResultPage(props) {
       setSortedData(
         [...data].sort((a, b) =>
           sortKey === "risk"
-            ? riskValues[a[sortKey]] < riskValues[b[sortKey]]
+            ? riskValues[a[0][sortKey]] < riskValues[b[0][sortKey]]
               ? -1
               : 1
-            : a[sortKey] < b[sortKey]
+            : a[0][sortKey] < b[0][sortKey]
             ? -1
             : 1
         )
@@ -61,10 +57,10 @@ export default function ResultPage(props) {
       setSortedData(
         [...data].sort((a, b) =>
           sortKey === "risk"
-            ? riskValues[a[sortKey]] > riskValues[b[sortKey]]
+            ? riskValues[a[0][sortKey]] > riskValues[b[0][sortKey]]
               ? -1
               : 1
-            : a[sortKey] > b[sortKey]
+            : a[0][sortKey] > b[0][sortKey]
             ? -1
             : 1
         )
@@ -79,10 +75,9 @@ export default function ResultPage(props) {
       .get("http://localhost:8081/analysis/result")
       .then((res) => {
         console.log(res);
-        setData(res.data);
-        setList1(res.data.list_1);
-        setList2(res.data.list_2);
-        console.log(res.data);
+        const listArray = Object.values(res.data);
+        console.log(listArray);
+        setData(listArray);
         setLoading(false); // 데이터 요청 완료(성공 또는 실패) 후 로딩 상태를 false로 설정
       })
       .catch((err) => {
@@ -106,14 +101,45 @@ export default function ResultPage(props) {
   return (
     <>
       <div className="mx-6 mt-40">
-
-
-        <div className="mx-4 my-14" id="List" name="List">
+      <div className="mx-4 pt-6 pb-12" id="CVE" name="CVE">
+          <h2 className="font-bold text-4xl text-Result">CVE Details</h2>
+          <ul className="flex justify-around w-full">
+            <li className="pt-14 xl:mr-0 mr-12 min-w-0 ">
+              <h2 className="text-Result text-2xl text-left mb-6">
+                Vulnerabilities by type Chart
+              </h2>
+              {/* 막대 차트 부분 */}
+              {/* <div className="w-[1024px] h-[450px] bg-[#F1F1F1] rounded-[30px]"> */}
+                {loading ? `Loading...` : <Cvechart data={data} />}
+              {/* </div> */}
+            </li>
+          </ul>
+        </div>
+        <div className="mx-4 py-14" id="Chart" name="Chart">
+          <h2 className="font-bold text-4xl text-Result">Problem Chart</h2>
+          <ul className="flex justify-around w-full">
+            <li className="pt-14 2xl:mr-30 mr-12 min-w-0">
+              <h2 className="text-Result text-2xl text-left mb-6">
+                위험도 차트 Risk Chart
+              </h2>
+              {/* 막대 차트 부분 */}
+              {loading ? `Loading...` : <Barchart data={data} />}
+            </li>
+            <li className="text-center pt-14 2xl:ml-30 ml-12 min-w-0">
+              <h2 className="text-Result text-2xl text-left mb-6">
+                취약점 차트 Weakness Chart
+              </h2>
+              {/* 파이 차트 부분 */}
+              {loading ? `Loading...` : <Piechart data={data} />}
+            </li>
+          </ul>
+        </div>
+        <div className="mx-4 py-14" id="List" name="List">
           <h2 className="font-bold text-4xl text-Result">Problem List</h2>
-          <p className="text-Result text-2xl py-6 text-left mb-2">
+          <p className="text-Result text-2xl pt-14 pb-6 text-left mb-2">
             취약점 세부 목록
           </p>
-          <div className="bg-gray text-center rounded-3xl ">
+          <div className="bg-gray text-center rounded-3xl shadow-md ">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-[#1360FF]">
                 <tr>
@@ -149,7 +175,7 @@ export default function ResultPage(props) {
                     }}
                   >
                     Number of Found{" "}
-                    {sortKey === "payload" ? (
+                    {sortKey === "num" ? (
                       sortOrder === "desc" ? (
                         <RxCaretUp className="inline text-2xl" />
                       ) : (
@@ -182,23 +208,48 @@ export default function ResultPage(props) {
                   </th>
                 </tr>
               </thead>
-
+              <tbody className="bg-white divide-y divide-gray-200 text-Result text-lg">
+                {data
+                  ? sortedData.map((datas, index) => (
+                      <tr
+                        key={datas[0].category}
+                        className={index % 2 === 1 ? "bg-[#E3EBFF]" : ""}
+                      >
+                        <td className="px-6 py-4 whitespace-normal text-left">
+                          {datas[0].category}
+                        </td>
+                        <td className="px-6 py-4 whitespace-normal">
+                          {datas[0].num}
+                        </td>
+                        <td className="px-6 py-4 whitespace-normal">
+                          {datas[0].risk === "위험" ? (
+                            <span className="inline-block h-3 w-3 rounded-full bg-red-500"></span>
+                          ) : datas[0].risk === "주의" ? (
+                            <span className="inline-block h-3 w-3 rounded-full bg-yellow-300"></span>
+                          ) : (
+                            <span className="inline-block h-3 w-3 rounded-full bg-green-500"></span>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  : ""}
+              </tbody>
             </table>
           </div>
         </div>
-        <div className="mx-4 mt-14 mb-8" id="Diagnosis" name="Diagnosis">
+        <div className="mx-4 mt-14 mb-10" id="Diagnosis" name="Diagnosis">
           <h2 className="font-bold text-4xl text-Result">Diagnosis</h2>
-          <div className="py-6">
+          <div className="py-14">
             <h2 className="text-Result text-2xl text-left mb-3">
               진단 세부 사항
             </h2>
             <ul>
-              {list1
-                ? list1
+              {data
+                ? data
                     .filter(
-                      (datas) => datas.risk_1 === "위험" || datas.risk_1 === "주의"
+                      (datas) => datas[0].risk === "위험" || datas[0].risk === "주의"
                     )
-                    .sort((a, b) => riskValues[b.risk] - riskValues[a.risk])
+                    .sort((a, b) => riskValues[b[0].risk] - riskValues[a[0].risk])
                     .map((datas, index) => (
                       <>
                         <li
@@ -208,12 +259,12 @@ export default function ResultPage(props) {
                           }`}
                         >
                           <div>
-                            {datas.risk_1 === "위험" ? (
+                            {datas[0].risk === "위험" ? (
                               <span className="inline-block h-4 w-4 rounded-full bg-red-500"></span>
                             ) : (
                               <span className="inline-block h-4 w-4 rounded-full bg-yellow-300"></span>
                             )}
-                            <span className="ml-4">{datas.category_1}</span>
+                            <span className="ml-4">{datas[0].category}</span>
                           </div>
                           {expandedIndex === index ? (
                             <RxCaretUp
@@ -235,13 +286,12 @@ export default function ResultPage(props) {
                                 1
                               </span>
                               <span className="text-lg ml-3">
-                                취약점 발견 URL
+                                <b>점검 대상 URL</b>
                               </span>
                             </div>
-
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
-                                {/* 취약점 발견 URL 데이터*/}
-                                {datas.targeturl_1}
+                              {/* 공격 성공 CASE 데이터*/}
+                              {datas[0].inspectionurl}
                             </p>
 
                             <div className="flex items-center mx-8">
@@ -249,121 +299,48 @@ export default function ResultPage(props) {
                                 2
                               </span>
                               <span className="text-lg ml-3">
-                                공격 성공 CASE
+                                <b>취약점이 발견된 URL</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
-                              {/* 공격 성공 CASE 데이터*/}
-                              {datas.payload_1}
-                            </p>
-                            <div className="flex items-center mx-8">
-                              <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
-                                3
-                              </span>
-                              <span className="text-lg ml-3">Feedback</span>
-                            </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
-                              {/* FeedBack 데이터*/}
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Numquam natus consequuntur rerum repudiandae
-                              veniam quia consectetur impedit quaerat ea
-                              incidunt, maiores aliquid soluta, nostrum dicta
-                              illo quidem eveniet, temporibus magnam! Lorem
-                              ipsum dolor sit amet consectetur adipisicing elit.
-                              Ratione possimus aperiam voluptatum temporibus
-                              harum molestias nam est rem mollitia ad maxime
-                              soluta, eligendi deleniti hic quisquam tempora.
-                              Minus, blanditiis ea.
-                            </p>
-                            <Modal data={data} />
-                          </>
-                        )}
-                      </>
-                    ))
-                : ""}
-            </ul>
-            <ul>
-              {list2
-                ? list2
-                    .filter(
-                      (datas) => datas.risk_2 === "위험" || datas.risk_2 === "주의"
-                    )
-                    .sort((a, b) => riskValues[b.risk] - riskValues[a.risk])
-                    .map((datas, index) => (
-                      <>
-                        <li
-                          key={index}
-                          className={`flex justify-between px-3 py-5 text-Result text-xl items-center ${
-                            expandedIndex === index ? "" : "border-b-4"
-                          }`}
-                        >
-                          <div>
-                            {datas.risk_2 === "위험" ? (
-                              <span className="inline-block h-4 w-4 rounded-full bg-red-500"></span>
-                            ) : (
-                              <span className="inline-block h-4 w-4 rounded-full bg-yellow-300"></span>
-                            )}
-                            <span className="ml-4">{datas.category_2}</span>
-                          </div>
-                          {expandedIndex === index ? (
-                            <RxCaretUp
-                              onClick={() => setExpandedIndex(null)}
-                              className="text-2xl"
-                            />
-                          ) : (
-                            <RxCaretDown
-                              onClick={() => setExpandedIndex(index)}
-                              className="text-2xl"
-                            />
-                          )}
-                        </li>
-                        {/* If this item is expanded, show the detailed description and modal */}
-                        {expandedIndex === index && (
-                          <>
-                            <div className="flex items-center mx-8">
-                              <span className="rounded-full w-9 h-9 flex items-center text-white font-bold justify-center mr-2 bg-[#1360FF]">
-                                1
-                              </span>
-                              <span className="text-lg ml-3">
-                                취약점 발견 URL
-                              </span>
-                            </div>
-
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
                                 {/* 취약점 발견 URL 데이터*/}
-                                {datas.targeturl_2}
+                                {datas[0].targeturl}
                             </p>
 
                             <div className="flex items-center mx-8">
                               <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
-                                2
+                                3
                               </span>
                               <span className="text-lg ml-3">
-                                공격 성공 CASE
+                                <b>상세 취약점 정보</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
-                              {/* 공격 성공 CASE 데이터*/}
-                              {datas.payload_2}
+                              {datas[0].detailpayload}
                             </p>
+
                             <div className="flex items-center mx-8">
                               <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
-                                3
+                                4
                               </span>
-                              <span className="text-lg ml-3">Feedback</span>
+                              <span className="text-lg ml-3">
+                                <b>취약점 데이터가 전송되는 경우</b>
+                              </span>
+                            </div>
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                              {datas[0].payload}
+                            </p>
+                            
+                            <div className="flex items-center mx-8">
+                              <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
+                                5
+                              </span>
+                              <span className="text-lg ml-3">
+                              <b>평가</b>
+                              </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
-                              {/* FeedBack 데이터*/}
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Numquam natus consequuntur rerum repudiandae
-                              veniam quia consectetur impedit quaerat ea
-                              incidunt, maiores aliquid soluta, nostrum dicta
-                              illo quidem eveniet, temporibus magnam! Lorem
-                              ipsum dolor sit amet consectetur adipisicing elit.
-                              Ratione possimus aperiam voluptatum temporibus
-                              harum molestias nam est rem mollitia ad maxime
-                              soluta, eligendi deleniti hic quisquam tempora.
-                              Minus, blanditiis ea.
+                              {datas[0].feedback}
                             </p>
                             <Modal data={data} />
                           </>
@@ -374,7 +351,7 @@ export default function ResultPage(props) {
             </ul>
           </div>
         </div>
-        <div className="p-12 text-center ">
+        <div className="p-14 text-center ">
           <Upbutton />
         </div>
         <div className="bg-yourcodex bg-cover rounded-xl text-center p-10">
@@ -384,7 +361,7 @@ export default function ResultPage(props) {
           <p className="text-white my-8">
             다른 웹 페에지에서도 취약점을 찾아보고 싶다면
           </p>
-          <button className="px-16 py-4 bg-[#1360FF] rounded-xl my-4">
+          <button className="px-16 py-4 bg-[#1360FF] rounded-xl my-4 hover:opacity-90">
             <Link to="/" className="text-white text-xl drop-shadow-text">
               첫페이지로 돌아가기
             </Link>

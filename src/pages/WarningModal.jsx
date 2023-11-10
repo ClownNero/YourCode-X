@@ -2,16 +2,35 @@ import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
 function WarningModal({ isOpen, onConfirm, onModalChange }) {
+  const [checkedItems, setCheckedItems] = useState({
+    item1: false,
+    item2: false,
+    item3: false,
+  });
 
+  const handleCheckChange = (event) => {
+    setCheckedItems({
+      ...checkedItems,
+      [event.target.name]: event.target.checked,
+    });
+  };
+
+  const handleSubmit = () => {
+    const checkedContents = Object.entries(checkedItems)
+      .filter(([key, value]) => value)
+      .map(([key, value]) => key);
+    onConfirm(checkedContents);
+    console.log('model', checkedContents)
+  };
   return (
     <div>
       {isOpen && (
         <div
-          className="fixed inset-0 min-w-[1024px] flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-auto"
+          className="fixed inset-0 min-w-[968px] flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-auto"
           onClick={onModalChange}
         >
           <div
-            className="bg-white  w-[1024px] h-[540px] overflow-auto text-left scrollbar-hide"
+            className="bg-white  w-[968px] h-[540px] overflow-auto text-left scrollbar-hide"
           >
             <div className="flex items-center justify-between bg-[#756F5221] px-4 py-2">
               <div className="inline-flex items-center">
@@ -28,11 +47,18 @@ function WarningModal({ isOpen, onConfirm, onModalChange }) {
                 <li>- 스캔 과정에서 데이터 손실이 발생할 수도 있으므로 점검을 시작하기 전에 중요 데이터는 반드시 백업해주세요.</li>
               </ol>
               <p>주의사항의 미숙지로 인해 발생하는 모든 상황에 대한 법적 책임은 사용자에게 있음을 알립니다.</p>
+              <div className="p-10">
+              <ol onClick={(e) => e.stopPropagation()}>
+                <li><input type="checkbox" name="SQL 인젝션(SQL Injection)" onChange={handleCheckChange}/>SQL 인젝션(SQL Injection)</li>
+                <li><input type="checkbox" name="크로스사이트스크립팅(XSS)" onChange={handleCheckChange}/>크로스사이트스크립팅(XSS)</li>
+                <li><input type="checkbox" name="Directory Indexing(TestData)" onChange={handleCheckChange}/>Directory Indexing(TestData)</li>
+              </ol>
+              </div>
               <div className="text-center mt-8">
                 <p className="text-sm mb-4">아래 버튼을 클릭 시 취약점 분석이 시작됩니다.</p>
                 <button 
                   className="px-8 py-3 bg-[#E0D9B0] rounded-xl text-lg"
-                  onClick={onConfirm}
+                  onClick={handleSubmit}
                 >
                     위와 같은 주의사항을 확인하였습니다.
                 </button>
@@ -44,5 +70,4 @@ function WarningModal({ isOpen, onConfirm, onModalChange }) {
     </div>
   );
 }
-
 export default WarningModal;
