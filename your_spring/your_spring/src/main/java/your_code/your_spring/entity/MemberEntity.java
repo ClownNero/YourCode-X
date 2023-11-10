@@ -3,41 +3,40 @@ package your_code.your_spring.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-//import your_code.your_spring.dto.MemberDTO;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "list_1")  //대문자 인식안됨!!!!!!!!!대문자하려면 의존성 추가해야됨
+@Table(name = "list_1")
 
 public class MemberEntity {
+<<<<<<< HEAD
 
+=======
+>>>>>>> e213a9d233562055e7b76c39443ae10f1a0039b8
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//
-//    private Long id;
-
     @Column(length = 500)
     private String url;
 
-    @Column(length = 3000)
-    private String payload_1;
+    @Column(length = 10000)
+    private String payload;
 
     @Column(length = 30)
-    private String category_1;
+    private String category;
 
-    private Integer num_1;
+    private Integer num;
 
     @Column(length = 15)
-    private String risk_1;
+    private String risk;
 
     @Column(length = 500)
-    private String targeturl_1;
+    private String targeturl;
 
-    @Column(length = 500)
-    private String inspectionurl_1;
+    @Column(length = 3000)
+    private String inspectionurl;
 
     @Column(length = 300)
+<<<<<<< HEAD
     private String detailpayload_1;
 
 
@@ -54,3 +53,7 @@ public class MemberEntity {
 //        this.payload = payload;
 //}
 }
+=======
+    private String detailpayload;
+}
+>>>>>>> e213a9d233562055e7b76c39443ae10f1a0039b8
