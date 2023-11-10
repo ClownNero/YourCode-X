@@ -7,27 +7,40 @@ import Why from "../components/Why";
 import Provide from "../components/Provide";
 import Upbutton from "../components/ui/Upbutton";
 import WarningModal from "./WarningModal";
+import CheckListModal from "./CheckListModal";
 
 export default function MainPages(props) {
   const [url, setUrl] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [checkModalIsOpen, setCheckModalIsOpen] = useState(false);
   const navigate = useNavigate();
-  const handleIsOpen = ()=>{
+
+  const handleCheckModalIsOpen= () => {
+    setModalIsOpen(false);
+    setCheckModalIsOpen(!checkModalIsOpen);
+  };
+
+  const handleIsOpen = () => {
     setModalIsOpen(!modalIsOpen);
   };
-  const handleAnalysis = async () => {
-    handleIsOpen();
+
+  const handleAnalysis = async (checkedContents) => {
+    handleCheckModalIsOpen();
     try {
-      const response =  await fetch("http://localhost:5000/gomain", {
+      console.log(checkedContents);
+      const response = await fetch("http://localhost:5000/gomain", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ processedData: url }),
+        body: JSON.stringify({
+          processedData: url,
+          checkItems: checkedContents,
+        }),
       });
 
       if (!response.ok) {
-        console.log(response)
+        console.log(response);
         console.log("hoi");
         throw new Error("Network response was not ok");
       }
@@ -35,7 +48,6 @@ export default function MainPages(props) {
       // Optional - if you expect a JSON response, you can parse the response:
       const data = await response.json();
       console.log(data);
-      
     } catch (error) {
       navigate(`/analysis/result`);
       console.error("Error during analysis:", error);
@@ -51,12 +63,11 @@ export default function MainPages(props) {
     //   if (!response.ok) {
     //     throw new Error("URL does not exist");
     //   }
-      
+
     // } catch (error) {
     //     navigate("/analysis/result",{state: url});
     //     console.error("Error:", error);
     // }
-    
   };
 
   return (
@@ -74,7 +85,7 @@ export default function MainPages(props) {
               name="url"
               onChange={(e) => setUrl(e.target.value)}
             />
-            <button className="bg-search px-4 w-24 rounded">
+            <button className="bg-search px-4 w-24 rounded shadow-[0_4px_9px_-4px_#3b71ca] transition n-duration-150 ease-iout hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
               <BsSearch className="text-white m-auto text-xl" />
             </button>
           </form>
@@ -84,13 +95,21 @@ export default function MainPages(props) {
           <Introduce />
           <Why />
           <Provide />
-          <li className="p-14">
+          <li className="p-16">
             <Upbutton />
           </li>
         </ul>
-        <WarningModal isOpen={modalIsOpen} onModalChange={handleIsOpen} onConfirm={handleAnalysis}/>
+        <WarningModal
+          isOpen={modalIsOpen}
+          onModalClose={handleIsOpen}
+          onModalChange={handleCheckModalIsOpen}
+        />
+        <CheckListModal 
+          isOpen={checkModalIsOpen}
+          onModalClose={handleCheckModalIsOpen}
+          onCofirm={handleAnalysis}
+        />
       </div>
     </>
   );
 }
-

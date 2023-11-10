@@ -323,28 +323,49 @@ def process_request():
     return url
 
 # openai 
+
+# OpenAI API Key 설정
+# openai.api_key = "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" // 내꺼
+# OPENAI_API_KEY = "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"
+# openai.api_key = "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" // 이게 되는듯
+
+# openai
+
+# JSONL 파일에서 데이터셋을 읽어오는 함수
+def load_dataset():
+    dataset = []
+    with open("Inter_YourCode-X\Windows_YourCode-X\dataset.jsonl", "r", encoding="utf-8") as file:
+        for line in file:
+            data = json.loads(line)
+            dataset.append(data)
+    print(data)
+    return dataset
+
+# 사용자의 질문에 대한 답변을 찾는 함수
+def find_answer(dataset, user_question):
+    for data in dataset:
+        if 'user' in data and 'assistant' in data and user_question.lower() in data['user'].lower():
+            return data['assistant']
+    return None
+
 @app.route("/openai/api",methods=["POST"])
 def chatGPT():
     try:
-        openai.api_key = os.getenv("OPENAI_API_KEY")
-        
+        openai.api_key = "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"
+
         input_data = request.json
         user_content = input_data.get('userContent')
-        print(f"user_content: {user_content}")
+        print(f"user_content: {user_content}") # 사용자 입력을 출력
 
-        messages = [{"role": "system", "content": "You are a helpful assistant."}]
-        messages.append({"role":"user", "content":user_content})
-
+        messages = [{"role": "system", "content": "Only security-related code analysis and answers to questions can include improved code. I answer everything in Korean except for the code."}]
+        messages.append({"role": "user", "content": user_content})
         completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
-
-        # OpenAI API의 응답에서 챗봇의 답변을 추출하는 역할
-        assistant_content = completion["choices"][0]["message"]["content"].encode("utf-8").decode()
-        messages.append({"role":"assistant", "content":assistant_content})
+        assistant_content = completion["choices"][0]["message"]["content"]
         return jsonify({"result": assistant_content})
+
     except Exception as e:
-        return jsonify({"error":str(e)})
+        print(f"에러 메시지: {str(e)}")
+        return jsonify({"result": "답변할 수 있는 질문이 아닙니다."})
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-    

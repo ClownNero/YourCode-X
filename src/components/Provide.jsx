@@ -4,16 +4,16 @@ export default function Provide(props) {
   return (
     <>
       <li className="p-10 bg-yourcodex bg-cover" id="Provide" name="Provide">
-        <p className="text-4xl text-white drop-shadow-text my-8">
+        <p className="text-4xl text-white drop-shadow-text my-10">
           We provide the following services
         </p>
         <div>
-          <ul className="flex mt-28 mb-20 justify-center text-gray-600">
-            <li className="bg-white rounded-3xl p-10 mr-7">
+          <ul className="flex mt-24 mb-20 justify-center text-gray-600">
+            <li className="bg-white rounded-tl-3xl rounded-br-3xl px-10 pb-20 pt-12 mr-7 shadow-custom">
               <img
                 src="/images/trust.png"
                 alt="trust logo"
-                className="w-[88px] h-[88px] mx-auto mb-6 drop-shadow-text"
+                className="w-[88px] h-[88px] mx-auto mb-10 drop-shadow-text"
               />
               <p className="font-bold text-lg  text-black">
                 신뢰성 있는 데이터 활용
@@ -23,11 +23,11 @@ export default function Provide(props) {
               <p>취약점 정보를 제공하여</p>
               <p>실제 위험에 대비할 수 있도록 도움</p>
             </li>
-            <li className="bg-white rounded-3xl p-10 mx-7">
+            <li className="bg-white rounded-tl-3xl rounded-br-3xl px-10 pb-20 pt-12 mx-7 shadow-custom">
               <img
                 src="/images/algorithm.png"
                 alt="algorithm logo"
-                className="w-[88px] h-[88px] mx-auto mb-6 drop-shadow-text"
+                className="w-[88px] h-[88px] mx-auto mb-10 drop-shadow-text"
               />
               <p className="font-bold text-lg text-black">
                 디렉토리 스캔 알고리즘 개선
@@ -37,11 +37,11 @@ export default function Provide(props) {
               <p>취약점을 검사하여</p>
               <p>웹 애플리케이션의 보안을 강화</p>
             </li>
-            <li className="bg-white rounded-3xl p-10 ml-7">
+            <li className="bg-white rounded-tl-3xl rounded-br-3xl px-10 pb-20 pt-12 ml-7 shadow-custom">
               <img
                 src="/images/schematic.png"
                 alt="third logo"
-                className="w-[88px] h-[88px] mx-auto mb-6 drop-shadow-text"
+                className="w-[88px] h-[88px] mx-auto mb-10 drop-shadow-text"
               />
               <p className="font-bold text-lg  text-black">
                 도식화된 결과 도출
