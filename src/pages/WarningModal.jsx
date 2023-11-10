@@ -1,43 +1,28 @@
 import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-function WarningModal({ isOpen, onConfirm, onModalChange }) {
-  const [checkedItems, setCheckedItems] = useState({
-    item1: false,
-    item2: false,
-    item3: false,
-  });
-
-  const handleCheckChange = (event) => {
-    setCheckedItems({
-      ...checkedItems,
-      [event.target.name]: event.target.checked,
-    });
-  };
+function WarningModal({ isOpen, onModalChange, onModalClose }) {
 
   const handleSubmit = () => {
-    const checkedContents = Object.entries(checkedItems)
-      .filter(([key, value]) => value)
-      .map(([key, value]) => key);
-    onConfirm(checkedContents);
-    console.log('model', checkedContents)
+    onModalChange();
   };
   return (
     <div>
       {isOpen && (
         <div
           className="fixed inset-0 min-w-[968px] flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-auto"
-          onClick={onModalChange}
+          onClick={onModalClose}
         >
           <div
             className="bg-white  w-[968px] h-[540px] overflow-auto text-left scrollbar-hide"
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between bg-[#756F5221] px-4 py-2">
               <div className="inline-flex items-center">
                 <div className="text-2xl mr-4 inline bg-[#D9CB84] w-[35px] text-center rounded-full">!</div>
                 <span className="font-bold text-xl">WARNING!</span>
               </div>
-              <AiOutlineClose className="text-xl" onClick={onModalChange}/>
+              <AiOutlineClose className="text-xl" onClick={onModalClose}/>
             </div>
             <div className="p-12">
               <h2 className="text-2xl font-bold">아래에 명시된 주의사항을 확인 후 진행해주세요.</h2>

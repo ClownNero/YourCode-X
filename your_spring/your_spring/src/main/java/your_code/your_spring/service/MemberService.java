@@ -2,14 +2,12 @@ package your_code.your_spring.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-//import your_code.your_spring.dto.MemberDTO;
 import your_code.your_spring.entity.MemberEntity;
 import your_code.your_spring.repository.MemberRepository;
 
 import java.util.List;
 
 @Service
-//@RequiredArgsConstructor
 @AllArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;

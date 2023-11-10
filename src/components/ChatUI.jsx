@@ -58,6 +58,7 @@ export default function ChatUI(props) {
   const handleClick = (event) => {
     
     // OpenAI Fetch 부분
+<<<<<<< HEAD
     // fetch('http://localhost:5000/openai/api', {
     //   method:'POST',
     //   headers:{
@@ -73,6 +74,22 @@ export default function ChatUI(props) {
     //   console.error('Error:', error);
     // });
     
+=======
+    fetch('http://localhost:5000/openai/api', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+      },
+      body: JSON.stringify({ userContent: userContent }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      setResponse(data.result);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+>>>>>>> e213a9d233562055e7b76c39443ae10f1a0039b8
   };
 
   return (
@@ -80,11 +97,11 @@ export default function ChatUI(props) {
       <div className="flex flex-col overflow-auto mb-20 scrollbar-hide">
         {messages.map((message) => (
           <>
-          <div className="flex justify-between items-start mx-3">
+          <div className="flex justify-between items-start ml-12 mr-3">
           {/* {message.user === "User" ? "": <BsFillPersonFill className="text-[#D9D9D9] bg-search text-5xl rounded-full"/>} */}
           {message.user === "User" ? "": 
             <img
-              className="text-[#D9D9D9] bg-slate-400 w-12 rounded-full drop-shadow-md inline mt-3"
+              className="text-[#D9D9D9] bg-slate-400 w-12 rounded-full drop-shadow-md inline mt-6"
               src="/images/logo.png"
               alt="security logo"
             ></img>}
@@ -98,7 +115,7 @@ export default function ChatUI(props) {
             >   
             {loading ? <p>Loading....</p> : <p className="text-left whitespace-pre-line">{message.text}</p> }
             </div>
-            {message.user === "User"?<BsFillPersonFill className="text-[#D9D9D9] bg-search text-[44px] rounded-full mt-3"/>:""}
+            {message.user === "User"?<BsFillPersonFill className="text-[#D9D9D9] bg-search text-[44px] rounded-full mt-5"/>:""}
           </div>
           </>
         ))}
@@ -117,7 +134,7 @@ export default function ChatUI(props) {
           type="submit" 
           onClick={handleSubmit} 
           disabled={!userContent}  // userContent가 비어있다면 버튼은 비활성화됩니다.
-          className="px-5 py-2 bg-search text-white rounded-md hover:opacity-90"
+          className={`px-5 py-2 ${userContent ? "bg-search text-white": "bg-white text-search" }  rounded-md hover:opacity-90`}
         >
           <AiOutlineSend className="text-xl"/>
         </button>

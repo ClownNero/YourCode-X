@@ -11,8 +11,8 @@ export default function Cvechart({ data }) {
       trigger: 'item'
     },
     legend: {
+      itemGap: 15,
       orient: 'vertical',
-      right: 'right',
       right: '5%',
       top:'middle',
       textStyle: {
@@ -26,8 +26,24 @@ export default function Cvechart({ data }) {
         right:'20%',
         label:{
           textStyle:{
-            fontSize:14
+            fontSize:16
           }
+        },
+        itemStyle: {
+          // 위험 주의 양호 색깔 설정 부분
+          // color: function(params) {
+          //   const item = data[params.dataIndex];
+          //   if (item.risk === "위험") {
+          //     return "#F56565"; // bg-red-500
+          //   } else if (item.risk === "주의") {
+          //     return "#FCD34D"; // bg-yellow-300
+          //   } else {
+          //     return "#48BB78"; // bg-green-500
+          //   }
+          // },
+          borderRadius: 10,
+          borderColor: "#fff",
+          borderWidth: 2,
         },
         color: [
           "#c1232b",
@@ -45,19 +61,19 @@ export default function Cvechart({ data }) {
           "#f4e001",
           "#f0805a",
           "#26c0c0"
-      ],
+        ],
         data: [
-          { value: 1499, name: 'Overflow' },
+          { value: 1499, name: 'Overflow'},
           { value: 2336, name: 'Memory Corruption' },
-          { value: 1674, name: 'Sql Injection' },
-          { value: 4160, name: 'XSS' },
-          { value: 665, name: '	Directory Traversal' },
-          { value: 108, name: 'File Inclusion' },
-          { value: 1026, name: 'CSRF' },
-          { value: 123, name: 'XXE' },
-          { value: 177, name: 'SSRF' },
-          { value: 133, name: 'Open Redirect' },
-          { value: 644, name: 'Input Validation' },
+          { value: 1674, name: 'Sql Injection'},
+          { value: 4160, name: 'XSS'},
+          { value: 665, name: 'Directory Traversal' },
+          { value: 108, name: 'File Inclusion'},
+          { value: 1026, name: 'CSRF'},
+          { value: 123, name: 'XXE'},
+          { value: 177, name: 'SSRF'},
+          { value: 133, name: 'Open Redirect'},
+          { value: 644, name: 'Input Validation'},
         ],
         emphasis: {
           itemStyle: {
@@ -75,7 +91,7 @@ export default function Cvechart({ data }) {
         style={{
           width: `1024px`,
           height: `450px`,
-          backgroundColor: "#F1F1F1",
+          boxShadow: "2px 2px 20px 10px rgba(0,0,0,0.1)",
           borderRadius: "30px",
           
         }}

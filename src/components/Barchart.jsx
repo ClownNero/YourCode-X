@@ -88,7 +88,11 @@ export default function Barchart({ data }) {
         style={{
           width: `${chartWidth}px`,
           height: `${chartHeight}px`,
+<<<<<<< HEAD
           boxShadow: "2px 2px 20px 5px rgba(0,0,0,0.1)",
+=======
+          boxShadow: "2px 2px 20px 10px rgba(0,0,0,0.1)",
+>>>>>>> e213a9d233562055e7b76c39443ae10f1a0039b8
           padding: "10px",
           borderRadius: "30px",
         }}

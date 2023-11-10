@@ -7,7 +7,11 @@ export default function Piechart({ data }) {
     { name: 'Memory Corruption', color: "#27727b" },
     { name: 'SQL 인젝션(SQL Injection)', color: "#fcce10" },
     { name: '크로스사이트스크립팅(XSS)', color: "#e87c25" },
+<<<<<<< HEAD
     { name: 'Directory Indexing(TestData)', color: "#b5c334" },
+=======
+    { name: '디렉토리 트레버설(Directory Traversal)', color: "#b5c334" },
+>>>>>>> e213a9d233562055e7b76c39443ae10f1a0039b8
     { name: 'File Inclusion', color: "#fe8463" },
     { name: 'CSRF', color: "#9bca63" },
     { name: 'XXE', color: "#fad860" },
@@ -15,7 +19,10 @@ export default function Piechart({ data }) {
     { name: 'Open Redirect', color: "#60c0dd" },
     { name: 'Input Validation', color: "#d7504b"},
   ];
+<<<<<<< HEAD
 
+=======
+>>>>>>> e213a9d233562055e7b76c39443ae10f1a0039b8
   //const mockData = [{num:1600 , category:"Sql Injection"},{num:3925 , category:"XSS"}, {num:630, category:"Directory Traversal"}]
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -86,7 +93,11 @@ export default function Piechart({ data }) {
         style={{
           width: `${chartWidth}px`,
           height: `${chartHeight}px`,
+<<<<<<< HEAD
           boxShadow: "2px 2px 20px 5px rgba(0,0,0,0.1)",
+=======
+          boxShadow: "2px 2px 20px 10px rgba(0,0,0,0.1)",
+>>>>>>> e213a9d233562055e7b76c39443ae10f1a0039b8
           padding: "10px",
           borderRadius: "30px",
         }}
