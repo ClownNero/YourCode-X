@@ -1,17 +1,18 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import SqlInjection from "./SqlInjection";
 import Xss from "./Xss";
+import Traversal from "./Traversal";
 
-export default function CheckListModal({isOpen, onModalClose, onCofirm}) {
-
+export default function CheckListModal({ isOpen, onModalClose, onCofirm }) {
   // 선택한 평평가 항목들을 관리할 state를 생성합니다.
   const [selectedItems, setSelectedItems] = useState([]);
-  const [currentItem, setCurrentItem] = useState('SQL 인젝션(SQL Injection)');
+  const [currentItem, setCurrentItem] = useState("SQL 인젝션(SQL Injection)");
   // 평가 항목 클릭 이벤트 핸들러
   const handleClick = (item) => {
     setCurrentItem(item);
-    if (!selectedItems.includes(item)) { // 중복 선택 방지
+    if (!selectedItems.includes(item)) {
+      // 중복 선택 방지
       setSelectedItems([...selectedItems, item]);
     }
     console.log(selectedItems);
@@ -26,7 +27,7 @@ export default function CheckListModal({isOpen, onModalClose, onCofirm}) {
 
   const handleSubmit = () => {
     // 전달하려는 로직 작성
-    if(selectedItems.length > 0){
+    if (selectedItems.length > 0) {
       onCofirm(selectedItems);
     }
   };
@@ -34,11 +35,11 @@ export default function CheckListModal({isOpen, onModalClose, onCofirm}) {
   return (
     <div>
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 min-w-[1024px] flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-auto"
           onClick={onModalClose}
         >
-          <div 
+          <div
             className="flex-col bg-white w-[1280px] h-4/5  overflow-auto text-left scrollbar-hide"
             onClick={(e) => e.stopPropagation()}
           >
@@ -48,14 +49,30 @@ export default function CheckListModal({isOpen, onModalClose, onCofirm}) {
                   원하는 평가 항목을 선택해주세요.(최소 1개 이상){" "}
                   <span className="text-[#1360FF] font-bold">*</span>
                 </h2>
-                {selectedItems.map((item, index) => // map 함수를 이용하여 선택한 항목들을 리스트로 표시
-                  <span className="border-2 border-[#2D5FFF] p-3 rounded-xl text-sm bg-[#E3EBFF] mr-5" key={index}>
-                    {item}
-                    <button className="ml-3 px-3 py-1 bg-[#DCDCDC] rounded-full" onClick={() => handleRemove(index)}>X</button>
-                  </span>
-                  
+                {selectedItems.map(
+                  (
+                    item,
+                    index // map 함수를 이용하여 선택한 항목들을 리스트로 표시
+                  ) => (
+                    <span
+                      className="border-2 border-[#2D5FFF] p-3 rounded-xl text-sm bg-[#E3EBFF] mr-5"
+                      key={index}
+                    >
+                      {item}
+                      <button
+                        className="ml-3 px-3 py-1 bg-[#DCDCDC] rounded-full"
+                        onClick={() => handleRemove(index)}
+                      >
+                        X
+                      </button>
+                    </span>
+                  )
                 )}
-                {selectedItems.length > 0 && <span className="text-[#A8A8A8] text-xs">드래그 인 드롭으로 점검 항목 추가 가능</span>}
+                {selectedItems.length > 0 && (
+                  <span className="text-[#A8A8A8] text-xs">
+                    드래그 인 드롭으로 점검 항목 추가 가능
+                  </span>
+                )}
               </div>
             </div>
             <div className="flex h-5/6">
@@ -63,10 +80,27 @@ export default function CheckListModal({isOpen, onModalClose, onCofirm}) {
                 <div className="h-5/6 border-b-2">
                   <ol>
                     <li className="border-b-2 text-[#585858] font-medium px-6 py-4 ">
-                      <button onClick={()=>handleClick('SQL 인젝션(SQL Injection)')}>SQL 인젝션(SQL Injection)</button>
+                      <button
+                        onClick={() => handleClick("SQL 인젝션(SQL Injection)")}
+                      >
+                        SQL 인젝션(SQL Injection)
+                      </button>
                     </li>
                     <li className="border-b-2 text-[#585858] font-medium px-6 py-4">
-                      <button onClick={()=>handleClick('크로스사이트스크립팅(XSS)')}>크로스사이트스크립팅(XSS)</button>
+                      <button
+                        onClick={() => handleClick("크로스사이트스크립팅(XSS)")}
+                      >
+                        크로스사이트스크립팅(XSS)
+                      </button>
+                    </li>
+                    <li className="border-b-2 text-[#585858] font-medium px-6 py-4">
+                      <button
+                        onClick={() =>
+                          handleClick("디렉토리 트레버설(Directory Traversal)")
+                        }
+                      >
+                        디렉토리 트레버설(Directory Traversal)
+                      </button>
                     </li>
                   </ol>
                 </div>
@@ -75,7 +109,7 @@ export default function CheckListModal({isOpen, onModalClose, onCofirm}) {
                   <button className="border-[#D9D9D9] border-2 text-[#585858] rounded-md mr-4 px-3 py-2 ">
                     이전
                   </button>
-                  <button 
+                  <button
                     className="border-[#2D5FFF] border-2 bg-[#0085FF] text-white rounded-md px-3 py-2"
                     onClick={handleSubmit}
                   >
@@ -85,8 +119,13 @@ export default function CheckListModal({isOpen, onModalClose, onCofirm}) {
               </div>
               <div className="w-5/6 bg-[#FAFAFA]">
                 {/* 선택한 취약점 별 Page Component 보여주기 */}
-                {currentItem === 'SQL 인젝션(SQL Injection)' && <SqlInjection />}
-                {currentItem === '크로스사이트스크립팅(XSS)' && <Xss/>}
+                {currentItem === "SQL 인젝션(SQL Injection)" && (
+                  <SqlInjection />
+                )}
+                {currentItem === "크로스사이트스크립팅(XSS)" && <Xss />}
+                {currentItem === "디렉토리 트레버설(Directory Traversal)" && (
+                  <Traversal />
+                )}
               </div>
             </div>
           </div>

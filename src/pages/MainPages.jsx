@@ -15,7 +15,7 @@ export default function MainPages(props) {
   const [checkModalIsOpen, setCheckModalIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleCheckModalIsOpen= () => {
+  const handleCheckModalIsOpen = () => {
     setModalIsOpen(false);
     setCheckModalIsOpen(!checkModalIsOpen);
   };
@@ -26,6 +26,7 @@ export default function MainPages(props) {
 
   const handleAnalysis = async (checkedContents) => {
     handleCheckModalIsOpen();
+    navigate(`/analysis/result`);
     try {
       console.log(checkedContents);
       const response = await fetch("http://localhost:5000/gomain", {
@@ -104,7 +105,7 @@ export default function MainPages(props) {
           onModalClose={handleIsOpen}
           onModalChange={handleCheckModalIsOpen}
         />
-        <CheckListModal 
+        <CheckListModal
           isOpen={checkModalIsOpen}
           onModalClose={handleCheckModalIsOpen}
           onCofirm={handleAnalysis}
