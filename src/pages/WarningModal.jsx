@@ -32,13 +32,6 @@ function WarningModal({ isOpen, onModalChange, onModalClose }) {
                 <li>- 스캔 과정에서 데이터 손실이 발생할 수도 있으므로 점검을 시작하기 전에 중요 데이터는 반드시 백업해주세요.</li>
               </ol>
               <p>주의사항의 미숙지로 인해 발생하는 모든 상황에 대한 법적 책임은 사용자에게 있음을 알립니다.</p>
-              <div className="p-10">
-              <ol onClick={(e) => e.stopPropagation()}>
-                <li><input type="checkbox" name="SQL 인젝션(SQL Injection)" onChange={handleCheckChange}/>SQL 인젝션(SQL Injection)</li>
-                <li><input type="checkbox" name="크로스사이트스크립팅(XSS)" onChange={handleCheckChange}/>크로스사이트스크립팅(XSS)</li>
-                <li><input type="checkbox" name="Directory Indexing(TestData)" onChange={handleCheckChange}/>Directory Indexing(TestData)</li>
-              </ol>
-              </div>
               <div className="text-center mt-8">
                 <p className="text-sm mb-4">아래 버튼을 클릭 시 취약점 분석이 시작됩니다.</p>
                 <button 

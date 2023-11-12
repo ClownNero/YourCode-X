@@ -24,6 +24,7 @@ def dirScan(url):
     # 출력 디렉토리 이름
     directory_names_set = set()
     directory_names = []
+    print(len(directory_names))
     for line in extracted_info.split('\n'):
         if line.startswith("DIR: "):
             directory_names_set.add(line[5:])
@@ -32,7 +33,7 @@ def dirScan(url):
     for directory_name in directory_names_set:
         directory_names.append(directory_name)
         print(directory_name)
-
+    print(len(directory_names))
     # 출력 파일 이름
     cnt = 0
     file_names_set = set()
@@ -361,13 +362,8 @@ def process_request():
     url = data.get('processedData')
     print(f"URL: {url}")
     
-<<<<<<< HEAD
-    checkedContents = data.get("checkedContents")
-    print(f"category: {checkedContents}");
-=======
     checkedContents = data.get("checkItems")
     print(f"category: {checkedContents}")
->>>>>>> e213a9d233562055e7b76c39443ae10f1a0039b8
 
     directories, files, identi_paths = dirScan(url)
     check_url = []
@@ -375,75 +371,6 @@ def process_request():
         full_url = "{}/{}".format(url.rstrip('/'), file.lstrip('/'))
         check_url.append(full_url)
 
-<<<<<<< HEAD
-    
-    ### 점검 시작 ###
-    if 'SQL 인젝션(SQL Injection)' in checkedContents:
-
-        # 점검항목1: SQL 인젝션(SQLI)
-        payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1 = sqlI(url, check_url)
-    
-                ### 점검 결과 ###
-        # 1: SQL 인젝션(SQLI): url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1
-        print_blue("\n[*] 점검 결과")
-        print_green("url:\n===========")
-        print(url)
-        print_green("\npayload_1:\n===========")
-        print(payload_1)
-        print_green("\ncategory_1:\n===========")
-        print(category_1)
-        print_green("\nnum_1:\n===========")
-        print(num_1)
-        print_green("\nrisk_1:\n===========")
-        print(risk_1)
-        print_green("\ntargeturl_1:\n===========")
-        print(targeturl_1)
-        print_green("\ninspectionurl_1:\n===========")
-        print(inspectionurl_1)
-        print_green("\ndetailpayload_1:\n===========")
-        print(detailpayload_1)
-
-        ### DB Connection ###
-        # DB checkList (Table: list -> INSERT, UPDATE)
-        print_blue("\n[*] DB Connection")
-        db_class = dbModule.Database()
-        # db_class.checkList_1(url, payload_1, category_1, num_1, risk_1, targeturl_1)
-        db_class.checkList_1(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
-        print_blue("[*] DB Close")
-
-    if '크로스사이트스크립팅(XSS)' in checkedContents:
-        # 점검항목2: 크로스사이트스크립트(XSS)
-        payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2 = xss(url, check_url, identi_paths)
-
-        # 2: 크로스사이트스크립팅(XSS): url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2
-        print_blue("\n[*] 점검 결과")
-        print_green("url:\n===========")
-        print(url)
-        print_green("\npayload_2:\n===========")
-        print(payload_2)
-        print_green("\ncategory_2:\n===========")
-        print(category_2)
-        print_green("\nnum_2:\n===========")
-        print(num_2)
-        print_green("\nrisk_2:\n===========")
-        print(risk_2)
-        print_green("\ntargeturl_2:\n===========")
-        print(targeturl_2)
-        print_green("\ninspectionurl_2:\n===========")
-        print(inspectionurl_2)
-        print_green("\ndetailpayload_2:\n===========")
-        print(detailpayload_2)    
-
-                ### DB Connection ###
-        # DB checkList (Table: list -> INSERT, UPDATE)
-        print_blue("\n[*] DB Connection")
-        db_class = dbModule.Database()
-        # db_class.checkList_1(url, payload_1, category_1, num_1, risk_1, targeturl_1)
-        db_class.checkList_2(url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2)
-        print_blue("[*] DB Close")
-
-    
-=======
     ### 점검 시작 & 점검 결과 & DB Connection###
     # 점검항목1: SQL 인젝션(SQL Injection)
     if 'SQL 인젝션(SQL Injection)' in checkedContents:
@@ -478,7 +405,6 @@ def process_request():
         db_class.checkList_3(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
         print_blue("[*] DB Close")
 
->>>>>>> e213a9d233562055e7b76c39443ae10f1a0039b8
     return url
 
 # openai 

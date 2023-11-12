@@ -58,23 +58,6 @@ export default function ChatUI(props) {
   const handleClick = (event) => {
     
     // OpenAI Fetch 부분
-<<<<<<< HEAD
-    // fetch('http://localhost:5000/openai/api', {
-    //   method:'POST',
-    //   headers:{
-    //     'Content-Type':'application/json',
-    //   },
-    //   body: JSON.stringify({ userContent: userContent }),
-    // })
-    // .then((response) => response.json())
-    // .then((data) => {
-    //   setResponse(data.result);
-    // })
-    // .catch((error) => {
-    //   console.error('Error:', error);
-    // });
-    
-=======
     fetch('http://localhost:5000/openai/api', {
       method:'POST',
       headers:{
@@ -89,7 +72,6 @@ export default function ChatUI(props) {
     .catch((error) => {
       console.error('Error:', error);
     });
->>>>>>> e213a9d233562055e7b76c39443ae10f1a0039b8
   };
 
   return (
