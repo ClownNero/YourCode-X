@@ -86,6 +86,13 @@ Cannot find module 'tailwind-scrollbar-hide
 
     yarn add tailwind-scrollbar-hide
 
+This module is a plugin that provides the ability to design scrollbars in Tailwind CSS.
+
+⚠️Module not found: Error:
+Cannot find module 'tailwind-scrollbar
+
+    yarn add tailwind-scrollbar
+
 This module is a plugin that provides the ability to hide scrollbars in Tailwind CSS.
 <br><br>
 
