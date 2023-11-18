@@ -4,32 +4,29 @@ export default function SqlInjection(props) {
   return (
     <div className="px-6 py-4">
       <div className="mb-10">
-        <h3 className="font-[600] text-xl pb-4">설명</h3>
-        <p>
-          <span className="text-lg">SQL 인젝션(SQL Injection)</span>은 악의적인
-          사용자가 웹 응용 프로그램의 입력 필드에 악의적인 SQL 쿼리를 삽입하여
-          데이터베이스에 대한 비인가된 액세스를 시도하는 공격 유형으로, 웹
-          페이지에서 사용자가 입력한 값을 제대로 검사하지 않고 그대로 데이터
-          질의어로 사용할 때 발생합니다.
+        <h3 className="font-bold text-[22px] pb-4">설명</h3>
+        <p className="text-lg">
+          <span className="font-bold">
+            SQL 인젝션(SQL Injection)
+          </span>
+          은 악의적인 사용자가 웹 애플리케이션의 데이터베이스 쿼리에 
+          임의의 SQL 코드를 삽입하는 공격. 
+          이를 통해 공격자는 데이터베이스의 정보를 임의로 조회, 수정, 삭제 등을 할 수 있습니다.
         </p>
       </div>
       <div className="mb-10">
-        <h3 className="font-[600] text-xl pb-4">발생 상황</h3>
+      <h3 className="font-bold text-[22px] pb-4">발생 상황</h3>
         <ol className="list-decimal ml-5 text-lg">
-          <li>
-            입력 필드 미검증: 웹 애플리케이션이 사용자 입력을 충분히 검증하지
-            않고 데이터베이스 쿼리로 직접 사용하는 경우. 사용자가 입력한
-            데이터가 악의적인 SQL 코드를 포함할 수 있습니다.
+          <li className="mb-2">
+            SQL 인젝션 공격은 주로 사용자 입력값을 쿼리문에 직접 삽입할 때 발생합니다.
           </li>
-          <li>
-            동적 SQL 쿼리: 동적 SQL 쿼리를 생성하는 경우, 입력 데이터를 문자열로
-            직접 연결하는 경우. 이 경우 악의적인 사용자가 입력 필드에 악의적인
-            SQL 코드를 삽입할 수 있습니다.
+          <li className="mb-2">
+            웹 애플리케이션에서 사용자 입력 값에 대한 적절한 검증 및 처리가 이루어지지 않을 경우 발생할 수 있습니다.
           </li>
         </ol>
       </div>
       <div>
-        <h3 className="font-[600] text-xl pb-4">위험도</h3>
+        <h3 className="font-bold text-[22px] pb-4">위험도</h3>
         <div className="flex mb-2 text-lg">
           <svg
             className="inline mr-2 flex-shrink-0 mt-1"

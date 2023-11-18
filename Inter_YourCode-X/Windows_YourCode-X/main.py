@@ -75,7 +75,7 @@ def dirScan(url):
 
     return directory_names, file_names, identi_paths
 
-def sqlI(url, check_url):
+def sql_injection(url, check_url):
     urls_json = json.dumps(check_url)
     print_blue("\n[*] SQL Injection 점검")
     output = subprocess.run(['python', './Inter_YourCode-X/VulnerabilityList/SQLI/sql_injection.py' ,url ,urls_json], capture_output=True, text=True)
@@ -89,16 +89,16 @@ def sqlI(url, check_url):
             payload_1s.add(line[17:])
     payload_1 = list(payload_1s)
     print_green("\npayload(Payload Code):")
-    print_green("===========")
+    print_green("======================")
     for code in payload_1:
         print(code)
         cnt += 1
     print_grey(f"payload cnt: {cnt}")
 
     # category_1 추출
-    category_1 = "SQL 인젝션(SQLI)"
+    category_1 = "SQL 인젝션(SQL Injection)"
     print_green("\ncategory:")
-    print_green("===========")
+    print_green("======================")
     print(category_1)
 
     # targeturl_1 추출
@@ -109,21 +109,21 @@ def sqlI(url, check_url):
             targeturl_1s.add(line[12:])
     targeturl_1 = list(targeturl_1s)
     print_green("\ntargeturl(Vulnerable file path):")
-    print_green("===========")
+    print_green("======================")
     for target in targeturl_1:
         print(target)
         num_1 += 1
 
     # num_1 추출
     print_green("\nnum(Number of vulnerable file paths):")
-    print_green("===========")
+    print_green("======================")
     print(num_1)
 
     # risk_1 데이터 추출
     risk_1 = '양호'
     risk_order = {'위험':0, '주의':1, '양호':2}
     print_green("\nrisk:")
-    print_green("===========")
+    print_green("======================")
     for line in extracted_info.split('\n'):
         if line.startswith("Risk: "):
             print(line[6:])
@@ -138,7 +138,7 @@ def sqlI(url, check_url):
             inspectionurl_1s.add(line[16:])
     inspectionurl_1 = list(inspectionurl_1s)
     print_green("\ninspection_url(Inspection url path):")
-    print_green("===========")
+    print_green("======================")
     for inspection in inspectionurl_1:
         print(inspection)
 
@@ -149,9 +149,10 @@ def sqlI(url, check_url):
             detailpayload_1s.add(line[16:])
     detailpayload_1 = list(detailpayload_1s)
     print_green("\ndetailpayload(Performance Indicators by Inspection Item):")
-    print_green("===========")
+    print_green("======================")
     for detail in detailpayload_1:
-        print(detail)
+        if detail:
+            print(detail)
 
     return payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1
 
@@ -170,16 +171,16 @@ def xss(url, check_url, identi_paths):
             payload_2s.add(line[17:])
     payload_2 = list(payload_2s)
     print_green("\npayload(Payload Code):")
-    print_green("===========")
+    print_green("======================")
     for code in payload_2:
         print(code)
         cnt += 1
-    print_grey(f"payload cnt: {cnt}")
+    print_grey(f"payload cnt: {cnt}")  
 
     # category_2 추출
     category_2 = "크로스사이트스크립팅(XSS)"
     print_green("\ncategory:")
-    print_green("===========")
+    print_green("======================")
     print(category_2)
 
     # targeturl_2 추출
@@ -190,21 +191,21 @@ def xss(url, check_url, identi_paths):
             targeturl_2s.add(line[12:])
     targeturl_2 = list(targeturl_2s)
     print_green("\ntargeturl(Vulnerable file path):")
-    print_green("===========")
+    print_green("======================")
     for target in targeturl_2:
         print(target)
         num_2 += 1
 
     # num_2 추출
     print_green("\nnum(Number of vulnerable file paths):")
-    print_green("===========")
+    print_green("======================")
     print(num_2)
 
     # risk_2 데이터 추출
     risk_2 = '양호'
     risk_order = {'위험':0, '주의':1, '양호':2}
     print_green("\nrisk:")
-    print_green("===========")
+    print_green("======================")
     for line in extracted_info.split('\n'):
         if line.startswith("Risk: "):
             print(line[6:])
@@ -219,22 +220,123 @@ def xss(url, check_url, identi_paths):
             inspectionurl_2s.add(line[16:])
     inspectionurl_2 = list(inspectionurl_2s)
     print_green("\nInspection_url(Inspection url path):")
-    print_green("===========")
+    print_green("======================")
     for inspection in inspectionurl_2:
         print(inspection)
 
     # detailpayload_2 추출
-    detailpayload_2s = set()
+    detailpayload_2s = set()  
     for line in extracted_info.split('\n'):
         if line.startswith("Detail payload: "):
             detailpayload_2s.add(line[16:])
     detailpayload_2 = list(detailpayload_2s)
     print_green("\nDetailpayload(Performance Indicators by Inspection Item):")
-    print_green("===========")
+    print_green("======================")
     for detail in detailpayload_2:
-        print(detail)
+        if detail:
+            print(detail)
 
     return payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2
+
+def directory_traversal(url, check_url, identi_paths):
+    urls_json = json.dumps(check_url)
+    identi_json = json.dumps(identi_paths)
+    print_blue("\n[*] Directory Traversal 점검")
+    output = subprocess.run(['python', './Inter_YourCode-X/VulnerabilityList/DT/directory_traversal.py' ,url ,urls_json, identi_json], capture_output=True, text=True, check=True)
+    extracted_info = output.stdout
+
+    # payload_3 추출
+    cnt = 0
+    payload_3s = set()
+    for line in extracted_info.split('\n'):
+        if line.startswith("Attack Detected: "):
+            payload_3s.add(line[17:])
+    payload_3 = list(payload_3s)
+    print_green("\npayload(Payload Code):")
+    print_green("======================")
+    for code in payload_3:
+        print(code)
+        cnt += 1
+    print_grey(f"payload cnt: {cnt}")
+
+    # category_3 추출
+    category_3 = "디렉토리 트레버설(Directory Traversal)"
+    print_green("\ncategory:")
+    print_green("======================")
+    print(category_3)
+
+    # targeturl_3 추출
+    targeturl_3s = set()
+    num_3 = 0
+    for line in extracted_info.split('\n'):
+        if line.startswith("Target url: "):
+            targeturl_3s.add(line[12:])
+    targeturl_3 = list(targeturl_3s)
+    print_green("\ntargeturl(Vulnerable file path):")
+    print_green("======================")
+    for target in targeturl_3:
+        print(target)
+        num_3 += 1 #취약한 파일 경로 수 파악
+
+    # num_3 추출
+    print_green("\nnum(Number of vulnerable file paths):")
+    print_green("======================")
+    print(num_3)
+
+    # risk_3 데이터 추출
+    risk_3 = '양호'
+    risk_order = {'위험':0, '주의':1, '양호':2}
+    print_green("\nrisk:")
+    print_green("======================")
+    for line in extracted_info.split('\n'):
+        if line.startswith("Risk: "):
+            extracted_risk = line[6:].strip()
+            if risk_order[extracted_risk] < risk_order[risk_3]:
+                risk_3 = extracted_risk
+    print(risk_3)
+
+    # inspectionurl_3 추출
+    inspectionurl_3 = set()
+    for line in extracted_info.split('\n'):
+        if line.startswith("Inspection_url: "):
+            inspectionurl_3.add(line[16:])
+    inspectionurl_3 = list(inspectionurl_3)
+    print_green("\ninspection_url(Inspection url path):")
+    print_green("======================")
+    for inspection in inspectionurl_3:
+        print(inspection)
+
+    # detailpayload_3 추출
+    detailpayload_3s = set()
+    for line in extracted_info.split('\n'):
+        if line.startswith("Detail payload: "):
+            detailpayload_3s.add(line[16:])
+    detailpayload_3 = list(detailpayload_3s)
+    print_green("\ndetailpayload(Performance Indicators by Inspection Item):")
+    print_green("======================")
+    for detail in detailpayload_3:
+        if detail:
+            print(detail)
+
+    return payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3
+
+def inspection_result(url, payload, category, num, risk, targeturl, inspectionurl, detailpayload):
+    print_green("url:\n======================")
+    print(url)
+    print_green("\npayload:\n======================")
+    print(payload)
+    print_green("\ncategory:\n======================")
+    print(category)
+    print_green("\nnum:\n======================")
+    print(num)
+    print_green("\nrisk:\n======================")
+    print(risk)
+    print_green("\ntargeturl:\n======================")
+    print(targeturl)
+    print_green("\ninspectionurl:\n======================")
+    print(inspectionurl)
+    print_green("\ndetailpayload:\n======================")
+    print(detailpayload)  
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*":{"origins": "http://localhost:3000"}})
@@ -259,118 +361,197 @@ def process_request():
     url = data.get('processedData')
     print(f"URL: {url}")
     
+    checkedContents = data.get("checkItems")
+    print(f"category: {checkedContents}")
+
     directories, files, identi_paths = dirScan(url)
     check_url = []
     for file in files:
         full_url = "{}/{}".format(url.rstrip('/'), file.lstrip('/'))
         check_url.append(full_url)
 
-    ### 점검 시작 ###
-    # 점검항목1: SQL 인젝션(SQLI)
-    payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1 = sqlI(url, check_url)
-    
+    ### 점검 시작 & 점검 결과 & DB Connection ###
+    # 점검항목1: SQL 인젝션(SQL Injection)
+    if 'SQL 인젝션(SQL Injection)' in checkedContents:
+        payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1 = sql_injection(url, check_url)
+        print_blue("\n[*] SQL Injection 점검 결과")
+        inspection_result(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
+        
+        print_blue("\n[*] DB Connection")
+        db_class = dbModule.Database()
+        db_class.checkList(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
+        print_blue("[*] DB Close")
+
     # 점검항목2: 크로스사이트스크립트(XSS)
-    payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2 = xss(url, check_url, identi_paths)
+    if '크로스사이트스크립팅(XSS)' in checkedContents:
+        payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2 = xss(url, check_url, identi_paths)
+        print_blue("\n[*] XSS 점검 결과")
+        inspection_result(url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2)
 
+        print_blue("\n[*] DB Connection")
+        db_class = dbModule.Database()
+        db_class.checkList(url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2)
+        print_blue("[*] DB Close")
 
-    ### 점검 결과 ###
-    # 1: SQL 인젝션(SQLI): url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1
-    print_blue("\n[*] 점검 결과")
-    print_green("url:\n===========")
-    print(url)
-    print_green("\npayload_1:\n===========")
-    print(payload_1)
-    print_green("\ncategory_1:\n===========")
-    print(category_1)
-    print_green("\nnum_1:\n===========")
-    print(num_1)
-    print_green("\nrisk_1:\n===========")
-    print(risk_1)
-    print_green("\ntargeturl_1:\n===========")
-    print(targeturl_1)
-    print_green("\ninspectionurl_1:\n===========")
-    print(inspectionurl_1)
-    print_green("\ndetailpayload_1:\n===========")
-    print(detailpayload_1)
-    
-    # 2: 크로스사이트스크립팅(XSS): url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2
-    print_blue("\n[*] 점검 결과")
-    print_green("url:\n===========")
-    print(url)
-    print_green("\npayload_2:\n===========")
-    print(payload_2)
-    print_green("\ncategory_2:\n===========")
-    print(category_2)
-    print_green("\nnum_2:\n===========")
-    print(num_2)
-    print_green("\nrisk_2:\n===========")
-    print(risk_2)
-    print_green("\ntargeturl_2:\n===========")
-    print(targeturl_2)
-    print_green("\ninspectionurl_2:\n===========")
-    print(inspectionurl_2)
-    print_green("\ndetailpayload_2:\n===========")
-    print(detailpayload_2)    
+    # 점검항목3: 디렉토리 트레버셜(Directory Traversal)
+    if '디렉토리 트레버설(Directory Traversal)' in checkedContents: 
+        payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3 = directory_traversal(url, check_url, identi_paths)
+        print_blue("\n[*] Directory Traversal 점검 결과")
+        inspection_result(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
 
-    ### DB Connection ###
-    # DB checkList (Table: list -> INSERT, UPDATE)
-    print_blue("\n[*] DB Connection")
-    db_class = dbModule.Database()
-    # db_class.checkList_1(url, payload_1, category_1, num_1, risk_1, targeturl_1)
-    db_class.checkList_1(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
-    print_blue("[*] DB Close")
+        print_blue("\n[*] DB Connection")
+        db_class = dbModule.Database()
+        db_class.checkList(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
+        print_blue("[*] DB Close")
 
     return url
 
-# openai 
+if __name__ == '__main__':
+    app.run(debug=True)
 
-# OpenAI API Key 설정
-# openai.api_key = "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" // 내꺼
-# OPENAI_API_KEY = "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"
-# openai.api_key = "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" // 이게 되는듯
+################## jsonl ###############################
+# def update_jsonl_with_added_record(record):
+#     existing_records = []
 
-# openai
+#     with jsonlines.open('./Inter_YourCode-X/Windows_YourCode-X/openai_dataset.jsonl', 'r') as reader:
+#         for existing_record in reader:
+#             existing_records.append(existing_record)
 
-# JSONL 파일에서 데이터셋을 읽어오는 함수
-def load_dataset():
-    dataset = []
-    with open("Inter_YourCode-X\Windows_YourCode-X\dataset.jsonl", "r", encoding="utf-8") as file:
-        for line in file:
-            data = json.loads(line)
-            dataset.append(data)
-    print(data)
-    return dataset
+#     existing_records.append(record)
 
-# 사용자의 질문에 대한 답변을 찾는 함수
-def find_answer(dataset, user_question):
-    for data in dataset:
-        if 'user' in data and 'assistant' in data and user_question.lower() in data['user'].lower():
-            return data['assistant']
-    return None
+#     with jsonlines.open('./Inter_YourCode-X/Windows_YourCode-X/openai_dataset.jsonl', 'w') as writer:
+#         writer.write_all(existing_records)
 
-import openai
-from mysql_to_csv import extract_data_to_csv
+#     print("JSONL 파일이 성공적으로 업데이트되었습니다.")
 
-@app.route("/openai/api",methods=["POST"])
+# def fetch_data_and_export_to_jsonl():
+#     try:
+#         db = pymysql.connect(host='localhost', user='root', db='YourCode', password='root', charset='utf8')
+#         cursor = db.cursor()
+
+#         select_query = "SELECT * FROM list_1"
+#         cursor.execute(select_query)
+
+#         result = cursor.fetchall()
+
+#         chat_messages = []
+#         for record in result:
+#             system_message = {"role": "system", "content": "do not answer except to provide code analyzed based on the results of web vulnerability checks. All text except code is provided in Korean"}
+
+#             user_messages = [
+#                 {"role": "user", "content": "url"},
+#                 {"role": "assistant", "content": record[0]}
+#             ]
+
+#             chat_messages.append({"messages": [system_message, *user_messages]})
+
+#             user_messages = [
+#                 {"role": "user", "content": "payload"},
+#                 {"role": "assistant", "content": record[1]}
+#             ]
+
+#             chat_messages.append({"messages": [system_message, *user_messages]})
+
+#             user_messages = [
+#                 {"role": "user", "content": "category"},
+#                 {"role": "assistant", "content": record[2]}
+#             ]
+
+#             chat_messages.append({"messages": [system_message, *user_messages]})
+
+#             user_messages = [
+#                 {"role": "user", "content": "num"},
+#                 {"role": "assistant", "content": str(record[3])}
+#             ]
+
+#             chat_messages.append({"messages": [system_message, *user_messages]})
+
+#             user_messages = [
+#                 {"role": "user", "content": "target_url"},
+#                 {"role": "assistant", "content": record[4]}
+#             ]
+
+#             chat_messages.append({"messages": [system_message, *user_messages]})
+
+#             user_messages = [
+#                 {"role": "user", "content": "inspection_url"},
+#                 {"role": "assistant", "content": record[5]}
+#             ]
+
+#             chat_messages.append({"messages": [system_message, *user_messages]})
+
+#             user_messages = [
+#                 {"role": "user", "content": "detail_payload"},
+#                 {"role": "assistant", "content": record[6]}
+#             ]
+
+#             chat_messages.append({"messages": [system_message, *user_messages]})
+
+#         # JSONL 파일로 저장
+#         with jsonlines.open('./Inter_YourCode-X/Windows_YourCode-X/openai_dataset.jsonl', 'w') as writer:
+#             for message in chat_messages:
+#                 writer.write(message)
+
+#     except Exception as e:
+#         print(f"에러 발생: {e}")
+#     finally:
+#         db.close()
+
+# # 함수 호출
+# fetch_data_and_export_to_jsonl()
+
+# def get_openai_dataset():
+#     try:
+#         dataset_file_path = './Inter_YourCode-X/Windows_YourCode-X/openai_dataset.jsonl'
+
+#         openai_dataset_list = []
+
+#         with jsonlines.open(dataset_file_path, 'r') as reader:
+#             for record in reader:
+#                 openai_dataset_list.append(record)
+
+#         return openai_dataset_list
+#     except Exception as e:
+#         print(f"에러 발생: {e}")
+#         return []
+
+######################### openai #####################################
+# openai.api_key 설정
+openai.api_key = "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"
+
+# # Fine-tuning에 사용할 JSONL 파일 업로드
+# file_path = "E:\\YourCode-X\\YourCode-X\\Inter_YourCode-X\\Windows_YourCode-X\\openai_dataset.jsonl"
+# file_upload_response = openai.File.create(
+#     file=open(file_path, "rb"),
+#     purpose="fine-tune"
+# )
+
+# # 업로드한 파일의 ID 얻기
+# file_id = file_upload_response["id"]
+
+# # 작업 시작
+# fine_tuning_job_response = openai.FineTuningJob.create(training_file=file_id, model="gpt-3.5-turbo")
+
+# # Fine-tuning 작업이 완료될 때까지 대기
+# fine_tuning_job_id = fine_tuning_job_response['id']
+# openai.FineTuningJob.wait_until_done(fine_tuning_job_id)
+
+@app.route("/openai/api", methods=["POST"])
 def chatGPT():
     try:
-        openai.api_key = "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"
-
-        extract_data_to_csv()
-
         input_data = request.json
         user_content = input_data.get('userContent')
-        print(f"user_content: {user_content}") # 사용자 입력을 출력
+        print(f"user_content: {user_content}")
 
-        messages = [{"role": "system", "content": "Only security-related code analysis and answers to questions can include improved code. I answer everything in Korean except for the code."}]
-        messages.append({"role": "user", "content": user_content})
-        completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
-        assistant_content = completion["choices"][0]["message"]["content"]
+        completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            prompt=user_content,
+            max_tokens=1000
+        )
+        assistant_content = completion["choices"][0]["text"]
         return jsonify({"result": assistant_content})
 
     except Exception as e:
         print(f"에러 메시지: {str(e)}")
         return jsonify({"result": "답변할 수 있는 질문이 아닙니다."})
 
-if __name__ == '__main__':
-    app.run(debug=True)

@@ -17,7 +17,6 @@ export default function Piechart({ data }) {
   ];
   //const mockData = [{num:1600 , category:"Sql Injection"},{num:3925 , category:"XSS"}, {num:630, category:"Directory Traversal"}]
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  console.log(data)
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -74,11 +73,10 @@ export default function Piechart({ data }) {
         labelLine: {
           show: false,
         },
-        data: data.map((item) => ({ value: item[0].payload.split('\n').length, name: item[0].category })),
+        data: data.map((item) => ({ value: item.payload.split('\n').length, name: item.category })),
       },
     ],
   });
-  console.log(options.series);
   const chartWidth = windowWidth >= 1560 ? (500 + data.length * 20) : (450 + data.length * 20);
   const chartHeight = windowWidth >= 1560 ? (400 + data.length * 30) : (350 + data.length * 30); 
   return (

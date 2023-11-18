@@ -10,6 +10,7 @@ module.exports = {
       '2xl': '1560px',
     },
     extend: {
+      scrollbar:['#0085FF'],
       colors: {
         brand: "#F96162",
         search: "#2D5FFF",
@@ -30,8 +31,14 @@ module.exports = {
       },
     },
   },
+  variants: {
+    extend: {
+      // 스크롤바 variant 추가
+      scrollbar: ['rounded']
+    },
+  },
   plugins: [
-    require('tailwind-scrollbar-hide')
+    require('tailwind-scrollbar-hide'),
+    require('tailwind-scrollbar'),
   ],
 };
-

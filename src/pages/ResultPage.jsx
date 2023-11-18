@@ -21,6 +21,7 @@ export default function ResultPage(props) {
   // 예시 코드
   // Mock 데이터 가져오기
   const [data, setData] = useState([]);
+  const [data_c, setData_c] = useState([]);
   const { state } = useLocation();
   
   const [sortedData, setSortedData] = useState([]);
@@ -45,10 +46,10 @@ export default function ResultPage(props) {
       setSortedData(
         [...data].sort((a, b) =>
           sortKey === "risk"
-            ? riskValues[a[0][sortKey]] < riskValues[b[0][sortKey]]
+            ? riskValues[a[sortKey]] < riskValues[b[sortKey]]
               ? -1
               : 1
-            : a[0][sortKey] < b[0][sortKey]
+            : a[sortKey] < b[sortKey]
             ? -1
             : 1
         )
@@ -57,10 +58,10 @@ export default function ResultPage(props) {
       setSortedData(
         [...data].sort((a, b) =>
           sortKey === "risk"
-            ? riskValues[a[0][sortKey]] > riskValues[b[0][sortKey]]
+            ? riskValues[a[sortKey]] > riskValues[b[sortKey]]
               ? -1
               : 1
-            : a[0][sortKey] > b[0][sortKey]
+            : a[sortKey] > b[sortKey]
             ? -1
             : 1
         )
@@ -75,9 +76,15 @@ export default function ResultPage(props) {
       .get("http://localhost:8081/analysis/result")
       .then((res) => {
         console.log(res);
-        const listArray = Object.values(res.data);
-        console.log(listArray);
+
+        const listArray = Object.values(res.data.list);
+        if (res.data.checking){
+        const listArray_c = Object.values(res.data.checking);
+        setData_c(listArray_c); }
+        
         setData(listArray);
+
+
         setLoading(false); // 데이터 요청 완료(성공 또는 실패) 후 로딩 상태를 false로 설정
       })
       .catch((err) => {
@@ -106,7 +113,7 @@ export default function ResultPage(props) {
           <ul className="flex justify-around w-full">
             <li className="pt-14 xl:mr-0 mr-12 min-w-0 ">
               <h2 className="text-Result text-2xl text-left mb-6">
-                Vulnerabilities by type Chart
+                <b>웹 취약점 동향 차트 </b>
               </h2>
               {/* 막대 차트 부분 */}
               {/* <div className="w-[1024px] h-[450px] bg-[#F1F1F1] rounded-[30px]"> */}
@@ -117,27 +124,41 @@ export default function ResultPage(props) {
         </div>
         <div className="mx-4 py-14" id="Chart" name="Chart">
           <h2 className="font-bold text-4xl text-Result">Problem Chart</h2>
-          <ul className="flex justify-around w-full">
-            <li className="pt-14 2xl:mr-30 mr-12 min-w-0">
+          <ul className="flex justify-center w-full">
+            <li className="pt-14 mr-36 min-w-0">
               <h2 className="text-Result text-2xl text-left mb-6">
-                위험도 차트 Risk Chart
+                <b>위험도 차트</b>
               </h2>
               {/* 막대 차트 부분 */}
               {loading ? `Loading...` : <Barchart data={data} />}
             </li>
-            <li className="text-center pt-14 2xl:ml-30 ml-12 min-w-0">
+            <li className="text-center pt-14 ml-36 min-w-0">
               <h2 className="text-Result text-2xl text-left mb-6">
-                취약점 차트 Weakness Chart
+                <b>취약점 차트</b>
               </h2>
               {/* 파이 차트 부분 */}
               {loading ? `Loading...` : <Piechart data={data} />}
             </li>
           </ul>
         </div>
+
+        <div>
+        <p className="text-Result text-2xl pt-14 pb-6 text-left mb-2">
+            이전과 달라진 점
+          </p>
+        {data.map(dataItem => (
+            data_c.map(item => (
+              <p>
+                {dataItem.category}의 취약점이 발견된 경로의 개수가 {item.num}에서 {dataItem.num}으로 바뀌었습니다.
+              </p>
+            ))
+          ))}
+        </div>
+
         <div className="mx-4 py-14" id="List" name="List">
           <h2 className="font-bold text-4xl text-Result">Problem List</h2>
           <p className="text-Result text-2xl pt-14 pb-6 text-left mb-2">
-            취약점 세부 목록
+            <b>취약점 세부 목록</b>
           </p>
           <div className="bg-gray text-center rounded-3xl shadow-md ">
             <table className="min-w-full divide-y divide-gray-200">
@@ -212,19 +233,19 @@ export default function ResultPage(props) {
                 {data
                   ? sortedData.map((datas, index) => (
                       <tr
-                        key={datas[0].category}
+                        key={datas.category}
                         className={index % 2 === 1 ? "bg-[#E3EBFF]" : ""}
                       >
                         <td className="px-6 py-4 whitespace-normal text-left">
-                          {datas[0].category}
+                          {datas.category}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
-                          {datas[0].num}
+                          {datas.num}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
-                          {datas[0].risk === "위험" ? (
+                          {datas.risk === "위험" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-red-500"></span>
-                          ) : datas[0].risk === "주의" ? (
+                          ) : datas.risk === "주의" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-yellow-300"></span>
                           ) : (
                             <span className="inline-block h-3 w-3 rounded-full bg-green-500"></span>
@@ -241,15 +262,15 @@ export default function ResultPage(props) {
           <h2 className="font-bold text-4xl text-Result">Diagnosis</h2>
           <div className="py-14">
             <h2 className="text-Result text-2xl text-left mb-3">
-              진단 세부 사항
+              <b>진단 세부 사항</b>
             </h2>
             <ul>
               {data
                 ? data
                     .filter(
-                      (datas) => datas[0].risk === "위험" || datas[0].risk === "주의"
+                      (datas) => datas.risk === "위험" || datas.risk === "주의"
                     )
-                    .sort((a, b) => riskValues[b[0].risk] - riskValues[a[0].risk])
+                    .sort((a, b) => riskValues[b.risk] - riskValues[a.risk])
                     .map((datas, index) => (
                       <>
                         <li
@@ -259,12 +280,12 @@ export default function ResultPage(props) {
                           }`}
                         >
                           <div>
-                            {datas[0].risk === "위험" ? (
+                            {datas.risk === "위험" ? (
                               <span className="inline-block h-4 w-4 rounded-full bg-red-500"></span>
                             ) : (
                               <span className="inline-block h-4 w-4 rounded-full bg-yellow-300"></span>
                             )}
-                            <span className="ml-4">{datas[0].category}</span>
+                            <span className="ml-4">{datas.category}</span>
                           </div>
                           {expandedIndex === index ? (
                             <RxCaretUp
@@ -286,12 +307,12 @@ export default function ResultPage(props) {
                                 1
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Target URL</b>
+                                <b>점검 대상 URL</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
                               {/* 공격 성공 CASE 데이터*/}
-                              {datas[0].inspectionurl}
+                              {datas.inspectionurl}
                             </p>
 
                             <div className="flex items-center mx-8">
@@ -299,12 +320,12 @@ export default function ResultPage(props) {
                                 2
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Vulnerability Found URL</b>
+                                <b>취약점이 발견된 URL</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
                                 {/* 취약점 발견 URL 데이터*/}
-                                {datas[0].targeturl}
+                                {datas.targeturl}
                             </p>
 
                             <div className="flex items-center mx-8">
@@ -312,11 +333,11 @@ export default function ResultPage(props) {
                                 3
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Detail Vulnerability</b>
+                                <b>상세 취약점 정보</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
-                              {datas[0].detailpayload}
+                              {datas.detailpayload}
                             </p>
 
                             <div className="flex items-center mx-8">
@@ -324,11 +345,11 @@ export default function ResultPage(props) {
                                 4
                               </span>
                               <span className="text-lg ml-3">
-                                <b>Vulnerability Payload Case</b>
+                                <b>취약한 데이터가 전송되는 케이스</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
-                              {datas[0].payload}
+                              {datas.payload}
                             </p>
                             
                             <div className="flex items-center mx-8">
@@ -336,11 +357,11 @@ export default function ResultPage(props) {
                                 5
                               </span>
                               <span className="text-lg ml-3">
-                              <b>FeedBack</b>
+                              <b>피드백</b>
                               </span>
                             </div>
                             <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
-                              {datas[0].feedback}
+                              {datas.feedback}
                             </p>
                             <Modal data={data} />
                           </>
