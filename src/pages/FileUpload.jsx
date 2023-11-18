@@ -1,27 +1,37 @@
 import React from "react";
 
-export default function SqlInjection(props) {
+export default function Traversal(props) {
   return (
     <div className="px-6 py-4">
       <div className="mb-10">
         <h3 className="font-bold text-[22px] pb-4">설명</h3>
         <p className="text-lg">
           <span className="font-bold">
-            SQL 인젝션(SQL Injection)
+            파일 업로드(File Upload)
           </span>
-          은 악의적인 사용자가 웹 애플리케이션의 데이터베이스 쿼리에 
-          임의의 SQL 코드를 삽입하는 공격. 
-          이를 통해 공격자는 데이터베이스의 정보를 임의로 조회, 수정, 삭제 등을 할 수 있습니다.
+          은 공격자가 악성 코드가 포함된 파일을 업로드하거나, 
+          서버의 취약점을 이용하여 허가되지 않은 위치에 파일을 업로드하는 공격. 
+          이로 인해 서버가 공격당하거나, 사용자의 정보가 유출될 수 있습니다.
         </p>
       </div>
       <div className="mb-10">
-      <h3 className="font-bold text-[22px] pb-4">발생 상황</h3>
+        <h3 className="font-bold text-[22px] pb-4">발생 상황</h3>
         <ol className="list-decimal ml-5 text-lg">
           <li className="mb-2">
-            SQL 인젝션 공격은 주로 사용자 입력값을 쿼리문에 직접 삽입할 때 발생합니다.
+            파일 업로드(File Upload) 공격은 주로 웹 애플리케이션에서 파일의 
+            종류, 크기, 업로드 위치 등을 적절하게 제한하지 않을 때 발생합니다. 
+            이 경우, 공격자는 악성 파일을 업로드하거나, 업로드된 파일을 이용해 서버를 조작하거나, 
+            다른 사용자의 시스템을 공격할 수 있습니다.
           </li>
           <li className="mb-2">
-            웹 애플리케이션에서 사용자 입력 값에 대한 적절한 검증 및 처리가 이루어지지 않을 경우 발생할 수 있습니다.
+            웹 애플리케이션에서 업로드된 파일의 실행을 허용할 경우, 
+            공격자는 이를 이용해 웹 서버 내에서 악성 코드를 실행시켜 
+            서버의 제어권을 공격자에게 넘어갈 수 있습니다.
+          </li>
+          <li className="mb-2">
+            사용자가 업로드하는 파일에 대한 적절한 검증 또는 필터링이 이루어지지 않았을 때, 
+            공격자는 이러한 취약점을 이용해 서버의 중요한 파일을 변조하거나 
+            시스템을 공격할 수 있습니다.
           </li>
         </ol>
       </div>
@@ -50,9 +60,8 @@ export default function SqlInjection(props) {
             </text>
           </svg>
           <span>
-            임의로 작성된 SQL 쿼리 입력에 대한 검증이 미흡하여 사용자의
-            정보(쿠키, 세션 등)를 탈취하거나 자동으로 비정상적인 기능이 실행,
-            조작이 가능한 경우
+            업로드 파일에 대한 확장자 검증이 미흡하여 
+            공격자에게 서버 노출 및 제어권 제공이 된 경우
           </span>
         </div>
         <div className="flex mb-2 text-lg">
@@ -71,7 +80,9 @@ export default function SqlInjection(props) {
               stroke="white"
             />
           </svg>
-          <span>임의로 작성된 SQL 쿼리 입력에 대한 검증이 미흡한 경우</span>
+          <span>
+            업로드 파일에 대한 확장자 검증이 미흡한 경우
+          </span>
         </div>
         <div className="flex mb-2 text-lg">
           <svg
@@ -86,7 +97,7 @@ export default function SqlInjection(props) {
             <circle cx="10" cy="10" r="5.5" fill="#04B600" stroke="white" />
           </svg>
           <span>
-            임의로 작성된 SQL 쿼리 입력에 대한 검증이 안전하게 이루어진 경우
+            업로드 파일에 대한 확장자 검증이 안전하게 이루어진 경우
           </span>
         </div>
       </div>
