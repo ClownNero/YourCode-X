@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import SqlInjection from "./SqlInjection";
 import Xss from "./Xss";
 import Traversal from "./Traversal";
+import FileUpload from "./FileUpload";
+import FileDownload from "./FileDownload";
 
 export default function CheckListModal({ isOpen, onModalClose, onCofirm }) {
   // 선택한 평평가 항목들을 관리할 state를 생성합니다.
@@ -36,19 +38,20 @@ export default function CheckListModal({ isOpen, onModalClose, onCofirm }) {
     <div>
       {isOpen && (
         <div
-          className="fixed inset-0 min-w-[1024px] flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-auto"
+          className="fixed inset-0 min-w-[1024px] flex items-center justify-center z-50 bg-black bg-opacity-50"
           onClick={onModalClose}
         >
           <div
-            className="flex-col bg-white w-[1280px] h-4/5  overflow-auto text-left scrollbar-hide"
+            className="flex-col bg-white w-[1280px] h-4/5 text-left scrollbar-hide"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex h-[163px] flex-shrink-0 border-b-black border-b-2 px-8 pt-10">
-              <div>
-                <h2 className="font-bold text-xl mb-9">
+            <div className="flex h-[163px] flex-shrink-0 border-b-black border-b-2 px-8 pt-10 overflow-y-hidden scrollbar-thin scrollbar-track-[white] scrollbar-thumb-[#0085FF]">
+              <div className="flex flex-col min-w-max">
+                <h2 className="font-bold text-xl  flex-grow">
                   원하는 평가 항목을 선택해주세요.(최소 1개 이상){" "}
                   <span className="text-[#1360FF] font-bold">*</span>
                 </h2>
+		<div className="inline-flex mb-5 items-center">
                 {selectedItems.map(
                   (
                     item,
@@ -70,38 +73,41 @@ export default function CheckListModal({ isOpen, onModalClose, onCofirm }) {
                 )}
                 {selectedItems.length > 0 && (
                   <span className="text-[#A8A8A8] text-xs">
-                    드래그 인 드롭으로 점검 항목 추가 가능
+                    클릭으로 점검 항목 추가 가능
                   </span>
                 )}
+		</div>
               </div>
             </div>
             <div className="flex h-5/6">
               <div className="flex-col w-[256px] flex-shrink-0 border-r-2">
-                <div className="h-5/6 border-b-2">
+                <div className="h-5/6 border-b-2 text-center">
                   <ol>
                     <li className="border-b-2 text-[#585858] font-medium px-6 py-4 ">
-                      <button
-                        onClick={() => handleClick("SQL 인젝션(SQL Injection)")}
-                      >
-                        SQL 인젝션(SQL Injection)
+                      <button onClick={() => handleClick("SQL 인젝션(SQL Injection)")}>
+                        SQL 인젝션<br></br>(SQL Injection)
                       </button>
                     </li>
                     <li className="border-b-2 text-[#585858] font-medium px-6 py-4">
-                      <button
-                        onClick={() => handleClick("크로스사이트스크립팅(XSS)")}
-                      >
-                        크로스사이트스크립팅(XSS)
+                      <button onClick={() => handleClick("크로스사이트스크립팅(XSS)")}>
+                        크로스사이트스크립팅<br></br>(XSS)
                       </button>
                     </li>
                     <li className="border-b-2 text-[#585858] font-medium px-6 py-4">
-                      <button
-                        onClick={() =>
-                          handleClick("디렉토리 트레버설(Directory Traversal)")
-                        }
-                      >
-                        디렉토리 트레버설(Directory Traversal)
+                      <button onClick={() => handleClick("디렉토리 트레버설(Directory Traversal)")}>
+                        디렉토리 트레버설<br></br>(Directory Traversal)
                       </button>
                     </li>
+                    <li className="border-b-2 text-[#585858] font-medium px-6 py-4">
+                      <button onClick={() => handleClick("파일 업로드(File Upload)")}>
+                        파일 업로드<br></br>(File Upload)
+                      </button>
+                    </li>
+                    <li className="border-b-2 text-[#585858] font-medium px-6 py-4">
+                      <button onClick={() => handleClick("파일 다운로드(File Download)")}>
+                        파일 다운로드<br></br>(File Download)
+                      </button>
+                    </li>                                   
                   </ol>
                 </div>
                 <div className="h-1/6 bg-[#F0F0F0] flex justify-center items-center">
@@ -119,13 +125,11 @@ export default function CheckListModal({ isOpen, onModalClose, onCofirm }) {
               </div>
               <div className="w-5/6 bg-[#FAFAFA]">
                 {/* 선택한 취약점 별 Page Component 보여주기 */}
-                {currentItem === "SQL 인젝션(SQL Injection)" && (
-                  <SqlInjection />
-                )}
-                {currentItem === "크로스사이트스크립팅(XSS)" && <Xss />}
-                {currentItem === "디렉토리 트레버설(Directory Traversal)" && (
-                  <Traversal />
-                )}
+                {currentItem === "SQL 인젝션(SQL Injection)" && (<SqlInjection/>)}
+                {currentItem === "크로스사이트스크립팅(XSS)" && <Xss/>}
+                {currentItem === "디렉토리 트레버설(Directory Traversal)" && (<Traversal/>)}
+                {currentItem === "파일 업로드(File Upload)" && (<FileUpload/>)}
+                {currentItem === "파일 다운로드(File Download)" && (<FileDownload/>)}
               </div>
             </div>
           </div>

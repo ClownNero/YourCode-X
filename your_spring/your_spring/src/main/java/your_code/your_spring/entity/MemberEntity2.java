@@ -7,9 +7,13 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "list_2")
+@Table(name = "checking")
+
 public class MemberEntity2 {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long checking_id;
+
     @Column(length = 500)
     private String url;
 

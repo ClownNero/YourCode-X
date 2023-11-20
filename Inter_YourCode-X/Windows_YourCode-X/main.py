@@ -370,7 +370,7 @@ def process_request():
         full_url = "{}/{}".format(url.rstrip('/'), file.lstrip('/'))
         check_url.append(full_url)
 
-    ### 점검 시작 & 점검 결과 & DB Connection###
+    ### 점검 시작 & 점검 결과 & DB Connection ###
     # 점검항목1: SQL 인젝션(SQL Injection)
     if 'SQL 인젝션(SQL Injection)' in checkedContents:
         payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1 = sql_injection(url, check_url)
@@ -379,30 +379,30 @@ def process_request():
         
         print_blue("\n[*] DB Connection")
         db_class = dbModule.Database()
-        db_class.checkList_1(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
+        db_class.checkList(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
         print_blue("[*] DB Close")
 
     # 점검항목2: 크로스사이트스크립트(XSS)
-    if '크로스사이트스크립팅(XSS)' in checkedContents:    
+    if '크로스사이트스크립팅(XSS)' in checkedContents:
         payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2 = xss(url, check_url, identi_paths)
         print_blue("\n[*] XSS 점검 결과")
         inspection_result(url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2)
 
         print_blue("\n[*] DB Connection")
         db_class = dbModule.Database()
-        db_class.checkList_2(url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2)
+        db_class.checkList(url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2)
         print_blue("[*] DB Close")
 
     # 점검항목3: 디렉토리 트레버셜(Directory Traversal)
-    # if '디렉토리 트레버설(Directory Traversal)' in checkedContents: 
-    payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3 = directory_traversal(url, check_url, identi_paths)
-    print_blue("\n[*] Directory Traversal 점검 결과")
-    inspection_result(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
+    if '디렉토리 트레버설(Directory Traversal)' in checkedContents: 
+        payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3 = directory_traversal(url, check_url, identi_paths)
+        print_blue("\n[*] Directory Traversal 점검 결과")
+        inspection_result(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
 
-    print_blue("\n[*] DB Connection")
-    db_class = dbModule.Database()
-    db_class.checkList_3(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
-    print_blue("[*] DB Close")
+        print_blue("\n[*] DB Connection")
+        db_class = dbModule.Database()
+        db_class.checkList(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
+        print_blue("[*] DB Close")
 
     return url
 
@@ -430,5 +430,3 @@ def chatGPT():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-    

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ReactEcharts from "echarts-for-react";
 
 export default function Cvechart({ data }) {

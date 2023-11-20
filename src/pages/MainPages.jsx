@@ -26,7 +26,7 @@ export default function MainPages(props) {
 
   const handleAnalysis = async (checkedContents) => {
     handleCheckModalIsOpen();
-    navigate(`/analysis/result`);
+    
     try {
       console.log(checkedContents);
       const response = await fetch("http://localhost:5000/gomain", {

@@ -15,7 +15,6 @@ export default function Piechart({ data }) {
     { name: 'Open Redirect', color: "#60c0dd" },
     { name: 'Input Validation', color: "#d7504b"},
   ];
-
   //const mockData = [{num:1600 , category:"Sql Injection"},{num:3925 , category:"XSS"}, {num:630, category:"Directory Traversal"}]
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -74,7 +73,7 @@ export default function Piechart({ data }) {
         labelLine: {
           show: false,
         },
-        data: data.map((item) => ({ value: item[0].payload.split('\n').length, name: item[0].category })),
+        data: data.map((item) => ({ value: item.payload.split('\n').length, name: item.category })),
       },
     ],
   });
@@ -86,7 +85,7 @@ export default function Piechart({ data }) {
         style={{
           width: `${chartWidth}px`,
           height: `${chartHeight}px`,
-          boxShadow: "2px 2px 20px 5px rgba(0,0,0,0.1)",
+          boxShadow: "2px 2px 20px 10px rgba(0,0,0,0.1)",
           padding: "10px",
           borderRadius: "30px",
         }}
