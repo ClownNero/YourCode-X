@@ -75,14 +75,14 @@ export default function ChatUI(props) {
   };
 
   return (
-    <div name="wrap" className="flex flex-col h-5/6 px-4 py-8 bg-gray-200 rounded-3xl border-2 border-search relative">
+    <div name="wrap" className="flex flex-col h-5/6 px-4 py-8 bg-[#F1F5FF] rounded-3xl border-2 border-search relative">
       <div className="flex flex-col overflow-auto mb-20 scrollbar-hide">
         {messages.map((message) => (
           <>
-          <div className="flex justify-between items-start ml-12 mr-3">
+          <div className={`flex justify-between items-start ${message.user=== "User"? "ml-12 mr-3":"ml-3 mr-12"}`}>
           {message.user === "User" ? "": 
             <img
-              className="text-[#D9D9D9] bg-slate-400 w-12 rounded-full drop-shadow-md inline mt-6"
+              className="text-[#D9D9D9] bg-[#d6e1fc] w-[52px] rounded-full drop-shadow-md inline mt-3"
               src="/images/logo.png"
               alt="security logo"
             ></img>}
@@ -96,7 +96,7 @@ export default function ChatUI(props) {
             >   
             {loading ? <p>Loading....</p> : <p className="text-left whitespace-pre-line break-words">{message.text}</p> }
             </div>
-            {message.user === "User"?<BsFillPersonFill className="text-[#D9D9D9] bg-search text-[44px] rounded-full mt-5"/>:""}
+            {message.user === "User"?<BsFillPersonFill className="text-[#eef3ff] bg-search text-[44px] rounded-full mt-5"/>:""}
           </div>
           </>
         ))}

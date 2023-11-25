@@ -38,11 +38,11 @@ export default function CheckListModal({ isOpen, onModalClose, onCofirm }) {
     <div>
       {isOpen && (
         <div
-          className="fixed inset-0 min-w-[1024px] flex items-center justify-center z-50 bg-black bg-opacity-50"
+          className="fixed inset-0 min-w-[1024px] min-h-[960px] flex items-center justify-center z-50 bg-black bg-opacity-50"
           onClick={onModalClose}
         >
           <div
-            className="flex-col bg-white w-[1280px] h-4/5 text-left scrollbar-hide"
+            className="flex-col bg-white w-[1280px] h-[963px] text-left scrollbar-hide"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex h-[163px] flex-shrink-0 border-b-black border-b-2 px-8 pt-10 overflow-y-hidden scrollbar-thin scrollbar-track-[white] scrollbar-thumb-[#0085FF]">
@@ -79,7 +79,7 @@ export default function CheckListModal({ isOpen, onModalClose, onCofirm }) {
 		</div>
               </div>
             </div>
-            <div className="flex h-5/6">
+            <div className="flex h-[800px]">
               <div className="flex-col w-[256px] flex-shrink-0 border-r-2">
                 <div className="h-5/6 border-b-2 text-center">
                   <ol>

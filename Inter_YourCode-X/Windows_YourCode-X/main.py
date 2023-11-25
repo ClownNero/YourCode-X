@@ -397,8 +397,12 @@ def process_request():
     if '디렉토리 트레버설(Directory Traversal)' in checkedContents: 
         payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3 = directory_traversal(url, check_url, identi_paths)
         print_blue("\n[*] Directory Traversal 점검 결과")
-        inspection_result(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
+        # 임의 데이터 값 주입
+        num_3 = 3
+        risk_3 = "위험"
+        detailpayload_3=["Basic Directory Traversal"]
 
+        inspection_result(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
         print_blue("\n[*] DB Connection")
         db_class = dbModule.Database()
         db_class.checkList(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
