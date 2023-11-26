@@ -5,40 +5,37 @@ import Barchart from "../components/Barchart";
 import Piechart from "../components/Piechart";
 import Upbutton from "../components/ui/Upbutton";
 import { RxCaretSort, RxCaretUp, RxCaretDown } from "react-icons/rx";
-import { useLocation } from 'react-router-dom';
 import Modal from "./Modal";
 import Review from "../components/Review";
 import Cvechart from "../components/Cvechart";
+import SQLpayload from "../components/payload/SQLpayload";
+import XSSpayload from "../components/payload/XSSpayload";
+import Traversalpayload from "../components/payload/Traversalpayload";
+import FileUploadpayload from "../components/payload/FileUploadpayload";
+import FileDownloadpayload from "../components/payload/FileDownloadpayload";
+import Changebox from "../components/ui/Changebox";
 
 const riskValues = {
   위험: 3,
   주의: 2,
   양호: 1,
 };
-export default function ResultPage(props) {
+export default function ResultPage({props}) {
   // 이전 페이지에서 전달 받은 결과 데이터 == 분석데이터
   //const resultData = location.state.result;
   // 예시 코드
   // Mock 데이터 가져오기
   const [data, setData] = useState([]);
   const [data_c, setData_c] = useState([]);
-  const { state } = useLocation();
-  
+  const [changeData, setChangeData] = useState();
   const [sortedData, setSortedData] = useState([]);
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState(null);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
   useEffect(() => {
-    // fetch('http://localhost:5000/gomain',{
-    //   method:'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({processedData: state}),
-    // })
     putSpringData();
-    // fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -78,18 +75,60 @@ export default function ResultPage(props) {
         console.log(res);
 
         const listArray = Object.values(res.data.list);
+        let listArray_c;
         if (res.data.checking){
-        const listArray_c = Object.values(res.data.checking);
+        listArray_c = Object.values(res.data.checking);
         setData_c(listArray_c); }
         
         setData(listArray);
-
-
-        setLoading(false); // 데이터 요청 완료(성공 또는 실패) 후 로딩 상태를 false로 설정
+        changeDatafunc(listArray, listArray_c); // 여기에서 changeDatafunc 함수를 호출합니다.
+        
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
+  }
+  function changeDatafunc(data, data_c) {
+    let resultArray = [];
+    const categories = ["SQL 인젝션(SQL Injection)", "크로스사이트스크립팅(XSS)", "디렉토리 트레버설(Directory Traversal)", "파일 업로드(File Upload)", "파일 다운로드(File Download)"];
+  
+    categories.forEach((category) => {
+      let dataItem = data.find((item) => item.category === category);
+      let dataCItem = data_c.find((item) => item.category === category);
+      let diff = "없음";
+      console.log(dataItem, dataCItem)
+      if (dataItem && dataCItem) {
+        diff = dataItem.num - dataCItem.num;
+      }
+      let displayName;
+        switch (category) {
+          case "SQL 인젝션(SQL Injection)":
+            displayName = "SQL Injection";
+            break;
+          case "크로스사이트스크립팅(XSS)":
+            displayName ="XSS";
+            break;
+          case "디렉토리 트레버설(Directory Traversal)":
+            displayName = "Directory Traversal";
+            break;
+          case "파일 업로드(File Upload)":
+            displayName = "File Upload";
+            break;
+          case "파일 다운로드(File Download)":
+            displayName = "File Download";
+            break;
+          default:
+            displayName = category;
+        }
+      resultArray.push({
+        category: displayName,
+        difference: diff,
+        currentData: dataItem ? dataItem.num : "없음" // dataItem이 없을 경우 "없음"을 사용합니다.
+      });
+    });
+  
+    setChangeData(resultArray);
   }
   // const fetchData = async () => {
   //   try {
@@ -142,19 +181,18 @@ export default function ResultPage(props) {
           </ul>
         </div>
 
-        <div>
-        <p className="text-Result text-2xl pt-14 pb-6 text-left mb-2">
-            이전과 달라진 점
-          </p>
-        {data.map(dataItem => (
-            data_c.map(item => (
-              <p>
-                {dataItem.category}의 취약점이 발견된 경로의 개수가 {item.num}에서 {dataItem.num}으로 바뀌었습니다.
-              </p>
-            ))
-          ))}
+        <div className="mx-4 pt-6 pb-12" id="Chage" name="Chage">
+          <h2 className="font-bold text-4xl text-Result">Changes</h2>
+          <h3 className="pt-14 text-2xl text-Result"><b>취약점이 발견된 경로의 개수</b></h3>
+          <ul className="flex justify-center w-full py-14 min-w-[1560px]">
+            {loading ? `Loading...`:<Changebox dataD={changeData[0]}colorD="red"/>}
+            {loading? `Loading...`:<div className="mx-10"><Changebox dataD={changeData[1]} colorD="blue"/></div>}
+            {loading? `Loading...`:<Changebox dataD={changeData[2]} colorD="yellow"/>}
+            {loading? `Loading...`:<div className="mx-10"><Changebox dataD={changeData[3]}  colorD="green"/></div>}
+            {loading? `Loading...`:<Changebox dataD={changeData[4]} colorD="green"/>}
+          </ul>
         </div>
-
+        
         <div className="mx-4 py-14" id="List" name="List">
           <h2 className="font-bold text-4xl text-Result">Problem List</h2>
           <p className="text-Result text-2xl pt-14 pb-6 text-left mb-2">
@@ -310,7 +348,7 @@ export default function ResultPage(props) {
                                 <b>점검 대상 URL</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                            <p className="ml-20 rounded-3xl bg-[#F4F4F4] p-6 mt-2 mb-8 whitespace-pre-line break-words shadow-detail">
                               {/* 공격 성공 CASE 데이터*/}
                               {datas.inspectionurl}
                             </p>
@@ -323,7 +361,7 @@ export default function ResultPage(props) {
                                 <b>취약점이 발견된 URL</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                            <p className="ml-20 rounded-3xl bg-[#F4F4F4] p-6 mt-2 mb-8 whitespace-pre-line break-words shadow-detail">
                                 {/* 취약점 발견 URL 데이터*/}
                                 {datas.targeturl}
                             </p>
@@ -336,8 +374,9 @@ export default function ResultPage(props) {
                                 <b>상세 취약점 정보</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                            <p className="ml-20 rounded-3xl bg-[#F4F4F4] p-6 mt-2 mb-8 whitespace-pre-line break-words shadow-detail">
                               {datas.detailpayload}
+                              {console.log()}
                             </p>
 
                             <div className="flex items-center mx-8">
@@ -348,7 +387,7 @@ export default function ResultPage(props) {
                                 <b>취약한 데이터가 전송되는 케이스</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                            <p className="ml-20 rounded-3xl bg-[#F4F4F4] p-6 mt-2 mb-8 whitespace-pre-line break-words shadow-detail">
                               {datas.payload}
                             </p>
                             
@@ -360,9 +399,12 @@ export default function ResultPage(props) {
                               <b>피드백</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
-                              {datas.feedback}
-                            </p>
+                          
+                            {datas.category === "SQL 인젝션(SQL Injection)" && <SQLpayload data={datas.detailpayload.split("\n")}/>}
+                            {datas.category === "크로스사이트스크립팅(XSS)" && <XSSpayload data={datas.detailpayload.split("\n")}/>}
+                            {datas.category === "디렉토리 트레버설(Directory Traversal)" && <Traversalpayload data={datas.detailpayload.split("\n")}/>}
+                            {datas.category === "파일 업로드(File Upload)" && (<FileUploadpayload data={datas.detailpayload.split("\n")}/>)}
+                            {datas.category === "파일 다운로드(File Download)" && (<FileDownloadpayload data={datas.detailpayload.split("\n")}/>)}
                             <Modal data={data} />
                           </>
                         )}

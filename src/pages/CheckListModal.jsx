@@ -38,11 +38,11 @@ export default function CheckListModal({ isOpen, onModalClose, onCofirm }) {
     <div>
       {isOpen && (
         <div
-          className="fixed inset-0 min-w-[1024px] flex items-center justify-center z-50 bg-black bg-opacity-50"
+          className="fixed inset-0 min-w-[1024px] min-h-[960px] flex items-center justify-center z-50 bg-black bg-opacity-50"
           onClick={onModalClose}
         >
           <div
-            className="flex-col bg-white w-[1280px] h-4/5 text-left scrollbar-hide"
+            className="flex-col bg-white w-[1280px] h-[963px] text-left scrollbar-hide"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex h-[163px] flex-shrink-0 border-b-black border-b-2 px-8 pt-10 overflow-y-hidden scrollbar-thin scrollbar-track-[white] scrollbar-thumb-[#0085FF]">
@@ -51,35 +51,35 @@ export default function CheckListModal({ isOpen, onModalClose, onCofirm }) {
                   원하는 평가 항목을 선택해주세요.(최소 1개 이상){" "}
                   <span className="text-[#1360FF] font-bold">*</span>
                 </h2>
-                <div className="inline-flex mb-5 items-center">
-                          {selectedItems.map(
-                            (
-                              item,
-                              index // map 함수를 이용하여 선택한 항목들을 리스트로 표시
-                            ) => (
-                              <span
-                                className="border-2 border-[#2D5FFF] p-3 rounded-xl text-sm bg-[#E3EBFF] mr-5"
-                                key={index}
-                              >
-                                {item}
-                                <button
-                                  className="ml-3 px-3 py-1 bg-[#DCDCDC] rounded-full"
-                                  onClick={() => handleRemove(index)}
-                                >
-                                  X
-                                </button>
-                              </span>
-                            )
-                          )}
-                          {selectedItems.length > 0 && (
-                            <span className="text-[#A8A8A8] text-xs">
-                              드래그 인 드롭으로 점검 항목 추가 가능
-                            </span>
-                          )}
-                </div>
+		<div className="inline-flex mb-5 items-center">
+                {selectedItems.map(
+                  (
+                    item,
+                    index // map 함수를 이용하여 선택한 항목들을 리스트로 표시
+                  ) => (
+                    <span
+                      className="border-2 border-[#2D5FFF] p-3 rounded-xl text-sm bg-[#E3EBFF] mr-5"
+                      key={index}
+                    >
+                      {item}
+                      <button
+                        className="ml-3 px-3 py-1 bg-[#DCDCDC] rounded-full"
+                        onClick={() => handleRemove(index)}
+                      >
+                        X
+                      </button>
+                    </span>
+                  )
+                )}
+                {selectedItems.length > 0 && (
+                  <span className="text-[#A8A8A8] text-xs">
+                    클릭으로 점검 항목 추가 가능
+                  </span>
+                )}
+		</div>
               </div>
             </div>
-            <div className="flex h-5/6">
+            <div className="flex h-[800px]">
               <div className="flex-col w-[256px] flex-shrink-0 border-r-2">
                 <div className="h-5/6 border-b-2 text-center">
                   <ol>

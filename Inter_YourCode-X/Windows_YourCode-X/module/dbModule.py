@@ -63,8 +63,8 @@ class Database:
 
                         update_list = "UPDATE list SET payload=%s, num=%s, risk=%s, targeturl=%s, inspectionurl=%s, detailpayload=%s WHERE url=%s AND category=%s"
                         cursor.execute(update_list, (payload_str, num, risk, targeturl_str, inspectionurl_str, detailpayload_str,url, category))
-                        print(f"DB 'chaking' Table Insert Success: {cateogry}")
-                        print(f"DB 'list' Table Update Success: {cateogry}")
+                        print(f"DB 'chaking' Table Insert Success: {category}")
+                        print(f"DB 'list' Table Update Success: {category}")
 
                         db.commit()    
 
@@ -81,10 +81,10 @@ class Database:
                                             detailpayload = (SELECT detailpayload FROM list WHERE url=%s AND category=%s)
                                             WHERE url=%s AND category=%s
                                          """
-                        cursor.execute(update_checking, (url, category,url, category,url, category,url, category,url, category,url, category,url, category))
+                        cursor.execute(update_checking, (url, category, url, category, url, category, url, category, url, category, url, category, url, category))
 
                         update_list = "UPDATE list SET payload=%s, num=%s, risk=%s, targeturl=%s, inspectionurl=%s, detailpayload=%s WHERE url=%s AND category=%s"
-                        cursor.execute(update_list, (payload_str, num, risk, targeturl_str, inspectionurl_str, detailpayload_str,url, category))
+                        cursor.execute(update_list, (payload_str, num, risk, targeturl_str, inspectionurl_str, detailpayload_str, url, category))
                         print(f"DB 'checking' Table Update Success: {category}")
                         print(f"DB 'list' Table Update Success: {category}")
                     db.commit()

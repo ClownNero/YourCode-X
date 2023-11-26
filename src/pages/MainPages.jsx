@@ -8,14 +8,16 @@ import Provide from "../components/Provide";
 import Upbutton from "../components/ui/Upbutton";
 import WarningModal from "./WarningModal";
 import CheckListModal from "./CheckListModal";
+import LoadingModal from "./LoadingModal";
 
 export default function MainPages(props) {
   const [url, setUrl] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [checkModalIsOpen, setCheckModalIsOpen] = useState(false);
+  const [loadingModalIsOpen, setLoadingModalIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleCheckModalIsOpen= () => {
+  const handleCheckModalIsOpen = () => {
     setModalIsOpen(false);
     setCheckModalIsOpen(!checkModalIsOpen);
   };
@@ -26,6 +28,7 @@ export default function MainPages(props) {
 
   const handleAnalysis = async (checkedContents) => {
     handleCheckModalIsOpen();
+    setLoadingModalIsOpen(!loadingModalIsOpen);
     try {
       console.log(checkedContents);
       const response = await fetch("http://localhost:5000/gomain", {
@@ -44,16 +47,15 @@ export default function MainPages(props) {
         console.log("hoi");
         throw new Error("Network response was not ok");
       }
-
-      // Optional - if you expect a JSON response, you can parse the response:
-      const data = await response.json();
-      console.log(data);
+      else{
+        navigate(`/analysis/result`);
+      }
     } catch (error) {
-      navigate(`/analysis/result`);
       console.error("Error during analysis:", error);
     }
     setUrl("");
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setModalIsOpen(true); // 모달을 열어줍니다.
@@ -104,10 +106,13 @@ export default function MainPages(props) {
           onModalClose={handleIsOpen}
           onModalChange={handleCheckModalIsOpen}
         />
-        <CheckListModal 
+        <CheckListModal
           isOpen={checkModalIsOpen}
           onModalClose={handleCheckModalIsOpen}
           onCofirm={handleAnalysis}
+        />
+        <LoadingModal
+          isOpen={loadingModalIsOpen}
         />
       </div>
     </>

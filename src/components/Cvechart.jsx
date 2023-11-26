@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 
@@ -85,6 +86,26 @@ export default function Cvechart({ data }) {
       }
     ]
   });
+
+  // useEffect(() => {
+  //   // 서버로부터 CVE 데이터 요청
+  //   axios.get('http://localhost:5000/gomain')  // 서버 주소는 실제 환경에 맞게 변경
+  //     .then(response => {
+  //       // 받아온 데이터를 차트용 데이터 형태로 변환
+  //       const chartData = Object.entries(response.data).map(([name, value]) => ({
+  //         name,
+  //         value: Number(value)  // 문자열을 숫자로 변환
+  //       }));
+  //       // 변환한 데이터를 차트의 data에 적용
+  //       setOptions(prevOptions => {
+  //         const newOptions = { ...prevOptions };
+  //         newOptions.series[0].data = chartData;
+  //         return newOptions;
+  //       });
+  //     })
+  //     .catch(error => console.error('Error fetching data: ', error));
+  // }, []);
+
   return (
     <>
       <ReactEcharts
