@@ -77,6 +77,35 @@ def dirScan(url):
 
     return directory_names, file_names, identi_paths
 
+def crawling():
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+    }
+    cve_url = "https://www.cvedetails.com/vulnerabilities-by-types.php"
+    req = requests.get(cve_url, headers=headers, verify=True)
+    soup = BeautifulSoup(req.text, 'html.parser')
+
+    tables = soup.body.find_all('table')
+    table = tables[0] 
+    rows = table.find_all('tr')
+
+    data = {}
+    for row in rows:
+        th = row.find('th')
+        a = th.find('a') if th else None
+        if a:
+            year = a.text.strip()
+            if year == '2023':
+                tds = row.find_all('td')
+                for td in tds:
+                    a = td.find('a')
+                    if a:
+                        key = a.get('title').replace(' vulnerabilities for 2023', '')
+                        value = a.text.strip()
+                        data[key] = value
+
+    return data
+
 def sql_injection(url, check_url):
     urls_json = json.dumps(check_url)
     print_blue("\n[*] SQL Injection 점검")
@@ -340,36 +369,6 @@ def inspection_result(url, payload, category, num, risk, targeturl, inspectionur
     print_green("\ndetailpayload:\n======================")
     print(detailpayload)  
 
-def crawling():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
-    }
-    url = "https://www.cvedetails.com/vulnerabilities-by-types.php"
-    req = requests.get(url, headers=headers, verify=True)
-    soup = BeautifulSoup(req.text, 'html.parser')
-
-    tables = soup.body.find_all('table')
-    table = tables[0] 
-    rows = table.find_all('tr')
-
-    data = {}
-    for row in rows:
-        th = row.find('th')
-        a = th.find('a') if th else None
-        if a:
-            year = a.text.strip()
-            if year == '2023':
-                tds = row.find_all('td')
-                for td in tds:
-                    a = td.find('a')
-                    if a:
-                        key = a.get('title').replace(' vulnerabilities for 2023', '')
-                        value = a.text.strip()
-                        data[key] = value
-
-    return data
-    
-
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*":{"origins": "http://localhost:3000"}})
 @app.route('/gomain', methods=['POST'])
@@ -402,45 +401,63 @@ def process_request():
         full_url = "{}/{}".format(url.rstrip('/'), file.lstrip('/'))
         check_url.append(full_url)
 
-    ### CVE(https://www.cvedetails.com/vulnerabilities-by-types.php) ###
+    ## CVE(https://www.cvedetails.com/vulnerabilities-by-types.php) ###
     cve = crawling()
-    print(f"CVE-2023: {cve}")
+    # print(f"CVE-2023: {cve}")
+    ov_d = cve['Overflow']
+    mc_d = cve['Memory corruption']
+    si_d = cve['Sql injection']
+    xss_d = cve['Cross site scripting']
+    dt_d = cve['Directory traversal']
+    fi_d = cve['File inclusion']
+    csrf_d = cve['Cross site request forgery, CSRF,']
+    xxe_d = cve['XML external entity, XXE, injection']
+    ssrf_d = cve['Server-side request forgery (SSRF)']
+    opr_d = cve['Open redirect']
+    iv_d = cve['Input valdiation']
+    if cve:
+        print_blue("\n[*] CVE-2023 DB Connection")
+        db_class = dbModule.Database()
+        db_class.cveData(ov_d, mc_d, si_d, xss_d, dt_d, fi_d, csrf_d, xxe_d, ssrf_d, opr_d, iv_d)
+        print_blue("\n[*] CVE-2023 DB Close")
+    else:
+        print_red("\n[*] CVE-2023: {cve}")
 
-    # ### 점검 시작 & 점검 결과 & DB Connection ###
-    # # 점검항목1: SQL 인젝션(SQL Injection)
-    # if 'SQL 인젝션(SQL Injection)' in checkedContents:
-    #     payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1 = sql_injection(url, check_url)
-    #     print_blue("\n[*] SQL Injection 점검 결과")
-    #     inspection_result(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
+    ### 점검 시작 & 점검 결과 & DB Connection ###
+    # 점검항목1: SQL 인젝션(SQL Injection)
+    if 'SQL 인젝션(SQL Injection)' in checkedContents:
+        payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1 = sql_injection(url, check_url)
+        print_blue("\n[*] SQL Injection 점검 결과")
+        inspection_result(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
         
-    #     print_blue("\n[*] DB Connection")
-    #     db_class = dbModule.Database()
-    #     db_class.checkList(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
-    #     print_blue("[*] DB Close")
+        print_blue("\n[*] DB Connection")
+        db_class = dbModule.Database()
+        db_class.checkList(url, payload_1, category_1, num_1, risk_1, targeturl_1, inspectionurl_1, detailpayload_1)
+        print_blue("[*] DB Close")
 
-    # # 점검항목2: 크로스사이트스크립트(XSS)
-    # if '크로스사이트스크립팅(XSS)' in checkedContents:
-    #     payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2 = xss(url, check_url, identi_paths)
-    #     print_blue("\n[*] XSS 점검 결과")
-    #     inspection_result(url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2)
+    # 점검항목2: 크로스사이트스크립트(XSS)
+    if '크로스사이트스크립팅(XSS)' in checkedContents:
+        payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2 = xss(url, check_url, identi_paths)
+        print_blue("\n[*] XSS 점검 결과")
+        inspection_result(url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2)
 
-    #     print_blue("\n[*] DB Connection")
-    #     db_class = dbModule.Database()
-    #     db_class.checkList(url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2)
-    #     print_blue("[*] DB Close")
+        print_blue("\n[*] DB Connection")
+        db_class = dbModule.Database()
+        db_class.checkList(url, payload_2, category_2, num_2, risk_2, targeturl_2, inspectionurl_2, detailpayload_2)
+        print_blue("[*] DB Close")
 
-    # # 점검항목3: 디렉토리 트레버셜(Directory Traversal)
-    # if '디렉토리 트레버설(Directory Traversal)' in checkedContents: 
-    #     payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3 = directory_traversal(url, check_url, identi_paths)
-    #     print_blue("\n[*] Directory Traversal 점검 결과")
-    #     inspection_result(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
+    # 점검항목3: 디렉토리 트레버셜(Directory Traversal)
+    if '디렉토리 트레버설(Directory Traversal)' in checkedContents: 
+        payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3 = directory_traversal(url, check_url, identi_paths)
+        print_blue("\n[*] Directory Traversal 점검 결과")
+        inspection_result(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
 
-    #     print_blue("\n[*] DB Connection")
-    #     db_class = dbModule.Database()
-    #     db_class.checkList(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
-    #     print_blue("[*] DB Close")
+        print_blue("\n[*] DB Connection")
+        db_class = dbModule.Database()
+        db_class.checkList(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
+        print_blue("[*] DB Close")
 
-    return url, cve
+    return url
 
 # openai 
 @app.route("/openai/api",methods=["POST"])
@@ -466,5 +483,3 @@ def chatGPT():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-    

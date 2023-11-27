@@ -25,6 +25,7 @@ export default function ResultPage({props}) {
   //const resultData = location.state.result;
   // 예시 코드
   // Mock 데이터 가져오기
+  const [cve, setCVE] = useState([]); 
   const [data, setData] = useState([]);
   const [data_c, setData_c] = useState([]);
   const [changeData, setChangeData] = useState();
@@ -73,13 +74,13 @@ export default function ResultPage({props}) {
       .get("http://localhost:8081/analysis/result")
       .then((res) => {
         console.log(res);
-
+        const cveArray = Object.values(res.data.cve);
         const listArray = Object.values(res.data.list);
         let listArray_c;
         if (res.data.checking){
         listArray_c = Object.values(res.data.checking);
         setData_c(listArray_c); }
-        
+        setCVE(cveArray);
         setData(listArray);
         changeDatafunc(listArray, listArray_c); // 여기에서 changeDatafunc 함수를 호출합니다.
         
@@ -156,7 +157,7 @@ export default function ResultPage({props}) {
               </h2>
               {/* 막대 차트 부분 */}
               {/* <div className="w-[1024px] h-[450px] bg-[#F1F1F1] rounded-[30px]"> */}
-                {loading ? `Loading...` : <Cvechart data={data} />}
+                {loading ? `Loading...` : <Cvechart data={cve} />}
               {/* </div> */}
             </li>
           </ul>
