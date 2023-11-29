@@ -1,11 +1,16 @@
 import subprocess
-from termcolor import cprint
+import openai
+import jsonlines
+import pymysql
+import requests
 import os
 import json
+from termcolor import cprint
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from module import dbModule
-import openai
+from bs4 import BeautifulSoup
+
 
 print_red = lambda x: cprint(x, 'red')
 print_yellow = lambda x: cprint(x, 'yellow')
@@ -74,6 +79,35 @@ def dirScan(url):
         print(identi_path) 
 
     return directory_names, file_names, identi_paths
+
+def crawling():
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+    }
+    cve_url = "https://www.cvedetails.com/vulnerabilities-by-types.php"
+    req = requests.get(cve_url, headers=headers, verify=True)
+    soup = BeautifulSoup(req.text, 'html.parser')
+
+    tables = soup.body.find_all('table')
+    table = tables[0] 
+    rows = table.find_all('tr')
+
+    data = {}
+    for row in rows:
+        th = row.find('th')
+        a = th.find('a') if th else None
+        if a:
+            year = a.text.strip()
+            if year == '2023':
+                tds = row.find_all('td')
+                for td in tds:
+                    a = td.find('a')
+                    if a:
+                        key = a.get('title').replace(' vulnerabilities for 2023', '')
+                        value = a.text.strip()
+                        data[key] = value
+
+    return data
 
 def sql_injection(url, check_url):
     urls_json = json.dumps(check_url)
@@ -370,6 +404,28 @@ def process_request():
         full_url = "{}/{}".format(url.rstrip('/'), file.lstrip('/'))
         check_url.append(full_url)
 
+    ## CVE(https://www.cvedetails.com/vulnerabilities-by-types.php) ###
+    cve = crawling()
+    # print(f"CVE-2023: {cve}")
+    ov_d = cve['Overflow']
+    mc_d = cve['Memory corruption']
+    si_d = cve['Sql injection']
+    xss_d = cve['Cross site scripting']
+    dt_d = cve['Directory traversal']
+    fi_d = cve['File inclusion']
+    csrf_d = cve['Cross site request forgery, CSRF,']
+    xxe_d = cve['XML external entity, XXE, injection']
+    ssrf_d = cve['Server-side request forgery (SSRF)']
+    opr_d = cve['Open redirect']
+    iv_d = cve['Input valdiation']
+    if cve:
+        print_blue("\n[*] CVE-2023 DB Connection")
+        db_class = dbModule.Database()
+        db_class.cveData(ov_d, mc_d, si_d, xss_d, dt_d, fi_d, csrf_d, xxe_d, ssrf_d, opr_d, iv_d)
+        print_blue("\n[*] CVE-2023 DB Close")
+    else:
+        print_red("\n[*] CVE-2023: {cve}")
+
     ### 점검 시작 & 점검 결과 & DB Connection ###
     # 점검항목1: SQL 인젝션(SQL Injection)
     if 'SQL 인젝션(SQL Injection)' in checkedContents:
@@ -406,10 +462,7 @@ def process_request():
 
     return url
 
-if __name__ == '__main__':
-    app.run(debug=True)
-
-################## jsonl ###############################
+################## jsonl 1 ###############################
 # def update_jsonl_with_added_record(record):
 #     existing_records = []
 
@@ -429,7 +482,7 @@ if __name__ == '__main__':
 #         db = pymysql.connect(host='localhost', user='root', db='YourCode', password='root', charset='utf8')
 #         cursor = db.cursor()
 
-#         select_query = "SELECT * FROM list_1"
+#         select_query = "SELECT * FROM list"
 #         cursor.execute(select_query)
 
 #         result = cursor.fetchall()
@@ -440,49 +493,49 @@ if __name__ == '__main__':
 
 #             user_messages = [
 #                 {"role": "user", "content": "url"},
-#                 {"role": "assistant", "content": record[0]}
+#                 {"role": "assistant", "content": record[1]}  # Use record[1] for the 'url' column
 #             ]
 
 #             chat_messages.append({"messages": [system_message, *user_messages]})
 
 #             user_messages = [
 #                 {"role": "user", "content": "payload"},
-#                 {"role": "assistant", "content": record[1]}
+#                 {"role": "assistant", "content": record[2]}  # Use record[2] for the 'payload' column
 #             ]
 
 #             chat_messages.append({"messages": [system_message, *user_messages]})
 
 #             user_messages = [
 #                 {"role": "user", "content": "category"},
-#                 {"role": "assistant", "content": record[2]}
+#                 {"role": "assistant", "content": record[3]}  # Use record[3] for the 'category' column
 #             ]
 
 #             chat_messages.append({"messages": [system_message, *user_messages]})
 
 #             user_messages = [
 #                 {"role": "user", "content": "num"},
-#                 {"role": "assistant", "content": str(record[3])}
+#                 {"role": "assistant", "content": str(record[4])}  # Use record[4] for the 'num' column
 #             ]
 
 #             chat_messages.append({"messages": [system_message, *user_messages]})
 
 #             user_messages = [
 #                 {"role": "user", "content": "target_url"},
-#                 {"role": "assistant", "content": record[4]}
+#                 {"role": "assistant", "content": record[6]}  # Use record[6] for the 'targeturl' column
 #             ]
 
 #             chat_messages.append({"messages": [system_message, *user_messages]})
 
 #             user_messages = [
 #                 {"role": "user", "content": "inspection_url"},
-#                 {"role": "assistant", "content": record[5]}
+#                 {"role": "assistant", "content": record[7]}  # Use record[7] for the 'inspectionurl' column
 #             ]
 
 #             chat_messages.append({"messages": [system_message, *user_messages]})
 
 #             user_messages = [
 #                 {"role": "user", "content": "detail_payload"},
-#                 {"role": "assistant", "content": record[6]}
+#                 {"role": "assistant", "content": record[8]}  # Use record[8] for the 'detailpayload' column
 #             ]
 
 #             chat_messages.append({"messages": [system_message, *user_messages]})
@@ -497,7 +550,7 @@ if __name__ == '__main__':
 #     finally:
 #         db.close()
 
-# # 함수 호출
+# # Call the function to fetch data and export to JSONL
 # fetch_data_and_export_to_jsonl()
 
 # def get_openai_dataset():
@@ -515,9 +568,9 @@ if __name__ == '__main__':
 #         print(f"에러 발생: {e}")
 #         return []
 
-######################### openai #####################################
-# openai.api_key 설정
-openai.api_key = "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"
+# ######################### openai #####################################
+# # openai.api_key 설정
+# openai.api_key = "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"
 
 # # Fine-tuning에 사용할 JSONL 파일 업로드
 # file_path = "E:\\YourCode-X\\YourCode-X\\Inter_YourCode-X\\Windows_YourCode-X\\openai_dataset.jsonl"
@@ -533,11 +586,146 @@ openai.api_key = "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"
 # fine_tuning_job_response = openai.FineTuningJob.create(training_file=file_id, model="gpt-3.5-turbo")
 
 # # Fine-tuning 작업이 완료될 때까지 대기
-# fine_tuning_job_id = fine_tuning_job_response['id']
-# openai.FineTuningJob.wait_until_done(fine_tuning_job_id)
+# # fine_tuning_job_id = fine_tuning_job_response['id']
+# # openai.FineTuningJob.wait_until_done(fine_tuning_job_id)
 
+# @app.route("/openai/api", methods=["POST"])
+# def chatGPT():
+#     try:
+#         input_data = request.json
+#         user_content = input_data.get('userContent')
+#         print(f"user_content: {user_content}")
+
+#         completion = openai.ChatCompletion.create(
+#             model="gpt-3.5-turbo",
+#             prompt=user_content,
+#             max_tokens=1000
+#         )
+#         assistant_content = completion["choices"][0]["text"]
+#         return jsonify({"result": assistant_content})
+
+#     except Exception as e:
+#         print(f"에러 메시지: {str(e)}")
+#         return jsonify({"result": "답변할 수 있는 질문이 아닙니다."})
+    
+# if __name__ == '__main__':
+#     app.run(debug=True)
+
+
+# Flask 애플리케이션 초기화
+app = Flask(__name__)
+
+# openai.api_key 설정
+openai.api_key = "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"
+
+# 데이터베이스에서 대화 데이터를 가져와서 JSONL 파일로 저장하는 함수
+def fetch_data_and_export_to_jsonl():
+    try:
+        db = pymysql.connect(host='localhost', user='root', db='YourCode', password='root', charset='utf8')
+        cursor = db.cursor()
+
+        select_query = "SELECT * FROM list"
+        cursor.execute(select_query)
+
+        result = cursor.fetchall()
+
+        chat_messages = []
+        for record in result:
+            system_message = {"role": "system", "content": "do not answer except to provide code analyzed based on the results of web vulnerability checks. All text except code is provided in Korean"}
+
+            user_messages = [
+                {"role": "user", "content": "url"},
+                {"role": "assistant", "content": record[1]}  # Use record[1] for the 'url' column
+            ]
+
+            chat_messages.append({"messages": [system_message, *user_messages]})
+
+            user_messages = [
+                {"role": "user", "content": "payload"},
+                {"role": "assistant", "content": record[2]}  # Use record[2] for the 'payload' column
+            ]
+
+            chat_messages.append({"messages": [system_message, *user_messages]})
+
+            user_messages = [
+                {"role": "user", "content": "category"},
+                {"role": "assistant", "content": record[3]}  # Use record[3] for the 'category' column
+            ]
+
+            chat_messages.append({"messages": [system_message, *user_messages]})
+
+            user_messages = [
+                {"role": "user", "content": "num"},
+                {"role": "assistant", "content": str(record[4])}  # Use record[4] for the 'num' column
+            ]
+
+            chat_messages.append({"messages": [system_message, *user_messages]})
+
+            user_messages = [
+                {"role": "user", "content": "target_url"},
+                {"role": "assistant", "content": record[6]}  # Use record[6] for the 'targeturl' column
+            ]
+
+            chat_messages.append({"messages": [system_message, *user_messages]})
+
+            user_messages = [
+                {"role": "user", "content": "inspection_url"},
+                {"role": "assistant", "content": record[7]}  # Use record[7] for the 'inspectionurl' column
+            ]
+
+            chat_messages.append({"messages": [system_message, *user_messages]})
+
+            user_messages = [
+                {"role": "user", "content": "detail_payload"},
+                {"role": "assistant", "content": record[8]}  # Use record[8] for the 'detailpayload' column
+            ]
+
+            chat_messages.append({"messages": [system_message, *user_messages]})
+
+        # JSONL 파일로 저장
+        with jsonlines.open('./Inter_YourCode-X/Windows_YourCode-X/openai_dataset.jsonl', 'w') as writer:
+            for message in chat_messages:
+                writer.write(message)
+
+    except Exception as e:
+        print(f"에러 발생: {e}")
+    finally:
+        db.close()
+
+# OpenAI API로 대화 데이터 전송
+def send_data_to_openai():
+    try:
+        # JSONL 파일 업로드
+        file_path = "./Inter_YourCode-X/Windows_YourCode-X/openai_dataset.jsonl"
+        file_upload_response = openai.File.create(
+            file=open(file_path, "rb"),
+            purpose="fine-tune"
+        )
+
+        # 업로드한 파일의 ID 얻기
+        file_id = file_upload_response["id"]
+
+        # Fine-tuning 작업 시작
+        fine_tuning_job_response = openai.FineTuningJob.create(training_file=file_id, model="gpt-3.5-turbo")
+
+        # Fine-tuning 작업이 완료될 때까지 대기
+        # fine_tuning_job_id = fine_tuning_job_response['id']
+        # openai.FineTuningJob.wait_until_done(fine_tuning_job_id)
+
+        print("OpenAI에 데이터 전송 및 Fine-tuning 작업이 시작되었습니다.")
+
+    except Exception as e:
+        print(f"에러 발생: {e}")
+
+# 데이터베이스에서 대화 데이터 가져오고 JSONL 파일로 저장
+fetch_data_and_export_to_jsonl()
+
+# OpenAI API로 데이터 전송
+send_data_to_openai()
+
+# OpenAI API로 대화 생성 및 반환
 @app.route("/openai/api", methods=["POST"])
-def chatGPT():
+def chat_gpt():
     try:
         input_data = request.json
         user_content = input_data.get('userContent')
@@ -548,6 +736,7 @@ def chatGPT():
             prompt=user_content,
             max_tokens=1000
         )
+
         assistant_content = completion["choices"][0]["text"]
         return jsonify({"result": assistant_content})
 
@@ -555,3 +744,5 @@ def chatGPT():
         print(f"에러 메시지: {str(e)}")
         return jsonify({"result": "답변할 수 있는 질문이 아닙니다."})
 
+if __name__ == '__main__':
+    app.run(debug=True)

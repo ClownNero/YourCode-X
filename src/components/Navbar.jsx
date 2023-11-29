@@ -37,6 +37,9 @@ export default function Navbar(props) {
           <Button text="Introduce" clickId="Introduce" />
         )}
         {location.pathname === "/analysis/result" ? (
+          <Button text="Chage" clickId="Chage" />
+        ) : null}
+        {location.pathname === "/analysis/result" ? (
           <Button text="List" clickId="List" />
         ) : (
           <Button text="Why" clickId="Why" />

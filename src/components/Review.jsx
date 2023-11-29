@@ -48,7 +48,7 @@ export default function Review(props) {
       <form onSubmit={handleSubmit} className="flex flex-col">
         <div className="flex space-x-2 justify-center text-2xl text-red-500 mt-4 mb-12">
           {selectedStars.map((isSelected, index) => (
-            <div onClick={() => handleClick(index)}>
+            <div key={index} onClick={() => handleClick(index)}>
               {isSelected ? <AiFillStar /> : <AiOutlineStar />}
             </div>
           ))}
