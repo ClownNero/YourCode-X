@@ -3,6 +3,7 @@ import openai
 import requests
 import os
 import json
+from flask import jsonify
 from termcolor import cprint
 from flask import Flask, request
 from flask_cors import CORS
@@ -463,23 +464,61 @@ def process_request():
 @app.route("/openai/api",methods=["POST"])
 def chatGPT():
     try:
-        openai.api_key = os.getenv("OPENAI_API_KEY")
-        
+        # openai.api_key = os.getenv("OPENAI_API_KEY")
+        openai.api_key = "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"
         input_data = request.json
-        user_content = input_data.get('userContent')
+        user_content = "Here is the code for the web vulnerability.\n"+ input_data.get('userContent') + "\nImprove the code and suggest solutions."
         print(f"user_content: {user_content}")
 
-        messages = [{"role": "system", "content": "You are a helpful assistant."}]
-        messages.append({"role":"user", "content":user_content})
+        
+        messages = [{"role": "system", "content": "This is a chatbot that fixes vulnerabilities based on the code entered by the user. I will answer in Korean except for the code."}]
+        messages.append({"role": "user", "content":user_content})
 
         completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
-
-        # OpenAI API의 응답에서 챗봇의 답변을 추출하는 역할
         assistant_content = completion["choices"][0]["message"]["content"].encode("utf-8").decode()
-        messages.append({"role":"assistant", "content":assistant_content})
+        messages.append({"role":"assistant", "content":assistant_content})        
         return jsonify({"result": assistant_content})
+
+
+        # file_id = "[]" # Fine-Tuninig 3.5 Model-ID
+        # completion = openai.ChatCompletion.create(
+        #     training_file=file_id, 
+        #     model="gpt-3.5-turbo",
+        #     prompt=user_content,
+        #     max_tokens=1500
+        # )
+
     except Exception as e:
         return jsonify({"error":str(e)})
+
+# def chatGPT():
+#     try:
+#         # openai.api_key = os.getenv("OPENAI_API_KEY")
+#         openai.api_key = "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"
+        
+#         input_data = request.json
+#         user_content = input_data.get('userContent')
+#         print(f"user_content: {user_content}")
+
+#         ###
+#         # messages = [{"role": "system", "content": "It is a Korean chatbot that analyzes code and suggests a solution as code. Has a style that conveys only the key points in a professional tone."}]
+#         # messages.append({"role":"user", "content":user_content})
+
+#         # completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
+#         ###
+
+#         completion = openai.ChatCompletion.create(
+#             model="ft:gpt-3.5-turbo-", # Fine-Tuninig 3.5 Model-ID
+#             prompt=user_content,
+#             max_tokens=1500
+#         )
+
+#         # OpenAI API의 응답에서 챗봇의 답변을 추출하는 역할
+#         assistant_content = completion["choices"][0]["message"]["content"].encode("utf-8").decode()
+#         messages.append({"role":"assistant", "content":assistant_content})
+#         return jsonify({"result": assistant_content})
+#     except Exception as e:
+#         return jsonify({"error":str(e)})
 
 if __name__ == '__main__':
     app.run(debug=True)
