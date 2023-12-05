@@ -48,13 +48,13 @@ export default function Review(props) {
       <form onSubmit={handleSubmit} className="flex flex-col">
         <div className="flex space-x-2 justify-center text-2xl text-red-500 mt-4 mb-12">
           {selectedStars.map((isSelected, index) => (
-            <div onClick={() => handleClick(index)}>
+            <div key={index} onClick={() => handleClick(index)}>
               {isSelected ? <AiFillStar /> : <AiOutlineStar />}
             </div>
           ))}
         </div>
         <textarea 
-          className="w-full h-[175px] bg-[#F1F1F1] rounded-2xl resize-none p-7" 
+          className="w-full h-[175px] bg-[#F1F1F1] rounded-2xl resize-none p-7 focus:outline-none focus:ring-4 focus:ring-search" 
           placeholder="개선 사항이나 문의사항이 있다면 이곳에 남겨주세요." 
           value={reviewBody}
           required 

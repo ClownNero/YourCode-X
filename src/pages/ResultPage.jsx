@@ -5,53 +5,65 @@ import Barchart from "../components/Barchart";
 import Piechart from "../components/Piechart";
 import Upbutton from "../components/ui/Upbutton";
 import { RxCaretSort, RxCaretUp, RxCaretDown } from "react-icons/rx";
-import { useLocation } from 'react-router-dom';
 import Modal from "./Modal";
 import Review from "../components/Review";
+import Cvechart from "../components/Cvechart";
+import SQLpayload from "../components/payload/SQLpayload";
+import XSSpayload from "../components/payload/XSSpayload";
+import Traversalpayload from "../components/payload/Traversalpayload";
+import FileUploadpayload from "../components/payload/FileUploadpayload";
+import FileDownloadpayload from "../components/payload/FileDownloadpayload";
+import Changebox from "../components/ui/Changebox";
 
 const riskValues = {
-  '위험': 3,
-  '주의': 2,
-  '양호': 1
+  위험: 3,
+  주의: 2,
+  양호: 1,
 };
-export default function ResultPage({ location }) {
+export default function ResultPage({props}) {
   // 이전 페이지에서 전달 받은 결과 데이터 == 분석데이터
   //const resultData = location.state.result;
   // 예시 코드
   // Mock 데이터 가져오기
+  const [cve, setCVE] = useState([]); 
   const [data, setData] = useState([]);
-  const { state } = useLocation();
-  console.log(state);
+  const [data_c, setData_c] = useState([]);
+  const [changeData, setChangeData] = useState();
   const [sortedData, setSortedData] = useState([]);
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState(null);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
   useEffect(() => {
-    // fetch('http://localhost:5000/gomain',{
-    //   method:'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({processedData: state}),
-    // })
     putSpringData();
-    // fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (sortOrder === "asc") {
-      setSortedData([...data].sort((a, b) => 
-        sortKey === 'risk' ? 
-          (riskValues[a[sortKey]] < riskValues[b[sortKey]] ? -1 : 1) :
-          (a[sortKey] < b[sortKey] ? -1 : 1)
-      ));
+      setSortedData(
+        [...data].sort((a, b) =>
+          sortKey === "risk"
+            ? riskValues[a[sortKey]] < riskValues[b[sortKey]]
+              ? -1
+              : 1
+            : a[sortKey] < b[sortKey]
+            ? -1
+            : 1
+        )
+      );
     } else if (sortOrder === "desc") {
-      setSortedData([...data].sort((a, b) => 
-        sortKey === 'risk' ?
-          (riskValues[a[sortKey]] > riskValues[b[sortKey]] ? -1 : 1) :
-          (a[sortKey] > b[sortKey] ? -1 : 1)
-      ));
+      setSortedData(
+        [...data].sort((a, b) =>
+          sortKey === "risk"
+            ? riskValues[a[sortKey]] > riskValues[b[sortKey]]
+              ? -1
+              : 1
+            : a[sortKey] > b[sortKey]
+            ? -1
+            : 1
+        )
+      );
     } else {
       setSortedData(data);
     }
@@ -62,12 +74,62 @@ export default function ResultPage({ location }) {
       .get("http://localhost:8081/analysis/result")
       .then((res) => {
         console.log(res);
-        setData(res.data);
-        setLoading(false); // 데이터 요청 완료(성공 또는 실패) 후 로딩 상태를 false로 설정
+        const cveArray = Object.values(res.data.cve);
+        const listArray = Object.values(res.data.list);
+        let listArray_c;
+        if (res.data.checking){
+        listArray_c = Object.values(res.data.checking);
+        setData_c(listArray_c); }
+        setCVE(cveArray);
+        setData(listArray);
+        changeDatafunc(listArray, listArray_c); // 여기에서 changeDatafunc 함수를 호출합니다.
+        
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
+  }
+  function changeDatafunc(data, data_c) {
+    let resultArray = [];
+    const categories = ["SQL 인젝션(SQL Injection)", "크로스사이트스크립팅(XSS)", "디렉토리 트레버설(Directory Traversal)", "파일 업로드(File Upload)", "파일 다운로드(File Download)"];
+  
+    categories.forEach((category) => {
+      let dataItem = data.find((item) => item.category === category);
+      let dataCItem = data_c.find((item) => item.category === category);
+      let diff = "없음";
+      console.log(dataItem, dataCItem)
+      if (dataItem && dataCItem) {
+        diff = dataItem.num - dataCItem.num;
+      }
+      let displayName;
+        switch (category) {
+          case "SQL 인젝션(SQL Injection)":
+            displayName = "SQL Injection";
+            break;
+          case "크로스사이트스크립팅(XSS)":
+            displayName ="XSS";
+            break;
+          case "디렉토리 트레버설(Directory Traversal)":
+            displayName = "Directory Traversal";
+            break;
+          case "파일 업로드(File Upload)":
+            displayName = "File Upload";
+            break;
+          case "파일 다운로드(File Download)":
+            displayName = "File Download";
+            break;
+          default:
+            displayName = category;
+        }
+      resultArray.push({
+        category: displayName,
+        difference: diff,
+        currentData: dataItem ? dataItem.num : "없음" // dataItem이 없을 경우 "없음"을 사용합니다.
+      });
+    });
+  
+    setChangeData(resultArray);
   }
   // const fetchData = async () => {
   //   try {
@@ -86,31 +148,58 @@ export default function ResultPage({ location }) {
   return (
     <>
       <div className="mx-6 mt-40">
-        <div className="mx-4 my-14" id="Chart" name="Chart">
-          <h2 className="font-bold text-4xl text-Result">Problem Chart</h2>
+      <div className="mx-4 pt-6 pb-12" id="CVE" name="CVE">
+          <h2 className="font-bold text-4xl text-Result">CVE Details</h2>
           <ul className="flex justify-around w-full">
-            <li className="bg-gray py-6 2xl:mr-30 mr-12 min-w-0">
-              <h2 className="text-Result text-2xl text-left mb-3">
-                위험도 차트 Risk Chart
+            <li className="pt-14 xl:mr-0 mr-12 min-w-0 ">
+              <h2 className="text-Result text-2xl text-left mb-6">
+                <b>웹 취약점 동향 차트 </b>
+              </h2>
+              {/* 막대 차트 부분 */}
+              {/* <div className="w-[1024px] h-[450px] bg-[#F1F1F1] rounded-[30px]"> */}
+                {loading ? `Loading...` : <Cvechart data={cve} />}
+              {/* </div> */}
+            </li>
+          </ul>
+        </div>
+        <div className="mx-4 py-14" id="Chart" name="Chart">
+          <h2 className="font-bold text-4xl text-Result">Problem Chart</h2>
+          <ul className="flex justify-center w-full">
+            <li className="pt-14 mr-36 min-w-0">
+              <h2 className="text-Result text-2xl text-left mb-6">
+                <b>위험도 차트</b>
               </h2>
               {/* 막대 차트 부분 */}
               {loading ? `Loading...` : <Barchart data={data} />}
             </li>
-            <li className="bg-gray text-center py-6 2xl:ml-30 ml-12 min-w-0">
-              <h2 className="text-Result text-2xl text-left mb-3">
-                취약점 차트 Weakness Chart
+            <li className="text-center pt-14 ml-36 min-w-0">
+              <h2 className="text-Result text-2xl text-left mb-6">
+                <b>취약점 차트</b>
               </h2>
               {/* 파이 차트 부분 */}
               {loading ? `Loading...` : <Piechart data={data} />}
             </li>
           </ul>
         </div>
-        <div className="mx-4 my-14" id="List" name="List">
+
+        <div className="mx-4 pt-6 pb-12" id="Chage" name="Chage">
+          <h2 className="font-bold text-4xl text-Result">Changes</h2>
+          <h3 className="pt-14 text-2xl text-Result"><b>취약점이 발견된 경로의 개수</b></h3>
+          <ul className="flex justify-center w-full py-14 min-w-[1560px]">
+            {loading ? `Loading...`:<Changebox dataD={changeData[0]}colorD="red"/>}
+            {loading? `Loading...`:<div className="mx-10"><Changebox dataD={changeData[1]} colorD="blue"/></div>}
+            {loading? `Loading...`:<Changebox dataD={changeData[2]} colorD="yellow"/>}
+            {loading? `Loading...`:<div className="mx-10"><Changebox dataD={changeData[3]}  colorD="green"/></div>}
+            {loading? `Loading...`:<Changebox dataD={changeData[4]} colorD="green"/>}
+          </ul>
+        </div>
+        
+        <div className="mx-4 py-14" id="List" name="List">
           <h2 className="font-bold text-4xl text-Result">Problem List</h2>
-          <p className="text-Result text-2xl py-6 text-left mb-2">
-            취약점 세부 목록
+          <p className="text-Result text-2xl pt-14 pb-6 text-left mb-2">
+            <b>취약점 세부 목록</b>
           </p>
-          <div className="bg-gray text-center rounded-3xl ">
+          <div className="bg-gray text-center rounded-3xl shadow-md ">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-[#1360FF]">
                 <tr>
@@ -131,10 +220,9 @@ export default function ResultPage({ location }) {
                       ) : (
                         <RxCaretDown className="inline text-2xl" />
                       )
-                      ) : (
-                        <RxCaretSort className="inline text-2xl" />
-                      )
-                    }
+                    ) : (
+                      <RxCaretSort className="inline text-2xl" />
+                    )}
                   </th>
                   <th
                     scope="col"
@@ -147,7 +235,7 @@ export default function ResultPage({ location }) {
                     }}
                   >
                     Number of Found{" "}
-                    {sortKey === "payload" ? (
+                    {sortKey === "num" ? (
                       sortOrder === "desc" ? (
                         <RxCaretUp className="inline text-2xl" />
                       ) : (
@@ -194,7 +282,7 @@ export default function ResultPage({ location }) {
                           {datas.num}
                         </td>
                         <td className="px-6 py-4 whitespace-normal">
-                          {datas.risk ==="위험" ? (
+                          {datas.risk === "위험" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-red-500"></span>
                           ) : datas.risk === "주의" ? (
                             <span className="inline-block h-3 w-3 rounded-full bg-yellow-300"></span>
@@ -209,16 +297,18 @@ export default function ResultPage({ location }) {
             </table>
           </div>
         </div>
-        <div className="mx-4 mt-14 mb-8">
+        <div className="mx-4 mt-14 mb-10" id="Diagnosis" name="Diagnosis">
           <h2 className="font-bold text-4xl text-Result">Diagnosis</h2>
-          <div className="py-6">
+          <div className="py-14">
             <h2 className="text-Result text-2xl text-left mb-3">
-              진단 세부 사항
+              <b>진단 세부 사항</b>
             </h2>
             <ul>
               {data
                 ? data
-                    .filter((datas) => datas.risk ==="위험" || datas.risk ==="주의")
+                    .filter(
+                      (datas) => datas.risk === "위험" || datas.risk === "주의"
+                    )
                     .sort((a, b) => riskValues[b.risk] - riskValues[a.risk])
                     .map((datas, index) => (
                       <>
@@ -256,12 +346,12 @@ export default function ResultPage({ location }) {
                                 1
                               </span>
                               <span className="text-lg ml-3">
-                                취약점 발견 URL
+                                <b>점검 대상 URL</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
-                                {/* 취약점 발견 URL 데이터*/}
-                                {datas.targeturl}
+                            <p className="ml-20 rounded-3xl bg-[#F4F4F4] p-6 mt-2 mb-8 whitespace-pre-line break-words shadow-detail">
+                              {/* 공격 성공 CASE 데이터*/}
+                              {datas.inspectionurl}
                             </p>
 
                             <div className="flex items-center mx-8">
@@ -269,32 +359,53 @@ export default function ResultPage({ location }) {
                                 2
                               </span>
                               <span className="text-lg ml-3">
-                                공격 성공 CASE
+                                <b>취약점이 발견된 URL</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
-                              {/* 공격 성공 CASE 데이터*/}
-                              {datas.payload}
+                            <p className="ml-20 rounded-3xl bg-[#F4F4F4] p-6 mt-2 mb-8 whitespace-pre-line break-words shadow-detail">
+                                {/* 취약점 발견 URL 데이터*/}
+                                {datas.targeturl}
                             </p>
+
                             <div className="flex items-center mx-8">
                               <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
                                 3
                               </span>
-                              <span className="text-lg ml-3">Feedback</span>
+                              <span className="text-lg ml-3">
+                                <b>상세 취약점 정보</b>
+                              </span>
                             </div>
-                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4">
-                              {/* FeedBack 데이터*/}
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Numquam natus consequuntur rerum repudiandae
-                              veniam quia consectetur impedit quaerat ea
-                              incidunt, maiores aliquid soluta, nostrum dicta
-                              illo quidem eveniet, temporibus magnam! Lorem
-                              ipsum dolor sit amet consectetur adipisicing elit.
-                              Ratione possimus aperiam voluptatum temporibus
-                              harum molestias nam est rem mollitia ad maxime
-                              soluta, eligendi deleniti hic quisquam tempora.
-                              Minus, blanditiis ea.
+                            <p className="ml-20 rounded-3xl bg-[#F4F4F4] p-6 mt-2 mb-8 whitespace-pre-line break-words shadow-detail">
+                              {datas.detailpayload}
+                              {console.log()}
                             </p>
+
+                            <div className="flex items-center mx-8">
+                              <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
+                                4
+                              </span>
+                              <span className="text-lg ml-3">
+                                <b>취약한 데이터가 전송되는 케이스</b>
+                              </span>
+                            </div>
+                            <p className="ml-20 rounded-3xl bg-[#F4F4F4] p-6 mt-2 mb-8 whitespace-pre-line break-words shadow-detail">
+                              {datas.payload}
+                            </p>
+                            
+                            <div className="flex items-center mx-8">
+                              <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
+                                5
+                              </span>
+                              <span className="text-lg ml-3">
+                              <b>피드백</b>
+                              </span>
+                            </div>
+                          
+                            {datas.category === "SQL 인젝션(SQL Injection)" && <SQLpayload data={datas.detailpayload.split("\n")}/>}
+                            {datas.category === "크로스사이트스크립팅(XSS)" && <XSSpayload data={datas.detailpayload.split("\n")}/>}
+                            {datas.category === "디렉토리 트레버설(Directory Traversal)" && <Traversalpayload data={datas.detailpayload.split("\n")}/>}
+                            {datas.category === "파일 업로드(File Upload)" && (<FileUploadpayload data={datas.detailpayload.split("\n")}/>)}
+                            {datas.category === "파일 다운로드(File Download)" && (<FileDownloadpayload data={datas.detailpayload.split("\n")}/>)}
                             <Modal data={data} />
                           </>
                         )}
@@ -304,7 +415,7 @@ export default function ResultPage({ location }) {
             </ul>
           </div>
         </div>
-        <div className="p-12 text-center ">
+        <div className="p-14 text-center ">
           <Upbutton />
         </div>
         <div className="bg-yourcodex bg-cover rounded-xl text-center p-10">
@@ -314,7 +425,7 @@ export default function ResultPage({ location }) {
           <p className="text-white my-8">
             다른 웹 페에지에서도 취약점을 찾아보고 싶다면
           </p>
-          <button className="px-16 py-4 bg-[#1360FF] rounded-xl my-4">
+          <button className="px-16 py-4 bg-[#1360FF] rounded-xl my-4 hover:opacity-90">
             <Link to="/" className="text-white text-xl drop-shadow-text">
               첫페이지로 돌아가기
             </Link>

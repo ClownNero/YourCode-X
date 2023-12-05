@@ -5,7 +5,7 @@
 - [22gamin](https://github.com/22gamin)
 - [ClownNero](https://github.com/ClownNero)
 - [gituserYun](https://github.com/gituserYun)
-- 채현아 보면 채워넣어!
+- [Clnaen](https://github.com/Clnaen)
 <br>
 
 ### 💻How to Use It
@@ -87,6 +87,13 @@ Cannot find module 'tailwind-scrollbar-hide
     yarn add tailwind-scrollbar-hide
 
 This module is a plugin that provides the ability to hide scrollbars in Tailwind CSS.
+
+⚠️Module not found: Error:
+Cannot find module 'tailwind-scrollbar
+
+    yarn add tailwind-scrollbar
+
+This module is a plugin that provides the ability to design scrollbars in Tailwind CSS.
 <br><br>
 
 <img src="https://img.shields.io/badge/Intellij-ED1C24?style=flat&logo=intellijidea&logoColor=black">

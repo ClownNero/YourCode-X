@@ -5,8 +5,6 @@ import { AiOutlineSend } from "react-icons/ai";
 export default function ChatUI(props) {
 
   const [messages, setMessages] = useState([
-    // { id: 1, user: "User", text: "Hello!" },
-    // { id: 2, user: "뤼튼", text: "Hi there! How can I help you today?" },
   ]);
 
   const [userContent, setUserContent] = useState('');
@@ -24,10 +22,14 @@ export default function ChatUI(props) {
     user,
     text,
    });
-
+   const handleKeyDown = (event) => {
+    console.log(event.key)
+    if (event.key === 'Enter'){
+      handleSubmit();
+    }
+   }
   // 제출 핸들러 
   const handleSubmit = (event) => {
-    event.preventDefault();
     setLoading(true);
     // Open Ai 테스트 대답
     handleClick();
@@ -70,19 +72,17 @@ export default function ChatUI(props) {
     .catch((error) => {
       console.error('Error:', error);
     });
-    
   };
 
   return (
-    <div name="wrap" className="flex flex-col h-5/6 px-4 py-8 bg-gray-200 rounded-3xl border-2 border-search relative">
+    <div name="wrap" className="flex flex-col h-5/6 px-4 py-8 bg-[#F1F5FF] rounded-3xl border-2 border-search relative">
       <div className="flex flex-col overflow-auto mb-20 scrollbar-hide">
         {messages.map((message) => (
           <>
-          <div className="flex justify-between items-start mx-3">
-          {/* {message.user === "User" ? "": <BsFillPersonFill className="text-[#D9D9D9] bg-search text-5xl rounded-full"/>} */}
+          <div className={`flex justify-between items-start ${message.user=== "User"? "ml-12 mr-3":"ml-3 mr-12"}`}>
           {message.user === "User" ? "": 
             <img
-              className="text-[#D9D9D9] bg-slate-400 w-12 rounded-full drop-shadow-md inline mt-3"
+              className="text-[#D9D9D9] bg-[#d6e1fc] w-[50px] rounded-full drop-shadow-md inline mt-3 mb-3"
               src="/images/logo.png"
               alt="security logo"
             ></img>}
@@ -94,9 +94,9 @@ export default function ChatUI(props) {
                   : "bg-white self-start"
               }`}
             >   
-            {loading ? <p>Loading....</p> : <p className="text-left whitespace-pre-line">{message.text}</p> }
+            {loading ? <p>Loading....</p> : <p className="text-left whitespace-pre-line break-words">{message.text}</p> }
             </div>
-            {message.user === "User"?<BsFillPersonFill className="text-[#D9D9D9] bg-search text-[44px] rounded-full mt-3"/>:""}
+            {message.user === "User"?<BsFillPersonFill className="text-[#eef3ff] bg-search text-[44px] rounded-full mt-5"/>:""}
           </div>
           </>
         ))}
@@ -108,9 +108,15 @@ export default function ChatUI(props) {
           value={userContent}
           required
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           className="flex-grow px-4 py-2 outline-none"
         />
-        <button type="submit" onClick={handleSubmit} className="px-5 py-2 bg-search text-white rounded-md hover:opacity-90">
+        <button 
+          type="submit" 
+          onClick={handleSubmit} 
+          disabled={!userContent}  // userContent가 비어있다면 버튼은 비활성화됩니다.
+          className={`px-5 py-2 ${userContent ? "bg-search text-white": "bg-white text-search" }  rounded-md hover:opacity-90`}
+        >
           <AiOutlineSend className="text-xl"/>
         </button>
       </div>

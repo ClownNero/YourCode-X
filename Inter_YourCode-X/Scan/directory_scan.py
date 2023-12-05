@@ -29,6 +29,7 @@ def spiderScan(target_url):
                     match_location = re.search(r'(window\s*\.\s*)?location\s*(\.\s*href|\.\s*replace)\s*(=\s*[\'"](.*?)[\'"]|\([\'"](.*?)[\'"]\))', tag.string, re.IGNORECASE)
                     if match_location and (match_location.group(4) or match_location.group(5)):
                         full_url = urljoin(target_url, match_location.group(4) or match_location.group(5))
+                        print(f"script_location: {full_url}", file=sys.stdout)
                         if not full_url.startswith('#') and full_url not in visited:
                             spiderScan(full_url)
 
@@ -36,6 +37,7 @@ def spiderScan(target_url):
                 if match_src and not 'ionicons' in match_src:
                     full_url = urljoin(target_url, match_src)
                     path_with_extension = urlparse(full_url).path
+                    print(f"script_src: {full_url}", file=sys.stdout)
 
                     if path_with_extension not in refer_dict:
                         refer_dict[path_with_extension] = [(full_url, response.status_code)]
@@ -46,6 +48,7 @@ def spiderScan(target_url):
                 href_value = tag.get('href')
                 if href_value and not href_value.startswith('#'):
                     full_url = urljoin(target_url, href_value)
+                    print(f"a_href: {full_url}", file=sys.stdout)
                     path_with_extension = urlparse(full_url).path
                     refer_dict.setdefault(path_with_extension, []).append((full_url, response.status_code))
                     parsed_url = urlparse(full_url)
@@ -61,6 +64,7 @@ def spiderScan(target_url):
                 action_value = tag.get('action')
                 if action_value and not action_value.startswith('#'):
                     full_url = urljoin(target_url, action_value)
+                    print(f"form_action: {full_url}", file=sys.stdout)
                     path_with_extension = urlparse(full_url).path
                     refer_dict.setdefault(path_with_extension, []).append((full_url, response.status_code))
 
@@ -68,6 +72,7 @@ def spiderScan(target_url):
                 href_value = tag.get('href')
                 if href_value and not href_value.startswith('#'):
                     full_url = urljoin(target_url, href_value)
+                    print(f"link_href: {full_url}", file=sys.stdout)
                     path_with_extension = urlparse(full_url).path
                     refer_dict.setdefault(path_with_extension, []).append((full_url, response.status_code))
 
@@ -75,6 +80,7 @@ def spiderScan(target_url):
                 src_value = tag.get('src')
                 if src_value and not src_value.startswith('#'):
                     full_url = urljoin(target_url, src_value)
+                    print(f"img_src: {full_url}", file=sys.stdout)
                     path_with_extension = urlparse(full_url).path
                     refer_dict.setdefault(path_with_extension, []).append((full_url, response.status_code))
 
@@ -82,6 +88,7 @@ def spiderScan(target_url):
                 href_value = tag.get('href')
                 if href_value and not href_value.startswith('#'):
                     full_url = urljoin(target_url, href_value)
+                    print(f"area_href: {full_url}", file=sys.stdout)
                     path_with_extension = urlparse(full_url).path
                     refer_dict.setdefault(path_with_extension, []).append((full_url, response.status_code))
 
@@ -92,6 +99,7 @@ def spiderScan(target_url):
                     match_meta_refresh = re.search(r'url\s*=\s*(.*)$', content_value.strip(), re.IGNORECASE)
                     if match_meta_refresh:
                         full_url = urljoin(target_url, match_meta_refresh.group(1))
+                        print(f"meta: {full_url}", file=sys.stdout)
                         path_with_extension = urlparse(full_url).path
                         refer_dict.setdefault(path_with_extension, []).append((full_url, response.status_code))
 
@@ -99,6 +107,7 @@ def spiderScan(target_url):
                 data_or_src_attr_val = tag.get('data') or tag.get('src')
                 if data_or_src_attr_val and not data_or_src_attr_val.startswith('#'):
                     full_url = urljoin(target_url,data_or_src_attr_val)
+                    print(f"embed&object: {full_url}", file=sys.stdout)
                     path_with_extension = urlparse(full_url).path
                     refer_dict.setdefault(path_with_extension, []).append((full_url, response.status_code))
 
