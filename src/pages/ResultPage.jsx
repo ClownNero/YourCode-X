@@ -20,7 +20,11 @@ const riskValues = {
   주의: 2,
   양호: 1,
 };
+<<<<<<< HEAD
 export default function ResultPage({props}) {
+=======
+export default function ResultPage(props) {
+>>>>>>> b482645661f9914a6c5a8025c36150f1683e2da5
   // 이전 페이지에서 전달 받은 결과 데이터 == 분석데이터
   //const resultData = location.state.result;
   // 예시 코드
@@ -297,7 +301,11 @@ export default function ResultPage({props}) {
             </table>
           </div>
         </div>
+<<<<<<< HEAD
         <div className="mx-4 mt-14 mb-10" id="Diagnosis" name="Diagnosis">
+=======
+        <div className="mx-4 mt-14 mb-8" id="Diagnosis" name="Diagnosis">
+>>>>>>> b482645661f9914a6c5a8025c36150f1683e2da5
           <h2 className="font-bold text-4xl text-Result">Diagnosis</h2>
           <div className="py-14">
             <h2 className="text-Result text-2xl text-left mb-3">
@@ -349,9 +357,16 @@ export default function ResultPage({props}) {
                                 <b>점검 대상 URL</b>
                               </span>
                             </div>
+<<<<<<< HEAD
                             <p className="ml-20 rounded-3xl bg-[#F4F4F4] p-6 mt-2 mb-8 whitespace-pre-line break-words shadow-detail">
                               {/* 공격 성공 CASE 데이터*/}
                               {datas.inspectionurl}
+=======
+
+                            <p className="ml-20 rounded-lg bg-[#F4F4F4] p-6 mt-2 mb-4 whitespace-pre-line">
+                                {/* 취약점 발견 URL 데이터*/}
+                                {datas.targeturl}
+>>>>>>> b482645661f9914a6c5a8025c36150f1683e2da5
                             </p>
 
                             <div className="flex items-center mx-8">

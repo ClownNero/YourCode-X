@@ -70,6 +70,34 @@ export default function MainPages(props) {
     //     navigate("/analysis/result",{state: url});
     //     console.error("Error:", error);
     // }
+<<<<<<< HEAD
+=======
+    try {
+      const response =  await fetch("http://localhost:5000/gomain", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ processedData: url }),
+      });
+
+      if (!response.ok) {
+        console.log(response)
+        console.log("hoi");
+        throw new Error("Network response was not ok");
+      }
+
+      // Optional - if you expect a JSON response, you can parse the response:
+      const data = await response.json();
+      console.log(data);
+      
+    } catch (error) {
+      navigate(`/analysis/result`);
+      console.error("Error during analysis:", error);
+    }
+
+    setUrl("");
+>>>>>>> b482645661f9914a6c5a8025c36150f1683e2da5
   };
 
   return (

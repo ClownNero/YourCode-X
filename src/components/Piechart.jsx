@@ -52,10 +52,14 @@ export default function Piechart({ data }) {
         avoidLabelOverlap: false,
         itemStyle: {
           color: function(params) {
-          //  console.log(params.data.name)
-            const currentItem = params.data.name;
-            const matchingItem = vulnerabilitiesData.find(item => item.name === currentItem);
-            return matchingItem ? matchingItem.color : null; // 기본 색상은 검은색입니다.
+            const item = data[params.dataIndex];
+            if (item.risk === "위험") {
+              return "#F56565"; // bg-red-500
+            } else if (item.risk === "주의") {
+              return "#FCD34D"; // bg-yellow-300
+            } else {
+              return "#48BB78"; // bg-green-500
+            }
           },
           borderRadius: 10,
           borderColor: "#f1f1f1",
@@ -75,13 +79,11 @@ export default function Piechart({ data }) {
         labelLine: {
           show: false,
         },
-        data: data.map((item) => ({
-          value: item.num === 0 ? 0.1 : item.payload.split('\n').length, 
-          name: item.category 
-        })).filter((item) => item.value > 0),
+        data: mockData.map((item) => ({ value: item.num, name: item.category })),
       },
     ],
   });
+  console.log(options.series);
   const chartWidth = windowWidth >= 1560 ? (500 + data.length * 20) : (450 + data.length * 20);
   const chartHeight = windowWidth >= 1560 ? (400 + data.length * 30) : (350 + data.length * 30); 
   return (
