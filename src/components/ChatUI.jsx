@@ -82,7 +82,7 @@ export default function ChatUI(props) {
           <div className={`flex justify-between items-start ${message.user=== "User"? "ml-12 mr-3":"ml-3 mr-12"}`}>
           {message.user === "User" ? "": 
             <img
-              className="text-[#D9D9D9] bg-[#d6e1fc] w-[52px] rounded-full drop-shadow-md inline mt-3"
+              className="text-[#D9D9D9] bg-[#d6e1fc] w-[50px] rounded-full drop-shadow-md inline mt-3 mb-3"
               src="/images/logo.png"
               alt="security logo"
             ></img>}

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Barchart from "../components/Barchart";
 import Piechart from "../components/Piechart";
 import Upbutton from "../components/ui/Upbutton";
-import { RxCaretSort, RxCaretUp, RxCaretDown } from "react-icons/rx";
+import { RxCaretSort, RxCaretUp, RxCaretDown, RxDoubleArrowDown } from "react-icons/rx";
 import Modal from "./Modal";
 import Review from "../components/Review";
 import Cvechart from "../components/Cvechart";
@@ -25,6 +25,8 @@ export default function ResultPage({props}) {
   //const resultData = location.state.result;
   // 예시 코드
   // Mock 데이터 가져오기
+  const [isExpanded, setIsExpanded] = useState([]);
+  const [cve, setCVE] = useState([]); 
   const [data, setData] = useState([]);
   const [data_c, setData_c] = useState([]);
   const [changeData, setChangeData] = useState();
@@ -73,16 +75,18 @@ export default function ResultPage({props}) {
       .get("http://localhost:8081/analysis/result")
       .then((res) => {
         console.log(res);
-
+        const cveArray = Object.values(res.data.cve);
         const listArray = Object.values(res.data.list);
         let listArray_c;
         if (res.data.checking){
         listArray_c = Object.values(res.data.checking);
         setData_c(listArray_c); }
-        
+        setCVE(cveArray);
         setData(listArray);
+        setIsExpanded(listArray.filter(
+          (item) => item.risk === "위험" || item.risk === "주의"
+        ).fill(false));
         changeDatafunc(listArray, listArray_c); // 여기에서 changeDatafunc 함수를 호출합니다.
-        
         setLoading(false);
       })
       .catch((err) => {
@@ -97,7 +101,6 @@ export default function ResultPage({props}) {
       let dataItem = data.find((item) => item.category === category);
       let dataCItem = data_c.find((item) => item.category === category);
       let diff = "없음";
-      console.log(dataItem, dataCItem)
       if (dataItem && dataCItem) {
         diff = dataItem.num - dataCItem.num;
       }
@@ -156,7 +159,7 @@ export default function ResultPage({props}) {
               </h2>
               {/* 막대 차트 부분 */}
               {/* <div className="w-[1024px] h-[450px] bg-[#F1F1F1] rounded-[30px]"> */}
-                {loading ? `Loading...` : <Cvechart data={data} />}
+                {loading ? `Loading...` : <Cvechart data={cve} />}
               {/* </div> */}
             </li>
           </ul>
@@ -376,7 +379,6 @@ export default function ResultPage({props}) {
                             </div>
                             <p className="ml-20 rounded-3xl bg-[#F4F4F4] p-6 mt-2 mb-8 whitespace-pre-line break-words shadow-detail">
                               {datas.detailpayload}
-                              {console.log()}
                             </p>
 
                             <div className="flex items-center mx-8">
@@ -387,9 +389,25 @@ export default function ResultPage({props}) {
                                 <b>취약한 데이터가 전송되는 케이스</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-3xl bg-[#F4F4F4] p-6 mt-2 mb-8 whitespace-pre-line break-words shadow-detail">
-                              {datas.payload}
-                            </p>
+                            {console.log(isExpanded)}
+                            <div className={`relative ${isExpanded[index] ? '' : 'max-h-[600px] overflow-hidden'}`}>
+                              <p className="ml-20 rounded-3xl bg-[#F4F4F4] p-6 mt-2 mb-8 whitespace-pre-line break-words shadow-detail">
+                                {datas.payload}
+                                {console.log(datas.payload.length)}
+                              </p>
+                                       
+                              {!isExpanded[index] && datas.payload.length > 2000 && (
+                                <>
+                                <div className="absolute bottom-0 left-0 right-0 h-20 mb-10 bg-gradient-to-t from-white to-transparent"></div>
+                                <button 
+                                  className="absolute bottom-0  right-0 bg-white p-2 rounded-lg w-full"
+                                  onClick={() => setIsExpanded(isExpanded.map((item, idx) => idx === index ? !isExpanded[index] : item))}
+                                >
+                                  <RxDoubleArrowDown className="text-2xl mx-auto"/>
+                                </button>
+                                </>
+                              )}                   
+                            </div>  
                             
                             <div className="flex items-center mx-8">
                               <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">

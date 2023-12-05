@@ -5,6 +5,7 @@ export default function Traversalpayload({data}) {
   const [expandedIndex, setExpandedIndex] = useState([false,false,false]);
   const [firstIndex, setFirstIndex] = useState(Array(data.length).fill(false));
   const [secondIndex, setSecondIndex] = useState([false,false,false,false,false]);
+  const [thirdIndex, setThirdIndex] = useState([false,false,false]);
   const handleClick = (index, handle,set ) => {
     set(handle.map((item, idx) => idx === index ? !handle[index] : item));
   }
@@ -194,6 +195,107 @@ export default function Traversalpayload({data}) {
           {expandedIndex[2] && (
           <>
             {/* 이 부분 추가 예정*/}
+            <ul className='border-t-4'>
+              <li 
+                className={`border-b-2 px-8 py-6 bg-[#F5F5F5]`}
+              >
+                <p 
+                  className={`text-lg font-bold ${thirdIndex[0]?"text-[#0064CB]":""}`}
+                  onClick={() => handleClick(0,thirdIndex, setThirdIndex)}
+                >
+                  ASP.net
+                </p>
+                {thirdIndex[0] ?
+                <>
+                  <ul className='list-disc px-6 space-y-2 my-4 '>
+                    <p className='my-4 text-lg'>Path.Combine 함수를 사용하여 사용자 입력을 포함한 경로를 만들고, 이 경로가 애플리케이션의 기본 디렉토리 내에 있는지 확인</p>
+                    <p className='my-4'>(단, 예로 제시한 것으로, 구현 시 다를 수 있음.)</p>
+                    <p className='my-4'>
+                    ASP.NET에서는 사용자 입력을 그대로 파일 경로에 사용하지 않는 것이 중요합니다. 대신 Path.Combine() 함수를 사용
+                    </p>
+                    <p className='my-4'>
+                      반환된 경로가 애플리케이션 디렉토리 내에 있는지 확인
+                    </p>
+                  </ul>
+                  <div className=' flex flex-col justify-center w-[1010px] h-[270px] border-2 bg-white ml-2 mt-8 mb-8 rounded-xl px-6'>
+                    <p>string user_input = ... // 사용자 입력 받기</p>
+                    <p>string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, user_input);</p><br/>
+                    <p>if (!path.StartsWith(AppDomain.CurrentDomain.BaseDirectory))</p>
+                    <p>{'{'}</p>
+                    <p className='pl-5'>throw new Exception("잘못된 경로입니다.");</p>
+                    <p>{'}'}</p><br/>
+                    <p>// 이후 path 사용</p>
+                  </div>
+                </>
+                :""}
+              </li>
+              <li 
+                className={`border-b-2 px-8 py-6 bg-[#F5F5F5]`}
+              >
+                <p 
+                  className={`text-lg font-bold  ${thirdIndex[1]?"text-[#0064CB]":""}`}
+                  onClick={() => handleClick(1,thirdIndex, setThirdIndex)}
+                >
+                  PHP
+                </p>
+                {thirdIndex[1] ?
+                <>
+                  <ul className='list-disc px-6 space-y-2 my-4 '>
+                    <p className='my-4 text-lg'>realpath 함수를 사용하여 사용자 입력을 절대 경로로 변환하고, 이 경로가 예상된 디렉토리 내에 있는지 확인</p>
+                    <p className='my-4'>(단, 예로 제시한 것으로, 구현 시 다를 수 있음.)</p>
+                    <p className='my-4'>
+                      PHP에서는 realpath() 함수를 사용하여 사용자 입력을 절대 경로로 변환하고, 이 경로가 예상된 디렉토리 내에 있는지 확인
+                    </p>
+                    <p className='my-4'>
+                      또한, open_basedir 설정을 사용하여 스크립트가 파일 시스템의 특정 부분에만 접근하도록 제한
+                    </p>
+                  </ul>
+                  <div className=' flex flex-col justify-center w-[1010px] h-[270px] border-2 bg-white ml-2 mt-8 mb-8 rounded-xl px-6'>
+                    <p>$user_input = ... // 사용자 입력 받기</p>
+                    <p>$path = realpath($user_input);</p><br/>
+                    <p>if (strpos($path, '/expected/directory/') !== 0)</p>
+                    <p>{'{'}</p>
+                    <p className='pl-5'>throw new Exception('잘못된 경로입니다.');</p>
+                    <p>{'}'}</p><br/>
+                    <p>{'// 이후 path 사용'}</p>
+                  </div>
+                </>
+                :""}
+              </li>
+              <li 
+                className={`border-b-2 px-8 py-6 bg-[#F5F5F5] rounded-b-3xl`}
+              >
+                <p 
+                  className={`text-lg font-bold ${thirdIndex[2]?"text-[#0064CB]":""}`}
+                  onClick={() => handleClick(2,thirdIndex, setThirdIndex)}
+                >
+                  JSP
+                </p>
+                {thirdIndex[2] ?
+                <>
+                  <ul className='list-disc px-6 space-y-2 my-4 '>
+                    <p className='my-4 text-lg'>File 객체를 생성하고, 이 파일의 캐노니컬 경로가 예상된 디렉토리 내에 있는지 확인</p>
+                    <p className='my-4'>(단, 예로 제시한 것으로, 구현 시 다를 수 있음.)</p>
+                    <p className='my-4'>
+                      JSP에서는 사용자 입력을 파일 경로에 직접 사용 않고 사용자 입력을 검증 후 안전하게 처리하여 사용
+                    </p>
+                    <p className='my-4'>
+                      또한, 필요한 파일에만 접근 권한을 부여, 외의 파일에는 접근 X
+                    </p>
+                  </ul>
+                  <div className=' flex flex-col justify-center w-[1010px] h-[250px] border-2 bg-white ml-2 mt-8 mb-8 rounded-xl px-6'>
+                    <p>String userInput = ... // 사용자 입력 받기</p>
+                    <p>File file = new File(userInput);</p><br/>
+                    <p>if (!file.getCanonicalPath().startsWith("/expected/directory/"))</p>
+                    <p>{'{'}</p>
+                    <p className='pl-5'>throw new Exception("잘못된 경로입니다.");</p>
+                    <p>{'}'}</p><br/>
+                    <p>// 이후 file 사용</p>
+                  </div>
+                </>
+                :""}
+              </li>
+            </ul>
           </>
         )}
         </li>
