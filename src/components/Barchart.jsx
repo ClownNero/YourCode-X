@@ -4,6 +4,7 @@ import ReactEcharts from "echarts-for-react";
 export default function Barchart({ data }) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
+    console.log(data); 
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
@@ -13,7 +14,8 @@ export default function Barchart({ data }) {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+    
+  }, [data]);
   const [options, setOptions] = useState({
     tooltip: {
       trigger: "item",
@@ -66,9 +68,12 @@ export default function Barchart({ data }) {
       
       data: Array(data.length)
       .fill(null)
+      // .map((_, i) =>
+      //   i === index ? { value: item.num, name: item.category } : null
+      // ),
       .map((_, i) =>
-        i === index ? { value: item.num, name: item.category } : null
-      ),
+        i === index ? { value: item.num === 0 ? 0.1 : item.num, name: item.category } : null
+      ),      
       itemStyle: {
         borderColor: "#f1f1f1",
         borderWidth: 2,

@@ -5,6 +5,7 @@ export default function XSSpayload({data}) {
   const [expandedIndex, setExpandedIndex] = useState([false,false,false]);
   const [firstIndex, setFirstIndex] = useState(Array(data.length).fill(false));
   const [secondIndex, setSecondIndex] = useState([false,false,false]);
+  const [thirdIndex, setThirdIndex] = useState([false,false,false]);
   const handleClick = (index, handle,set ) => {
     set(handle.map((item, idx) => idx === index ? !handle[index] : item));
   }
@@ -169,7 +170,90 @@ export default function XSSpayload({data}) {
           </div>
           {expandedIndex[2] && (
           <>
-            {/* 이 부분 추가 예정*/}
+             <ul className='border-t-4'>
+              <li 
+                className={`border-b-2 px-8 py-6 bg-[#F5F5F5]`}
+              >
+                <p 
+                  className={`text-lg font-bold ${thirdIndex[0]?"text-[#0064CB]":""}`}
+                  onClick={() => handleClick(0,thirdIndex, setThirdIndex)}
+                >
+                  ASP.net
+                </p>
+                {thirdIndex[0] ?
+                <>
+                  <div className=' flex flex-col justify-center w-[1010px] h-[420px] border-2 bg-white ml-2 mt-8 mb-8 rounded-xl px-6'>
+                    <p>{'<%'}</p>
+                    <p>... 중략 ...</p>
+                    <p>If use_HTML Then</p>
+                    <p className='pl-5'>content = Server.HTMLEncode(content)</p>
+                    <p>... 중략 ...</p><br/>
+                    <p>Sub ReplaceStr(content, byref str)</p>
+                    <p className='pl-9'>content = replace(content, "'", " \'")</p>
+                    <p className='pl-9'>{'content = replace(content, "&", "&amp;")'}</p>
+                    <p className='pl-9'>content = replace(content, " \'", "&quot")</p>
+                    <p className='pl-9'>{'content = replace(content, "<", "&lt")'}</p>
+                    <p className='pl-9'>{'content = replace(content, ">", "&gt")'}</p>
+                    <p className='pl-9'>str = content</p>
+                    <p>End Sub</p>
+                    <p className='pl-9'>... 중략 ...</p>
+                    <p>{'%>'}</p>
+                  </div>
+                </>
+                :""}
+              </li>
+              <li 
+                className={`border-b-2 px-8 py-6 bg-[#F5F5F5]`}
+              >
+                <p 
+                  className={`text-lg font-bold  ${thirdIndex[1]?"text-[#0064CB]":""}`}
+                  onClick={() => handleClick(1,thirdIndex, setThirdIndex)}
+                >
+                  PHP
+                </p>
+                {thirdIndex[1] ?
+                <>
+                  <div className=' flex flex-col justify-center w-[1010px] h-[350px] border-2 bg-white ml-2 mt-8 mb-8 rounded-xl px-6'>
+                    <p>... 중략 ...</p>
+                    <p className='pl-5'>if($use_html == 1) // HTML tag를 사용해야 하는 경우 부분 허용</p>
+                    <p className='pl-9'>{'$memo = str_replace("<", "&lt", $memo);// HTML TAG 모두 제거'}</p>
+                    <p className='pl-9'>$tag = explode(",", $use_tag);</p><br/>
+                    <p className='pl-9'>{'for($i=0; $i<count($tag); $i++) { // 허용할 TAG만 사용할 수 있도록 변경'}</p>
+                    <p className='pl-16'>{'$memo = eregi_replace("&lt".$tag[$i]." ", "<".$tag[$i]." ", $memo);'}</p>
+                    <p className='pl-16'>{'$memo = eregi_replace("&lt".$tag[$i].">", "<".$tag[$i].">", $memo);'}</p>
+                    <p className='pl-16'>{'$memo = eregi_replace("&lt/".$tag[$i], "</".$tag[$i], $memo); }'}</p>
+                    <p className='pl-9'>else // HTML tag를 사용하지 못하게 할 경우</p>
+                    <p className='pl-9'>{'$memo = str_replace("<", "&lt", $memo);'}</p>
+                    <p className='pl-9'>{'$memo = str_replace(">", "&gt", $memo);'}</p>
+                    <p className='pl-9'>... 중략 ...</p>
+                  </div>
+                </>
+                :""}
+              </li>
+              <li 
+                className={`border-b-2 px-8 py-6 bg-[#F5F5F5] rounded-b-3xl`}
+              >
+                <p 
+                  className={`text-lg font-bold ${thirdIndex[2]?"text-[#0064CB]":""}`}
+                  onClick={() => handleClick(2,thirdIndex, setThirdIndex)}
+                >
+                  JSP
+                </p>
+                {thirdIndex[2] ?
+                <>
+                  <div className=' flex flex-col justify-center w-[1010px] h-[200px] border-2 bg-white ml-2 mt-8 mb-8 rounded-xl px-6'>
+                    <p>{'<%'}</p>
+                    <p>... 중략 ...</p>
+                    <p>string subject = request.getParameter("subject_BOX");</p>
+                    <p className='pl-16'>{'subject = subject.replaceAll(“<”, “&lt”);'}</p>
+                    <p className='pl-16'>{'subject = subject.replaceAll(“>”, “&gt”);'}</p>
+                    <p className='pl-16'>... 중략 ...</p>
+                    <p>{'%>'}</p>
+                  </div>
+                </>
+                :""}
+              </li>
+            </ul>
           </>
         )}
         </li>
