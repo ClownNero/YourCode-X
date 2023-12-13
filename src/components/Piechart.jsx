@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 
 export default function Piechart({ data }) {
+  console.log(data);
   const vulnerabilitiesData =[
     { name: 'Overflow', color: "#c1232b"},
     { name: 'Memory Corruption', color: "#27727b" },
     { name: 'SQL 인젝션(SQL Injection)', color: "#fcce10" },
     { name: '크로스사이트스크립팅(XSS)', color: "#e87c25" },
     { name: '디렉토리 트레버설(Directory Traversal)', color: "#b5c334" },
-    { name: 'File Inclusion', color: "#fe8463" },
+    { name: '파일 다운로드(File Download)', color: "#fe8463" },
+    { name: '파일 업로드(File Upload)', color: "#fe8463" },
     { name: 'CSRF', color: "#9bca63" },
     { name: 'XXE', color: "#fad860" },
     { name: 'SSRF', color: "#f3a43b" },
@@ -50,7 +52,7 @@ export default function Piechart({ data }) {
         avoidLabelOverlap: false,
         itemStyle: {
           color: function(params) {
-           console.log(params.data.name)
+          //  console.log(params.data.name)
             const currentItem = params.data.name;
             const matchingItem = vulnerabilitiesData.find(item => item.name === currentItem);
             return matchingItem ? matchingItem.color : null; // 기본 색상은 검은색입니다.
@@ -73,7 +75,10 @@ export default function Piechart({ data }) {
         labelLine: {
           show: false,
         },
-        data: data.map((item) => ({ value: item.payload.split('\n').length, name: item.category })).filter((item) => item.value !== 1),
+        data: data.map((item) => ({
+          value: item.num === 0 ? 0.1 : item.payload.split('\n').length, 
+          name: item.category 
+        })).filter((item) => item.value > 0),
       },
     ],
   });

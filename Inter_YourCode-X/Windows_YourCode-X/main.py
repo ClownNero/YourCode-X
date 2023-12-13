@@ -3,6 +3,7 @@ import openai
 import requests
 import os
 import json
+from flask import jsonify
 from termcolor import cprint
 from flask import Flask, request
 from flask_cors import CORS
@@ -327,11 +328,11 @@ def directory_traversal(url, check_url, identi_paths):
     print(risk_3)
 
     # inspectionurl_3 추출
-    inspectionurl_3 = set()
+    inspectionurl_3s = set()
     for line in extracted_info.split('\n'):
         if line.startswith("Inspection_url: "):
-            inspectionurl_3.add(line[16:])
-    inspectionurl_3 = list(inspectionurl_3)
+            inspectionurl_3s.add(line[16:])
+    inspectionurl_3 = list(inspectionurl_3s)
     print_green("\ninspection_url(Inspection url path):")
     print_green("======================")
     for inspection in inspectionurl_3:
@@ -350,6 +351,101 @@ def directory_traversal(url, check_url, identi_paths):
             print(detail)
 
     return payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3
+
+def file_download(url, check_url, identi_paths):
+    urls_json = json.dumps(check_url)
+    identi_json = json.dumps(identi_paths)
+    print_blue("\n[*] File Download 점검")
+    output = subprocess.run(['python', './Inter_YourCode-X/VulnerabilityList/FD/file_download.py' ,url ,urls_json, identi_json], capture_output=True, text=True, check=True)        
+    extracted_info = output.stdout
+
+    # payload_4 추출
+    cnt = 0
+    payload_4s = set()
+    for line in extracted_info.split('\n'):
+        if line.startswith("Attack Detected: "):
+            payload_4s.add(line[17:])
+    payload_4 = list(payload_4s)
+    print_green("\npayload(Payload Code):")
+    print_green("======================")
+    for code in payload_4:
+        print(code)
+        cnt += 1
+    print_grey(f"payload cnt: {cnt}")
+
+    # category_4 추출
+    category_4 = "파일 다운로드(File Download)"
+    print_green("\ncategory:")
+    print_green("======================")
+    print(category_4)
+
+    # targeturl_4 추출
+    targeturl_4s = set()
+    num_4 = 0
+    for line in extracted_info.split('\n'):
+        if line.startswith("Target url: "):
+            targeturl_4s.add(line[12:])
+    targeturl_4 = list(targeturl_4s)
+    print_green("\ntargeturl(Vulnerable file path):")
+    print_green("======================")
+    for target in targeturl_4:
+        print(target)
+        num_4 += 1 #취약한 파일 경로 수 파악    
+
+    # num_4 추출
+    print_green("\nnum(Number of vulnerable file paths):")
+    print_green("======================")
+    print(num_4)
+
+    # risk_4 데이터 추출
+    risk_4 = '양호'
+    risk_order = {'위험':0, '주의':1, '양호':2}
+    print_green("\nrisk:")
+    print_green("======================")
+    for line in extracted_info.split('\n'):
+        if line.startswith("Risk: "):
+            extracted_risk = line[6:].strip()
+            if risk_order[extracted_risk] < risk_order[risk_4]:
+                risk_4 = extracted_risk
+    print(risk_4)
+
+    # inspectionurl_4 추출
+    inspectionurl_4s = set()
+    for line in extracted_info.split('\n'):
+        if line.startswith("Inspection_url: "):
+            inspectionurl_4s.add(line[16:])
+    inspectionurl_4 = list(inspectionurl_4s)
+    print_green("\ninspection_url(Inspection url path):")
+    print_green("======================")
+    for inspection in inspectionurl_4:
+        print(inspection)
+
+    # detailpayload_4 추출
+    detailpayload_4s = set()
+    for line in extracted_info.split('\n'):
+        if line.startswith("Detail payload: "):
+            detailpayload_4s.add(line[16:])
+    detailpayload_4 = list(detailpayload_4s)
+    print_green("\ndetailpayload(Performance Indicators by Inspection Item):")
+    print_green("======================")
+    for detail in detailpayload_4:
+        if detail:
+            print(detail)
+    
+    # upload 경로 분석 추출
+    # Estimated file upload path: {variable_value}
+    estimated_path_s = set()
+    for line in extracted_info.split('\n'):
+        if line.startswith("Estimated file upload path: "):
+            estimated_path_s.add(line[28:])
+    e_path = list(estimated_path_s)
+    print_green("\nestimated_path(Estimated file upload path):")
+    print_green("======================")
+    for ep in e_path:
+        if ep:
+            print(ep)
+
+    return payload_4, category_4, num_4, risk_4, targeturl_4, inspectionurl_4, detailpayload_4, e_path
 
 def inspection_result(url, payload, category, num, risk, targeturl, inspectionurl, detailpayload):
     print_green("url:\n======================")
@@ -451,34 +547,75 @@ def process_request():
         payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3 = directory_traversal(url, check_url, identi_paths)
         print_blue("\n[*] Directory Traversal 점검 결과")
         inspection_result(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
-        risk_3 = "위험"
-        detailpayload_3 = ["Basic Directory Traversal","Null-Byte Directory Traversal"]
+
         print_blue("\n[*] DB Connection")
         db_class = dbModule.Database()
         db_class.checkList(url, payload_3, category_3, num_3, risk_3, targeturl_3, inspectionurl_3, detailpayload_3)
         print_blue("[*] DB Close")
 
+    # 점검항목4: 파일 다운로드(File Download)
+    if '파일 다운로드(File Download)' in checkedContents: 
+        payload_4, category_4, num_4, risk_4, targeturl_4, inspectionurl_4, detailpayload_4, e_path = file_download(url, check_url, identi_paths)
+        print_blue("\n[*] File Download 점검 결과")
+        inspection_result(url, payload_4, category_4, num_4, risk_4, targeturl_4, inspectionurl_4, detailpayload_4)
+
+        print_blue("\n[*] DB Connection")
+        db_class = dbModule.Database()
+        db_class.checkList(url, payload_4, category_4, num_4, risk_4, targeturl_4, inspectionurl_4, detailpayload_4)
+        print_blue("[*] DB Close")    
+
     return url
 
 # openai 
 @app.route("/openai/api",methods=["POST"])
+# def chatGPT():
+#     try:
+#         openai.api_key = os.getenv("OPENAI_API_KEY")
+#         # openai.api_key = "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"
+#         input_data = request.json
+#         user_content = "\nHere is the code for the web vulnerability.\n"+ input_data.get('userContent') + "\nImprove the code and suggest solutions."
+#         print(f"user_content: {user_content}")
+
+#         messages = [{"role": "system", "content": "This is a chatbot that fixes vulnerabilities based on the code entered by the user. I will answer in Korean except for the code."}]
+#         messages.append({"role": "user", "content":user_content})
+
+#         model_id = "ft:gpt-3.5-turbo-0613:kim::8QFK8ygA"
+#         completion = openai.ChatCompletion.create(model=model_id, messages=messages) 
+#         # completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages) 
+#         assistant_content = completion["choices"][0]["message"]["content"].encode("utf-8").decode()
+#         messages.append({"role":"assistant", "content":assistant_content})
+#         print(f"\nassistant_content: {assistant_content}")
+#         return jsonify({"result": assistant_content})
+
+
+#         # file_id = "[]" # Fine-Tuninig 3.5 Model-ID
+#         # completion = openai.ChatCompletion.create(
+#         #     training_file=file_id, 
+#         #     model="gpt-3.5-turbo",
+#         #     prompt=user_content,
+#         #     max_tokens=1500
+#         # )
+
+#     except Exception as e:
+#         return jsonify({"error":str(e)})
+
 def chatGPT():
     try:
-        openai.api_key = os.getenv("OPENAI_API_KEY")
-        
+        # openai.api_key = os.getenv("OPENAI_API_KEY")
+        openai.api_key = "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"
         input_data = request.json
-        user_content = input_data.get('userContent')
+        user_content = "Here is the code for the web vulnerability.\n"+ input_data.get('userContent') + "\nImprove the code and suggest solutions."
         print(f"user_content: {user_content}")
 
-        messages = [{"role": "system", "content": "You are a helpful assistant."}]
-        messages.append({"role":"user", "content":user_content})
+        
+        messages = [{"role": "system", "content": "This is a chatbot that fixes vulnerabilities based on the code entered by the user. I will answer in Korean except for the code."}]
+        messages.append({"role": "user", "content":user_content})
 
         completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
-
-        # OpenAI API의 응답에서 챗봇의 답변을 추출하는 역할
         assistant_content = completion["choices"][0]["message"]["content"].encode("utf-8").decode()
-        messages.append({"role":"assistant", "content":assistant_content})
+        messages.append({"role":"assistant", "content":assistant_content})        
         return jsonify({"result": assistant_content})
+
     except Exception as e:
         return jsonify({"error":str(e)})
 
