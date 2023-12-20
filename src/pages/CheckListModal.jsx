@@ -81,7 +81,7 @@ export default function CheckListModal({ isOpen, onModalClose, onCofirm }) {
             </div>
             <div className="flex h-[800px]">
               <div className="flex-col w-[256px] flex-shrink-0 border-r-2">
-                <div className="h-5/6 border-b-2 text-center">
+                <div className="h-5/6 border-b-2 text-center overflow-y-auto scrollbar-hide">
                   <ol>
                     <li className="border-b-2 text-[#585858] font-medium px-6 py-4 ">
                       <button onClick={() => handleClick("SQL 인젝션(SQL Injection)")}>
@@ -107,7 +107,7 @@ export default function CheckListModal({ isOpen, onModalClose, onCofirm }) {
                       <button onClick={() => handleClick("파일 다운로드(File Download)")}>
                         파일 다운로드<br></br>(File Download)
                       </button>
-                    </li>                                   
+                    </li>                                    
                   </ol>
                 </div>
                 <div className="h-1/6 bg-[#F0F0F0] flex justify-center items-center">

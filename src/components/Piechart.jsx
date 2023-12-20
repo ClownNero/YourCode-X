@@ -47,8 +47,8 @@ export default function Piechart({ data }) {
     series: [
       {
         type: "pie",
-        radius: ["35%", "70%"],
-        center: ['50%', '45%'],  // 이 값을 조절하여 차트의 위치를 변경합니다.
+        radius: ["35%", "65%"],
+        center: ['50%', '40%'],  // 이 값을 조절하여 차트의 위치를 변경합니다.
         avoidLabelOverlap: false,
         itemStyle: {
           color: function(params) {
@@ -76,7 +76,7 @@ export default function Piechart({ data }) {
           show: false,
         },
         data: data.map((item) => ({
-          value: item.num === 0 ? 0.1 : item.payload.split('\n').length, 
+          value: item.payload.split('\n').length === 1 ? 0: item.payload.split('\n').length, 
           name: item.category 
         })).filter((item) => item.value > 0),
       },

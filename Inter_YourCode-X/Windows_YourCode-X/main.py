@@ -447,6 +447,89 @@ def file_download(url, check_url, identi_paths):
 
     return payload_4, category_4, num_4, risk_4, targeturl_4, inspectionurl_4, detailpayload_4, e_path
 
+def file_upload(url, check_url, identi_paths, estimated_upload_path):
+    urls_json = json.dumps(check_url)
+    identi_json = json.dumps(identi_paths)
+    e_path_json = json.dumps(estimated_upload_path)
+    print_blue("\n[*] File Upload 점검")
+    output = subprocess.run(['python', './Inter_YourCode-X/VulnerabilityList/FU/file_upload.py', url, urls_json, identi_json, e_path_json], capture_output=True, text=True, check=True)
+    extracted_info = output.stdout
+
+    # payload_5 추출
+    cnt = 0
+    payload_5s = set()
+    for line in extracted_info.split('\n'):
+        if line.startswith("Attack Detected: "):
+            payload_5s.add(line[17:])
+    payload_5 = list(payload_5s)
+    print_green("\npayload(Payload Code):")
+    print_green("======================")
+    for code in payload_5:
+        print(code)
+        cnt += 1
+    print_grey(f"payload cnt: {cnt}")
+
+    # category_5 추출
+    category_5 = "파일 업로드(File Upload)"
+    print_green("\ncategory:")
+    print_green("======================")
+    print(category_5)    
+
+    # targeturl_5 추출
+    targeturl_5s = set()
+    num_5 = 0
+    for line in extracted_info.split('\n'):
+        if line.startswith("Target url: "):
+            targeturl_5s.add(line[12:])
+    targeturl_5 = list(targeturl_5s)
+    print_green("\ntargeturl(Vulnerable file path):")
+    print_green("======================")
+    for target in targeturl_5:
+        print(target)
+        num_5 += 1 #취약한 파일 경로 수 파악    
+
+    # num_5 추출
+    print_green("\nnum(Number of vulnerable file paths):")
+    print_green("======================")
+    print(num_5)
+
+    # risk_5 데이터 추출
+    risk_5 = '양호'
+    risk_order = {'위험':0, '주의':1, '양호':2}
+    print_green("\nrisk:")
+    print_green("======================")
+    for line in extracted_info.split('\n'):
+        if line.startswith("Risk: "):
+            extracted_risk = line[6:].strip()
+            if risk_order[extracted_risk] < risk_order[risk_5]:
+                risk_5 = extracted_risk
+    print(risk_5)
+
+    # inspectionurl_5 추출
+    inspectionurl_5s = set()
+    for line in extracted_info.split('\n'):
+        if line.startswith("Inspection_url: "):
+            inspectionurl_5s.add(line[16:])
+    inspectionurl_5 = list(inspectionurl_5s)
+    print_green("\ninspection_url(Inspection url path):")
+    print_green("======================")
+    for inspection in inspectionurl_5:
+        print(inspection)
+
+    # detailpayload_5 추출
+    detailpayload_5s = set()
+    for line in extracted_info.split('\n'):
+        if line.startswith("Detail payload: "):
+            detailpayload_5s.add(line[16:])
+    detailpayload_5 = list(detailpayload_5s)
+    print_green("\ndetailpayload(Performance Indicators by Inspection Item):")
+    print_green("======================")
+    for detail in detailpayload_5:
+        if detail:
+            print(detail)
+
+    return payload_5, category_5, num_5, risk_5, targeturl_5, inspectionurl_5, detailpayload_5
+
 def inspection_result(url, payload, category, num, risk, targeturl, inspectionurl, detailpayload):
     print_green("url:\n======================")
     print(url)
@@ -554,16 +637,28 @@ def process_request():
         print_blue("[*] DB Close")
 
     # 점검항목4: 파일 다운로드(File Download)
+    estimated_upload_path = []
     if '파일 다운로드(File Download)' in checkedContents: 
         payload_4, category_4, num_4, risk_4, targeturl_4, inspectionurl_4, detailpayload_4, e_path = file_download(url, check_url, identi_paths)
         print_blue("\n[*] File Download 점검 결과")
+        estimated_upload_path = e_path
         inspection_result(url, payload_4, category_4, num_4, risk_4, targeturl_4, inspectionurl_4, detailpayload_4)
 
         print_blue("\n[*] DB Connection")
         db_class = dbModule.Database()
         db_class.checkList(url, payload_4, category_4, num_4, risk_4, targeturl_4, inspectionurl_4, detailpayload_4)
-        print_blue("[*] DB Close")    
+        print_blue("[*] DB Close")
 
+    # 점검항목5: 파일 업로드(File Upload)
+    if '파일 업로드(File Upload)' in checkedContents: 
+        payload_5, category_5, num_5, risk_5, targeturl_5, inspectionurl_5, detailpayload_5 = file_upload(url, check_url, identi_paths, estimated_upload_path)
+        print_blue("\n[*] File Upload 점검 결과")
+        inspection_result(url, payload_5, category_5, num_5, risk_5, targeturl_5, inspectionurl_5, detailpayload_5)
+
+        print_blue("\n[*] DB Connection")
+        db_class = dbModule.Database()
+        db_class.checkList(url, payload_5, category_5, num_5, risk_5, targeturl_5, inspectionurl_5, detailpayload_5)
+        print_blue("[*] DB Close")
     return url
 
 # openai 
@@ -602,7 +697,7 @@ def process_request():
 def chatGPT():
     try:
         # openai.api_key = os.getenv("OPENAI_API_KEY")
-        openai.api_key = "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"
+        openai.api_key = "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"
         input_data = request.json
         user_content = "Here is the code for the web vulnerability.\n"+ input_data.get('userContent') + "\nImprove the code and suggest solutions."
         print(f"user_content: {user_content}")

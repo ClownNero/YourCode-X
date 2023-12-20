@@ -46,7 +46,7 @@ export default function Barchart({ data }) {
     grid: {
       left: "10%",
       right: "10%",
-      bottom: "15%",
+      bottom: "20%", // bar 차트 위치 수정 
       top: "10%",
       containLabel: true,
     },
@@ -56,6 +56,7 @@ export default function Barchart({ data }) {
     },
     yAxis: {
       type: "value",
+      max: 1.5, // 이 값을 조절하여 모든 바의 높이를 제한
       axisLabel: { show: false },
       splitLine: { show: false },
     },

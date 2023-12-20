@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Barchart from "../components/Barchart";
 import Piechart from "../components/Piechart";
 import Upbutton from "../components/ui/Upbutton";
-import { RxCaretSort, RxCaretUp, RxCaretDown } from "react-icons/rx";
+import { RxCaretSort, RxCaretUp, RxCaretDown, RxDoubleArrowDown } from "react-icons/rx";
 import Modal from "./Modal";
 import Review from "../components/Review";
 import Cvechart from "../components/Cvechart";
@@ -25,6 +25,7 @@ export default function ResultPage({props}) {
   //const resultData = location.state.result;
   // 예시 코드
   // Mock 데이터 가져오기
+  const [isExpanded, setIsExpanded] = useState([]);
   const [cve, setCVE] = useState([]); 
   const [data, setData] = useState([]);
   const [data_c, setData_c] = useState([]);
@@ -82,8 +83,10 @@ export default function ResultPage({props}) {
         setData_c(listArray_c); }
         setCVE(cveArray);
         setData(listArray);
+        setIsExpanded(listArray.filter(
+          (item) => item.risk === "위험" || item.risk === "주의"
+        ).fill(false));
         changeDatafunc(listArray, listArray_c); // 여기에서 changeDatafunc 함수를 호출합니다.
-        
         setLoading(false);
       })
       .catch((err) => {
@@ -98,9 +101,10 @@ export default function ResultPage({props}) {
       let dataItem = data.find((item) => item.category === category);
       let dataCItem = data_c.find((item) => item.category === category);
       let diff = "없음";
-      console.log(dataItem, dataCItem)
+      let color = 'blue';
       if (dataItem && dataCItem) {
         diff = dataItem.num - dataCItem.num;
+        color = dataItem.risk === '위험'? 'red': dataItem.risk ==='주의'? 'yellow' : 'green'
       }
       let displayName;
         switch (category) {
@@ -125,7 +129,8 @@ export default function ResultPage({props}) {
       resultArray.push({
         category: displayName,
         difference: diff,
-        currentData: dataItem ? dataItem.num : "없음" // dataItem이 없을 경우 "없음"을 사용합니다.
+        currentData: dataItem ? dataItem.num : "없음", // dataItem이 없을 경우 "없음"을 사용합니다.
+        color: color
       });
     });
   
@@ -186,11 +191,12 @@ export default function ResultPage({props}) {
           <h2 className="font-bold text-4xl text-Result">Changes</h2>
           <h3 className="pt-14 text-2xl text-Result"><b>취약점이 발견된 경로의 개수</b></h3>
           <ul className="flex justify-center w-full py-14 min-w-[1560px]">
-            {loading ? `Loading...`:<Changebox dataD={changeData[0]}colorD="red"/>}
-            {loading? `Loading...`:<div className="mx-10"><Changebox dataD={changeData[1]} colorD="blue"/></div>}
-            {loading? `Loading...`:<Changebox dataD={changeData[2]} colorD="yellow"/>}
-            {loading? `Loading...`:<div className="mx-10"><Changebox dataD={changeData[3]}  colorD="green"/></div>}
-            {loading? `Loading...`:<Changebox dataD={changeData[4]} colorD="green"/>}
+            {console.log(changeData)}
+            {loading ? `Loading...`:<Changebox dataD={changeData[0]} colorD={changeData[0].color}/>}
+            {loading? `Loading...`:<div className="mx-10"><Changebox dataD={changeData[1]} colorD={changeData[1].color}/></div>}
+            {loading? `Loading...`:<Changebox dataD={changeData[2]} colorD={changeData[2].color}/>}
+            {loading? `Loading...`:<div className="mx-10"><Changebox dataD={changeData[3]}  colorD={changeData[3].color}/></div>}
+            {loading? `Loading...`:<Changebox dataD={changeData[4]} colorD={changeData[4].color}/>}
           </ul>
         </div>
         
@@ -377,7 +383,6 @@ export default function ResultPage({props}) {
                             </div>
                             <p className="ml-20 rounded-3xl bg-[#F4F4F4] p-6 mt-2 mb-8 whitespace-pre-line break-words shadow-detail">
                               {datas.detailpayload}
-                              {console.log()}
                             </p>
 
                             <div className="flex items-center mx-8">
@@ -388,9 +393,25 @@ export default function ResultPage({props}) {
                                 <b>취약한 데이터가 전송되는 케이스</b>
                               </span>
                             </div>
-                            <p className="ml-20 rounded-3xl bg-[#F4F4F4] p-6 mt-2 mb-8 whitespace-pre-line break-words shadow-detail">
-                              {datas.payload}
-                            </p>
+                            {console.log(isExpanded)}
+                            <div className={`relative ${isExpanded[index] ? '' : 'max-h-[600px] overflow-hidden'}`}>
+                              <p className="ml-20 rounded-3xl bg-[#F4F4F4] p-6 mt-2 mb-8 whitespace-pre-line break-words shadow-detail">
+                                {datas.payload}
+                                {console.log(datas.payload.length)}
+                              </p>
+                                       
+                              {!isExpanded[index] && datas.payload.length > 2000 && (
+                                <>
+                                <div className="absolute bottom-0 left-0 right-0 h-20 mb-10 bg-gradient-to-t from-white to-transparent"></div>
+                                <button 
+                                  className="absolute bottom-0  right-0 bg-white p-2 rounded-lg w-full"
+                                  onClick={() => setIsExpanded(isExpanded.map((item, idx) => idx === index ? !isExpanded[index] : item))}
+                                >
+                                  <RxDoubleArrowDown className="text-2xl mx-auto"/>
+                                </button>
+                                </>
+                              )}                   
+                            </div>  
                             
                             <div className="flex items-center mx-8">
                               <span className="border border-[#1360FF] rounded-full w-9 h-9 flex items-center font-bold text-[#1360FF] justify-center mr-2 bg-white">
