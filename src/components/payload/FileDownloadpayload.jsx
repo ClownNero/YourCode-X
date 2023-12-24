@@ -11,17 +11,9 @@ export default function FileDownloadpayload({data}) {
   }
   const downloadTypes=[
     {
-      type:'Drive-by Download',
-      solution:'방어하기 위해선 신뢰할 수 없는 웹사이트 방문을 피하고, 웹 브라우저와 플러그인을 항상 최신 상태로 유지한다. 또한, 알려지지 않은 출처의 광고 클릭을 피하는 것이 중요하다.'
+      type:'Path Mainipulation File Download',
+      solution:'Path Manipulation File Download 취약점은 공격자가 파일 경로를 조작해 서버에서 의도치 않은 파일을 다운로드하는 취약점이다. 이를 해결하기 위해 사용자의 입력값 검증, 화이트리스트 방식 적용, 절대 경로 사용, 최소 권한 원칙 적용, 그리고 로깅 및 모니터링을 진행해야 합니다. 이 방법들을 통해 웹 애플리케이션의 보안을 강화하고, 공격자가 민감한 파일에 접근하는 것을 방지할 수 있다.'
     },
-    {
-      type:'User-initiated Download',
-      solution:'사용자가 파일 다운로드를 승인하게 만드는 공격이므로,  사용자 교육이 중요한 대응 방안이다. 파일을 다운로드 할 때 항상 신뢰할 수 있는 출처에서만 다운로드해야 하며, 불필요한 파일은 다운로드 하지 않도록 주의'
-    },
-    {
-      type:'File Injection',
-      solution:'서버에 악성 파일을 업로드한 후, 다른 사용자가 이를 다운로드하도록 만드는 공격이므로, 웹 애플리케이션에 보안 패치를 적용하고, 정기적인 보안 검사를 통해 취약점을 찾아내고 수정해야한다. 한, 사용자가 업로드한 파일을 다른 사용자가 다운로드할 수 없도록 서버 설정을 조정하는 것이 필요하다.'
-    }
   ];
   return (
     <div >

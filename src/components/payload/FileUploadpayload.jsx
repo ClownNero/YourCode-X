@@ -11,12 +11,12 @@ export default function FileUploadpayload({data}) {
   }
   const uploadTypes=[
     {
-      type:'Malicious File Upload',
-      solution:'파일을 업로드할 때마다, 서버에서는 해당 파일을 검사하여 악성 코드를 탐지한다. 이를 위해 다양한 보안 소프트웨어나 서비스를 사용할 수 있다. 또한, 신뢰할 수 있는 소스에서 온 파일만을 허용한다.'
+      type:'Extension By Pass File Upload',
+      solution:'Extension By Pass File Upload는 파일 업로드 기능에서 확장자를 우회하여 악성 파일을 업로드할 수 있는 웹 보안 취약점이다. 이를 해결하기 위해 서버 측에서 확장자 검증과 MIME 타입 검증을 수행하고, 파일명을 변경하고 저장 경로를 제한하여 보안을 강화할 수 있습니다. 또한, 보안 업로드 라이브러리를 사용하고 추가적인 보안 검사를 진행하는 것이 좋습니다. 이러한 방안을 적용하여 안전한 파일 업로드를 보장할 수 있다.'
     },
     {
-      type:'Unrestricted File Upload',
-      solution:'업로드된 파일이 실행 가능한 파일인지 확인하고, 실행 가능한 파일의 업로드를 차단해야 한다. 서버 설정을 통해 특정 확장자를 가진 파일의 실행을 차단한다.'
+      type:'Capacity File Upload',
+      solution:'Capacity File Upload 취약점은 큰 용량의 파일을 업로드하여 서버에 부담을 주는 취약점이다. 이를 해결하기 위해 서버와 클라이언트 양쪽에서 용량 제한 설정, 업로드된 파일의 용량 검증, 스트리밍 업로드, 서버 리소스 관리, 그리고 로깅 및 모니터링 등의 방안을 적용해야 합니다. 이런 방안들을 통해 파일 업로드 용량을 제어하고, 이상 행위를 조기에 감지하여 웹 애플리케이션의 보안을 강화할 수 있다.'
     },
   ];
   return (

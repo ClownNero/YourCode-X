@@ -76,7 +76,7 @@ export default function Piechart({ data }) {
           show: false,
         },
         data: data.map((item) => ({
-          value: item.num === 0 ? 0.1 : item.payload.split('\n').length, 
+          value: item.payload.split('\n').length === 1 ? 0: item.payload.split('\n').length, 
           name: item.category 
         })).filter((item) => item.value > 0),
       },

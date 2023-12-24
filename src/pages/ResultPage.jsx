@@ -101,8 +101,10 @@ export default function ResultPage({props}) {
       let dataItem = data.find((item) => item.category === category);
       let dataCItem = data_c.find((item) => item.category === category);
       let diff = "없음";
+      let color = 'blue';
       if (dataItem && dataCItem) {
         diff = dataItem.num - dataCItem.num;
+        color = dataItem.risk === '위험'? 'red': dataItem.risk ==='주의'? 'yellow' : 'green'
       }
       let displayName;
         switch (category) {
@@ -127,7 +129,8 @@ export default function ResultPage({props}) {
       resultArray.push({
         category: displayName,
         difference: diff,
-        currentData: dataItem ? dataItem.num : "없음" // dataItem이 없을 경우 "없음"을 사용합니다.
+        currentData: dataItem ? dataItem.num : "없음", // dataItem이 없을 경우 "없음"을 사용합니다.
+        color: color
       });
     });
   
@@ -188,11 +191,12 @@ export default function ResultPage({props}) {
           <h2 className="font-bold text-4xl text-Result">Changes</h2>
           <h3 className="pt-14 text-2xl text-Result"><b>취약점이 발견된 경로의 개수</b></h3>
           <ul className="flex justify-center w-full py-14 min-w-[1560px]">
-            {loading ? `Loading...`:<Changebox dataD={changeData[0]}colorD="red"/>}
-            {loading? `Loading...`:<div className="mx-10"><Changebox dataD={changeData[1]} colorD="blue"/></div>}
-            {loading? `Loading...`:<Changebox dataD={changeData[2]} colorD="yellow"/>}
-            {loading? `Loading...`:<div className="mx-10"><Changebox dataD={changeData[3]}  colorD="green"/></div>}
-            {loading? `Loading...`:<Changebox dataD={changeData[4]} colorD="green"/>}
+            {console.log(changeData)}
+            {loading ? `Loading...`:<Changebox dataD={changeData[0]} colorD={changeData[0].color}/>}
+            {loading? `Loading...`:<div className="mx-10"><Changebox dataD={changeData[1]} colorD={changeData[1].color}/></div>}
+            {loading? `Loading...`:<Changebox dataD={changeData[2]} colorD={changeData[2].color}/>}
+            {loading? `Loading...`:<div className="mx-10"><Changebox dataD={changeData[3]}  colorD={changeData[3].color}/></div>}
+            {loading? `Loading...`:<Changebox dataD={changeData[4]} colorD={changeData[4].color}/>}
           </ul>
         </div>
         
